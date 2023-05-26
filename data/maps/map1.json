@@ -1,0 +1,45 @@
+{
+    "w": 13,
+    "h": 15,
+    "layout": 
+            [
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","g","e","e","e","e","e","w","w","e","e","e",
+                "e","e","g","e","e","e","e","e","w","w","e","e","e",
+                "e","e","g","g","e","e","e","e","e","e","e","e","e",
+                "e","e","g","g","g","e","e","e","e","e","e","e","e",
+                "e","e","g","g","g","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e",
+                "e","e","e","e","e","e","e","e","e","g","g","g","e",
+                "e","e","e","e","e","e","e","e","e","e","g","g","e",
+                "e","e","e","e","e","e","e","e","e","e","e","e","e"
+            ],
+    "characters":
+            [
+                {"x":8, "y":8, "direction":[0, -1], "model":0, "name": "Jesse", "role": "citizen"},
+                {"x":5, "y":4, "direction":[-1, 0], "model":0, "name": "James", "role": "citizen"},
+                {"x":10, "y":4, "direction":[1, 0], "model":0, "name": "Joy", "role": "healer"}
+            ],
+    "monsters":
+            [
+                0,1
+            ],
+    "zone_strength": 3,
+    "dialogues": [
+        {"name": "Jesse",
+        "meeting": ["statement", "Hello! Welcome to the world of gridle."],
+        "generic": ["statement", "Boy, I hope they add in more features soon.",
+                    "statement", "I hear they just added multiple lines!"]},
+        {"name": "James",
+        "meeting": ["statement", "Hi! I don't believe we've meet."],
+        "generic": ["statement", "Hi again! Good to see you."]},
+        {"name": "Joy",
+        "meeting": ["statement", "Hi! I can heal your monsters."],
+        "generic": ["statement", "You're back to full health!"]}
+    ]
+}

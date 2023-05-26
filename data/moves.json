@@ -1,0 +1,7 @@
+{
+    "moves": 
+                [
+                {"name":"Scramble", "power":60, "accuracy": 100, "type":"Normal", "cooldown":1, "id": 1},
+                {"name":"Scrape", "power":80, "accuracy": 80, "type":"Normal", "cooldown":1, "id": 2}
+                ]
+}
