@@ -2,6 +2,7 @@ function preload() {
   zone = loadJSON("./data/maps/map1.json")
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
+  globalCharacterList = loadJSON("./data/characters.json");
 }
 
 function setup() {
@@ -20,8 +21,11 @@ function setup() {
   battle = new BattleManager();
 
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
+  let secondmonster = new Monster(globalMonsterList.monsters[1]);
   firstmonster.setStrength(5);
+  secondmonster.setStrength(3);
   player.addMonster(firstmonster);
+  player.addMonster(secondmonster);
 
   debug = true;
 }
@@ -116,7 +120,8 @@ function keyPressed() {
 
 function worldInput() {
   if(keyCode == KEYS.START) {
-    togglePause();
+    menu.openMenu();
+    
   } else if(keyCode == KEYS.A_KEY && JSON.stringify(player.step) == "[0,0]") {
     target = grid.tiles[player.x + player.DIRECTION[0]][player.y + player.DIRECTION[1]];
     if(target.occupant instanceof Entity) {
@@ -127,9 +132,9 @@ function worldInput() {
 
 function pauseInput() {
   if(keyCode == UP_ARROW) {
-    menu.changeIndex("up");
+    menu.indexUp();
   } else if (keyCode == DOWN_ARROW) {
-    menu.changeIndex("down");
+    menu.indexDown();
   } else if (keyCode == KEYS.START || keyCode == KEYS.B_KEY) {
     menu.inputB();
   } else if (keyCode == KEYS.A_KEY) {

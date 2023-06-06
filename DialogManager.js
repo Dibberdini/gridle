@@ -3,9 +3,19 @@ class DialogManager {
         this.currentDialogue = [];
         this.lastState;
         this.activeBattleDialogue = false;
+        this.step = 0;
     }
 
     draw() {
+        //Rolling text
+        let stepDialogue = "";
+        if(this.step < this.currentDialogue[1].length) {
+            this.step += TEXT_SPEED.NORMAL;
+            stepDialogue = this.currentDialogue[1].substring(0, this.step);
+        } else {
+            stepDialogue = this.currentDialogue[1];
+        }
+
         //Draw dialog box
         push();
         strokeWeight(3);
@@ -17,13 +27,14 @@ class DialogManager {
         textSize(32);
         noStroke();
         fill(0);
-        text(this.currentDialogue[1], 25, height-115, width-25);
+        text(stepDialogue, 25, height-115, width-25);
         pop();      
     }
 
     async load(dialogue) {
         this.lastState = state;
         this.currentDialogue = dialogue.map((x) => x);
+        this.step = 0;
         state = STATE.DIALOGUE;
         if(this.currentDialogue[0] == DIALOGUE_TYPE.BATTLE) {
             this.activeBattleDialogue = true;
@@ -35,20 +46,34 @@ class DialogManager {
     }
 
     inputA() {
-        if(this.currentDialogue.length > 2) {
-            this.currentDialogue.shift();
-            this.currentDialogue.shift();
+        if(this.step >= this.currentDialogue[1].length) {
+            if(this.currentDialogue.length > 2) {
+                this.currentDialogue.shift();
+                this.currentDialogue.shift();
+                this.step = 0;
+            } else {
+                state = this.lastState;
+            }   
         } else {
-            state = this.lastState;
+            this.step = this.currentDialogue[1].length;
         }
     }
 
     inputB() {
-        if(this.currentDialogue.length > 2) {
-            this.currentDialogue.shift();
-            this.currentDialogue.shift();
+        if(this.step >= this.currentDialogue[1].length) {
+            if(this.currentDialogue.length > 2) {
+                this.currentDialogue.shift();
+                this.currentDialogue.shift();
+                this.step = 0;
+            } else {
+                state = this.lastState;
+            }
         } else {
-            state = this.lastState;
+            this.step = this.currentDialogue[1].length;
         }
+    }
+
+    clear() {
+        this.currentDialogue = [];
     }
 }

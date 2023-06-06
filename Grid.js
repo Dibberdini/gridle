@@ -24,7 +24,7 @@ class Grid {
         }
 
         zone.characters.forEach(character => {
-            entities.push(new Character(character.x, character.y, character.direction, character.model, this.tiles, character.name, character.role))
+            entities.push(new Character(character.x, character.y, character.direction, character.id, this.tiles))
         });
     }
 

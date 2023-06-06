@@ -24,14 +24,6 @@ class BattleManager {
         var monster = new Monster(monsterList[Math.floor(Math.random()*monsterList.length)]);
         //Set the monster to an appropriate strength-level
         monster.setStrength(strength);
-        //Give the monster attack-moves
-        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == monster.species).moves;
-        while(monsterMoveList.length > 0 && monster.moveSet < 3) {
-            let highestMove = monsterMoveList.pop();
-            if(monster.strength >= highestMove[0]) {
-                monster.learnMove(highestMove[1]);
-            }
-        }
 
         this.startBattle([monster]);
     }
@@ -49,7 +41,8 @@ class BattleManager {
             this.playerTurn = true;
         } else {
             this.playerTurn = false;
-            this.performEnemyTurn;
+            dialogue.clear();
+            this.performEnemyTurn();
         }
 
         state = STATE.BATTLE;

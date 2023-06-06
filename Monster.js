@@ -35,6 +35,15 @@ class Monster {
         this.strength = strength;
         
         this.setRequiredEXP();
+
+        //Give the monster attack-moves
+        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
+        while(monsterMoveList.length > 0 && this.moveSet < 3) {
+            let highestMove = monsterMoveList.pop();
+            if(monster.strength >= highestMove[0]) {
+                monster.learnMove(highestMove[1]);
+            }
+        }
     }
 
     draw(isEnemy) {

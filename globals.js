@@ -17,10 +17,10 @@ const TileType = {
 const create2dArray = (rows, columns) => [...Array(rows).keys()].map(i => Array(columns))
 
 const STATE = {
-    WORLD: 0,
-    PAUSED: 1,
-    BATTLE: 2,
-    DIALOGUE: 3
+    WORLD: "world",
+    PAUSED: "paused",
+    BATTLE: "battle",
+    DIALOGUE: "dialogue"
 }
 
 const KEYS = {
@@ -49,5 +49,11 @@ const MENU_STATES = {
     MAIN_MENU: "main",
     MONSTER_MENU: "monster",
     BESTIARY_MENU: "beast",
-    SETTINGS_MENU: "settings"
+    SETTINGS_MENU: "settings",
+    STATS_MENU: "stats"
+}
+
+const TEXT_SPEED = {
+    NORMAL: 1,
+    FAST: 2
 }

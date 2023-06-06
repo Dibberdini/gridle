@@ -1,10 +1,12 @@
 class Character extends Creature {
-    constructor(x, y, DIRECTION, model, tiles, name, role) {
-        super(x, y, DIRECTION, model, tiles);
-        this.name = name;
-        this.dialogues = zone.dialogues.find(dialogue => dialogue.name == this.name);
+    constructor(x, y, DIRECTION, id, tiles) {
+        let prototype = globalCharacterList.all_characters.find(character => character.id == id);
+        super(x, y, DIRECTION, 0, tiles);
+        this.model = 0;
+        this.name = prototype.name;
+        this.dialogues = prototype.dialogues;
         this.questLevel = 0;
-        this.role = role
+        this.role = prototype.role
     }
 
     work() {

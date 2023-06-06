@@ -1,0 +1,17 @@
+NEED-TO-HAVE
+    NPC pathing
+    UNCONSCIOUS-state for monsters
+        Respawing player when no conscious monsters
+    NPC Quest-system / Relationship progression
+    Saving
+        Warping to different zones(also inside houses)
+    MENU_STATES.SETTINGS_MENU
+
+NICE-TO-HAVE
+    Permadeath option in settings
+    TYPES + TYPE-weaknesses
+
+ART
+    World-sprites
+        3 per character (UP, DOWN, SIDE)
+    Custom font
