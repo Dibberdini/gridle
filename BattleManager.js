@@ -99,7 +99,7 @@ class BattleManager {
         }
         pop();
 
-        //
+        //Draw selector either at current move or menu choice
         if(this.fight) {
             this.drawSelector(this.fightSelections[this.selector][1] - 12, this.fightSelections[this.selector][2] - 20);
         } else {
@@ -133,13 +133,13 @@ class BattleManager {
 
             //Setup message to display while move is carried out.
             let message = this.activeMonster.name + " used " + move.name + "!";
-            dialogue.load(["battle", message]);
-
+            dialogue.load([{type: "battle", line: message}]);
+            //Wait until animation is finished, then check if opponent died.
             while(this.activeEnemy.outstandingDamage > 0) {
                 await sleep(100);
             }
             if(this.activeEnemy.dead) {
-                //Calculate won EXP
+                //Calculate won EXP, and award it to monster
                 let EXPGain = Math.ceil(Math.pow(this.activeEnemy.strength, 2.3) * this.activeMonster.prototype.growth + 20);
                 if(this.activeEnemy.owner != "wild") {
                     EXPGain *= 1.5;
@@ -148,10 +148,9 @@ class BattleManager {
                 while(this.activeMonster.outstandingEXP > 0) {
                     await sleep(100);
                 }
-
                 //Show EXP-gain dialogue
                 let EXP_Message = this.activeMonster.name + " gained " + EXPGain + " experience!";
-                await dialogue.load(["timed", EXP_Message])
+                await dialogue.load([{type: "timed", line: EXP_Message}])
 
                 this.fight = false;
                 dialogue.activeBattleDialogue = false;               
@@ -195,7 +194,7 @@ class BattleManager {
 
         //Setup message to display while move is carried out.
         let message = "Enemy " + this.activeEnemy.name + " used " + move.name + "!";
-        dialogue.load(["battle", message]);
+        dialogue.load([{type: "battle", line: message}]);
 
         while(this.activeMonster.outstandingDamage > 0) {
             await sleep(100);

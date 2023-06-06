@@ -29,20 +29,17 @@ class Character extends Creature {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.DIRECTION = newDir;
         super.draw(player.x, player.y);
-        if(this.questLevel == 0) {
-            dialogue.load(this.dialogues.meeting);
-            this.questLevel++;
-        } else {
-            dialogue.load(this.dialogues.generic);
-            if(this.role == CHARACTER_ROLES.HEALER) {
-                player.monsters.forEach(monster => {
-                    monster.heal(monster.maxHealth);
-                });
-            }
+        if(this.dialogues[`${this.questLevel}`]) {
+            dialogue.speak(this.dialogues[`${this.questLevel}`], this);
+        }
+        if(this.role == CHARACTER_ROLES.HEALER) {
+            player.monsters.forEach(monster => {
+                monster.heal(monster.maxHealth);
+            });
         }
     }
 
-    setQuestLevel(newLevel) {
+    setQuest(newLevel) {
         this.questLevel = newLevel;
     }
 }

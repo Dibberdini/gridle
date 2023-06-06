@@ -163,6 +163,10 @@ function dialogueInput() {
     dialogue.inputA();
   } else if(keyCode == KEYS.B_KEY) {
     dialogue.inputB();
+  } else if(keyCode == UP_ARROW) {
+    dialogue.indexUp();
+  } else if(keyCode == DOWN_ARROW) {
+    dialogue.indexDown();
   }
 }
 

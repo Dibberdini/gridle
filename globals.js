@@ -34,7 +34,6 @@ const DIALOGUE_TYPE = {
     QUESTION: "question",
     REPLY_YES: "reply_yes",
     REPLY_NO: "reply_no",
-    REPLY_ALL: "reply_all",
     BATTLE: "battle",
     TIMED: "timed"
 }
