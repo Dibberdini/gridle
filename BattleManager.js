@@ -7,7 +7,7 @@ class BattleManager {
             ["Items", 520, 450],
             ["Monsters", 400, 500],
             ["Flee", 520, 500]
-            ];
+        ];
         this.fightSelections = [
             ["Scramble", 50, 450],
             ["Scramble", 200, 450],
@@ -21,7 +21,7 @@ class BattleManager {
 
     encounter(monsterList, strength) {
         //Pick a random monster from the zone list
-        var monster = new Monster(monsterList[Math.floor(Math.random()*monsterList.length)]);
+        var monster = new Monster(monsterList[Math.floor(Math.random() * monsterList.length)]);
         //Set the monster to an appropriate strength-level
         monster.setStrength(strength);
 
@@ -37,7 +37,7 @@ class BattleManager {
         this.activeEnemy = monsters[0];
         this.activeMonster = player.monsters[0];
 
-        if(this.activeMonster.speed > this.activeEnemy.speed) {
+        if (this.activeMonster.speed > this.activeEnemy.speed) {
             this.playerTurn = true;
         } else {
             this.playerTurn = false;
@@ -57,11 +57,11 @@ class BattleManager {
         this.activeMonster.draw(false);
 
         //If applicable, draw battle dialogue instead of menu
-        if(!this.playerTurn) {
+        if (!this.playerTurn) {
             dialogue.draw();
             return;
         }
-        if(this.activeMonster.outstandingEXP > 0) {
+        if (this.activeMonster.outstandingEXP > 0) {
             return;
         }
 
@@ -70,7 +70,7 @@ class BattleManager {
         fill(180);
         stroke(0);
         strokeWeight(3);
-        rect(0, height-140, width-1.5, 138.5);
+        rect(0, height - 140, width - 1.5, 138.5);
         pop();
 
         //Draw Menu Selections
@@ -78,7 +78,7 @@ class BattleManager {
         textSize(22);
         textStyle(BOLD);
         strokeWeight(2);
-        for(let i = 0; i < this.selections.length; i++) {
+        for (let i = 0; i < this.selections.length; i++) {
             text(
                 this.selections[i][0],
                 this.selections[i][1],
@@ -87,25 +87,25 @@ class BattleManager {
         line(360, 400, 360, 538.5)
 
         //If fight has been selected draw the attack-moves
-        if(this.fight) {
-            for(let i = 0; i < this.selections.length; i++) {
-                if(this.activeMonster.moveSet[i]) {
+        if (this.fight) {
+            for (let i = 0; i < this.selections.length; i++) {
+                if (this.activeMonster.moveSet[i]) {
                     text(
                         this.activeMonster.moveSet[i].name,
                         this.fightSelections[i][1],
                         this.fightSelections[i][2]);
                 }
-                }
+            }
         }
         pop();
 
         //Draw selector either at current move or menu choice
-        if(this.fight) {
+        if (this.fight) {
             this.drawSelector(this.fightSelections[this.selector][1] - 12, this.fightSelections[this.selector][2] - 20);
         } else {
             this.drawSelector(this.selections[this.selector][1] - 12, this.selections[this.selector][2] - 20)
         }
-        
+
     }
 
     updateSelector(dir) {
@@ -113,8 +113,8 @@ class BattleManager {
         newSelection = constrain(newSelection, 0, 3);
 
         //If in fight-mode check if there is a move here
-        if(this.fight) {
-            if(this.activeMonster[newSelection]) {
+        if (this.fight) {
+            if (this.activeMonster[newSelection]) {
                 this.selector = newSelection;
             }
             else {
@@ -126,57 +126,55 @@ class BattleManager {
     }
 
     async inputA() {
-        if(this.fight && this.playerTurn) {
+        if (this.fight && this.playerTurn) {
             this.playerTurn = false;
             let move = this.activeMonster.moveSet[this.selector]
             this.activeMonster.attackMove(move, this.activeEnemy);
 
             //Setup message to display while move is carried out.
             let message = this.activeMonster.name + " used " + move.name + "!";
-            dialogue.load([{type: "battle", line: message}]);
+            dialogue.load([{ type: "battle", line: message }]);
             //Wait until animation is finished, then check if opponent died.
-            while(this.activeEnemy.outstandingDamage > 0) {
+            while (this.activeEnemy.outstandingDamage > 0) {
                 await sleep(100);
             }
-            if(this.activeEnemy.dead) {
+            if (this.activeEnemy.dead) {
                 //Calculate won EXP, and award it to monster
                 let EXPGain = Math.ceil(Math.pow(this.activeEnemy.strength, 2.3) * this.activeMonster.prototype.growth + 20);
-                if(this.activeEnemy.owner != "wild") {
+                if (this.activeEnemy.owner != "wild") {
                     EXPGain *= 1.5;
                 }
                 this.activeMonster.gainEXP(EXPGain);
-                while(this.activeMonster.outstandingEXP > 0) {
+                while (this.activeMonster.outstandingEXP > 0) {
                     await sleep(100);
                 }
                 //Show EXP-gain dialogue
                 let EXP_Message = this.activeMonster.name + " gained " + EXPGain + " experience!";
-                await dialogue.load([{type: "timed", line: EXP_Message}])
+                await dialogue.load([{ type: "timed", line: EXP_Message, time: 1000 }])
 
                 this.fight = false;
-                dialogue.activeBattleDialogue = false;               
                 state = STATE.WORLD;
             } else {
                 await sleep(800)
-                dialogue.activeBattleDialogue = false;
                 this.performEnemyTurn();
             }
         } else {
-            if(this.selector == 0) {
+            if (this.selector == 0) {
                 this.fight = true;
-            } else if(this.selector == 3) {
+            } else if (this.selector == 3) {
                 state = STATE.WORLD;
             }
         }
     }
 
     inputB() {
-        if(this.fight) {
+        if (this.fight) {
             this.fight = false;
             this.selector = 0;
         }
     }
 
-    drawSelector(x,y) {
+    drawSelector(x, y) {
         push();
         noStroke();
         fill(255);
@@ -186,22 +184,26 @@ class BattleManager {
 
     async performEnemyTurn() {
         let move;
-        if(this.activeEnemy.owner == "wild") {
+        if (this.activeEnemy.owner == "wild") {
             //Select random move from wild monsters moveset
-            move = (this.activeEnemy.moveSet[Math.floor(Math.random()*this.activeEnemy.moveSet.length)]);
+            move = (this.activeEnemy.moveSet[Math.floor(Math.random() * this.activeEnemy.moveSet.length)]);
             this.activeEnemy.attackMove(move, this.activeMonster);
         }
 
         //Setup message to display while move is carried out.
         let message = "Enemy " + this.activeEnemy.name + " used " + move.name + "!";
-        dialogue.load([{type: "battle", line: message}]);
+        dialogue.load([{ type: "battle", line: message }]);
 
-        while(this.activeMonster.outstandingDamage > 0) {
+        while (this.activeMonster.outstandingDamage > 0) {
             await sleep(100);
+        }
+        if (this.activeMonster.health <= 0) {
+            this.activeMonster.dead = true;
+            dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " fainted!", time: 1000 }])
+
         }
 
         await sleep(800);
-        dialogue.activeBattleDialogue = false;
         this.playerTurn = true;
     }
 }

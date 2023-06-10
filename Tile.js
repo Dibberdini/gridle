@@ -5,30 +5,31 @@ class Tile {
         this.type = TileType.EMPTY;
         this.clear = true;
         this.occupant = null;
+        this.model = 0;
     }
 
     setType(type) {
         this.type = type;
-        if(this.type == TileType.WALL) {
+        if (this.type == TileType.WALL) {
             this.clear = false;
         }
     }
 
-    draw(x,y) {
+    draw(x, y) {
         let newX = this.x + 4 - x;
         let newY = this.y + 4 - y;
         push();
 
         fill(255);
-        if(this.type == TileType.GRASS) {
+        if (this.type == TileType.GRASS) {
             fill(0, 255, 0);
-        } else if(this.type == TileType.WALL) {
-            fill(120,120,120);
+        } else if (this.type == TileType.WALL) {
+            fill(120, 120, 120);
         }
 
         stroke(0);
         strokeWeight(2);
-        square(newX*TILE_WIDTH, newY*TILE_HEIGHT, TILE_WIDTH);
+        square(newX * TILE_WIDTH, newY * TILE_HEIGHT, TILE_WIDTH);
         pop();
     }
 
@@ -38,5 +39,9 @@ class Tile {
 
     isClear() {
         return this.clear;
+    }
+
+    setModel(model) {
+        this.model = model;
     }
 }

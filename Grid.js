@@ -9,13 +9,13 @@ class Grid {
         this.h = 0;
         this.tiles = create2dArray(zone.h, zone.w);;
 
-        for(let i = 0; i < zone.h; i++) {
-            for(let j = 0; j < zone.w; j++) {
+        for (let i = 0; i < zone.h; i++) {
+            for (let j = 0; j < zone.w; j++) {
                 let tile = new Tile(j, i)
-                let index = i*zone.w+j;
-                if(zone.layout[index] == "g") {
+                let index = i * zone.w + j;
+                if (zone.layout[index][0] == "g") {
                     tile.setType(TileType.GRASS);
-                } else if(zone.layout[index] == "w") {
+                } else if (zone.layout[index][0] == "w") {
                     tile.setType(TileType.WALL);
                 }
 
@@ -31,7 +31,7 @@ class Grid {
     draw() {
         this.tiles.forEach(row => {
             row.forEach(tile => {
-                if(Math.abs(player.x - tile.x) < 6 && Math.abs(player.y - tile.y) < 6) {
+                if (Math.abs(player.x - tile.x) < 6 && Math.abs(player.y - tile.y) < 6) {
                     tile.draw(player.x, player.y);
                 }
             });

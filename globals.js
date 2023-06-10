@@ -2,16 +2,17 @@ const TILE_WIDTH = 60;
 const TILE_HEIGHT = 60;
 
 const DIRECTION = {
-    NORTH: [0,-1],
-    EAST: [1,0],
-    SOUTH: [0,1],
-    WEST: [-1,0]
+    NORTH: [0, -1],
+    EAST: [1, 0],
+    SOUTH: [0, 1],
+    WEST: [-1, 0]
 }
 
 const TileType = {
     EMPTY: "e",
     GRASS: "g",
-    WALL: "w"
+    WALL: "w",
+    TELEPORT: "t"
 }
 
 const create2dArray = (rows, columns) => [...Array(rows).keys()].map(i => Array(columns))
@@ -41,7 +42,7 @@ const DIALOGUE_TYPE = {
 const CHARACTER_ROLES = {
     CITIZEN: "citizen",
     HEALER: "healer",
-    TRAINER: "trainer"
+    FIGHTER: "fighter"
 }
 
 const MENU_STATES = {
@@ -55,4 +56,8 @@ const MENU_STATES = {
 const TEXT_SPEED = {
     NORMAL: 1,
     FAST: 2
+}
+
+const SPRITES = {
+
 }
