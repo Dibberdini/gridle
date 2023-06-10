@@ -3,21 +3,21 @@
     "h": 15,
     "layout": 
             [
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","gG","eF","eF","eF","eF","eF","w","w","eF","eF","eF",
-                "eF","eF","gG","eF","eF","eF","eF","eF","w","w","eF","eF","eF",
-                "eF","eF","gG","gG","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","gG","gG","gG","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","gG","gG","gG","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","gG","gG","gG","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","gG","gG","eF",
-                "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF"
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","gG","eF","eF","eF","eF","w","w","w","eF","eF","eF",
+            "eF","eF","gG","eF","eF","eF","eF","w","w","w","eF","eF","eF",
+            "eF","eF","gG","gG","eF","eF","eF","w","t","w","eF","eF","eF",
+            "eF","eF","gG","gG","gG","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","gG","gG","gG","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","gG","gG","gG","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","gG","gG","eF",
+            "eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF","eF"
             ],
     "characters":
             [
@@ -29,5 +29,8 @@
             [
                 0,1
             ],
-    "zone_strength": 3
+    "zone_strength": 3,
+    "warp": {"8":
+                {"4": {"map": "map2.json", "pos": [2, 6]}}
+            }
 }

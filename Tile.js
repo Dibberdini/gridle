@@ -27,6 +27,8 @@ class Tile {
                 fill(0, 255, 0);
             } else if (this.type == TileType.WALL) {
                 fill(120, 120, 120);
+            } else if (this.type == TileType.TELEPORT) {
+                fill(159, 35, 204);
             }
             stroke(0);
             strokeWeight(2);

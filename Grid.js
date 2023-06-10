@@ -19,6 +19,8 @@ class Grid {
                     tile.setType(TileType.GRASS);
                 } else if (zone.layout[index][0] == "w") {
                     tile.setType(TileType.WALL);
+                } else if (zone.layout[index][0] == "t") {
+                    tile.setType(TileType.TELEPORT);
                 }
 
                 //Set Tile Sprite

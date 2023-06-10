@@ -192,9 +192,11 @@ function drawDebugInfo() {
   text("FPS: " + fps.toFixed(2), 10, height - 10);
 
   //Draw player pos
-  textAlign(RIGHT);
-  let pos = player.tile.x + ", " + player.tile.y
-  text(pos, width - 10, height - 10);
+  if (player.tile) {
+    textAlign(RIGHT);
+    let pos = player.tile.x + ", " + player.tile.y
+    text(pos, width - 10, height - 10);
+  }
 
   pop();
 }
@@ -202,5 +204,18 @@ function drawDebugInfo() {
 function sleep(millisecondsDuration) {
   return new Promise((resolve) => {
     setTimeout(resolve, millisecondsDuration);
+  })
+}
+
+function warp(warpInfo) {
+  entities = [player];
+  loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
+    zone = newZone;
+    grid.loadZone(newZone);
+    player.x = warpInfo.pos[0];
+    player.y = warpInfo.pos[1];
+    player.tile = grid.tiles[player.x][player.y];
+    player.tile.clear = false;
+    player.tile.occupant = player;
   })
 }
