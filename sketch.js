@@ -236,6 +236,7 @@ function resuscitate() {
 
   //Heal all monsters
   player.healAllMonsters();
+  background(0);
 
   dialogue.load([{ type: "statement", line: "You blacked out!" }]);
 }
