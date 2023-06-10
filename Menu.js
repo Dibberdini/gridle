@@ -12,8 +12,9 @@ class Menu {
         this.switching = false;
 
         this.mainMenuSelections = [
-            "Bestiary",
+            "Bojstiary",
             "Monsters",
+            "Items",
             "Settings",
             "Save",
             "Cancel"
@@ -39,7 +40,7 @@ class Menu {
             this.drawSelector(this.x + 16, (this.y + 20) + (this.margin * this.index), 255)
 
             for (let i = 0; i < this.mainMenuSelections.length; i++) {
-                text(this.mainMenuSelections[i], this.x + this.margin, this.y + this.margin * (i + 1));
+                text(this.mainMenuSelections[i], this.x + this.margin, this.y + 17 + this.margin * (i + 1));
             }
         } else if (this.menuState == MENU_STATES.MONSTER_MENU) {
             background(230);
@@ -151,10 +152,11 @@ class Menu {
                 this.menuState = MENU_STATES.MONSTER_MENU;
                 this.lastIndex = this.index;
                 this.index = 0;
-            } else if (this.index == 3) {
-                saveWorld();
-                dialogue.load([{ type: "statement", line: "Game succesfully saved" }])
             } else if (this.index == 4) {
+                saveWorld();
+                state = this.lastState;
+                dialogue.load([{ type: "statement", line: "Game succesfully saved" }]);
+            } else if (this.index == 5) {
                 state = this.lastState;
             }
         } else if (this.menuState == MENU_STATES.MONSTER_MENU) {

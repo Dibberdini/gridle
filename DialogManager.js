@@ -28,20 +28,20 @@ class DialogManager {
         //Draw reply box
         if (this.currentLine.type == DIALOGUE_TYPE.QUESTION) {
             rect(width - 100, height - 220, 98.5, 80)
-            textSize(28)
+            textSize(24)
             fill(0);
             noStroke();
-            text("Yes", width - 65, height - 185);
-            text("No", width - 65, height - 155);
-            this.drawSelector(width - 83, height - 205 + this.index * 30);
+            text("Yes", width - 75, height - 173);
+            text("No", width - 75, height - 138);
+            this.drawSelector(width - 88, height - 208 + this.index * 30);
         }
 
         //Draw dialog
-        textSize(42);
+        textSize(30);
         textLeading(50);
         noStroke();
         fill(0);
-        text(stepDialogue, 25, height - 85, width - 25);
+        text(stepDialogue, 25, height - 65, width - 25);
 
         pop();
     }

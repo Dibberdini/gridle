@@ -3,16 +3,16 @@ class BattleManager {
         this.activeEnemy;
         this.activeMonster;
         this.selections = [
-            ["Fight", 400, 450],
-            ["Items", 520, 450],
-            ["Monsters", 400, 500],
-            ["Flee", 520, 500]
+            ["Fight", 400, 470],
+            ["Items", 520, 470],
+            ["Switch", 400, 520],
+            ["Flee", 520, 520]
         ];
         this.fightSelections = [
-            ["Scramble", 50, 450],
-            ["Scramble", 200, 450],
-            ["Scramble", 50, 500],
-            ["Scramble", 200, 500]
+            ["Scramble", 50, 470],
+            ["Scramble", 200, 470],
+            ["Scramble", 50, 520],
+            ["Scramble", 200, 520]
         ]
         this.selector = 0;
         this.fight = false;
@@ -107,9 +107,9 @@ class BattleManager {
 
         //Draw selector either at current move or menu choice
         if (this.fight) {
-            this.drawSelector(this.fightSelections[this.selector][1] - 12, this.fightSelections[this.selector][2] - 20);
+            this.drawSelector(this.fightSelections[this.selector][1] - 12, this.fightSelections[this.selector][2] - 35);
         } else {
-            this.drawSelector(this.selections[this.selector][1] - 12, this.selections[this.selector][2] - 20)
+            this.drawSelector(this.selections[this.selector][1] - 12, this.selections[this.selector][2] - 35)
         }
 
     }

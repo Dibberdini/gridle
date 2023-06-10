@@ -81,6 +81,6 @@ const SPRITES = [
     "N.png",
     "O.png",
     "P.png",
-    "V.png",
+    "V.gif",
     "W.png"
 ]

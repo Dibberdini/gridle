@@ -193,13 +193,13 @@ function drawDebugInfo() {
   fill(255);
   stroke(0);
   textSize(12);
-  text("FPS: " + fps.toFixed(2), 10, height - 10);
+  text("FPS: " + fps.toFixed(2), 10, height);
 
   //Draw player pos
   if (player.tile) {
     textAlign(RIGHT);
     let pos = player.tile.x + ", " + player.tile.y
-    text(pos, width - 10, height - 10);
+    text(pos, width - 10, height);
   }
 
   pop();
@@ -212,6 +212,7 @@ function sleep(millisecondsDuration) {
 }
 
 function warp(warpInfo) {
+  saveWorld();
   entities = [player];
   loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
     player.tile.clear = true;

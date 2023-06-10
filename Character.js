@@ -8,6 +8,10 @@ class Character extends Creature {
         this.questLevel = 0;
         this.role = prototype.role;
         this.id = id;
+
+        if (worldData.characters[`${this.id}`]) {
+            this.questLevel = worldData.characters[`${this.id}`].questLevel;
+        }
     }
 
     work() {
