@@ -3,21 +3,21 @@
     "h": 15,
     "layout": 
             [
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","gG","e","e","e","e","e","w","w","e","e","e",
-                "e","e","gG","e","e","e","e","e","w","w","e","e","e",
-                "e","e","gG","gG","e","e","e","e","e","e","e","e","e",
-                "e","e","gG","gG","gG","e","e","e","e","e","e","e","e",
-                "e","e","gG","gG","gG","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e",
-                "e","e","e","e","e","e","e","e","e","gG","gG","gG","e",
-                "e","e","e","e","e","e","e","e","e","e","gG","gG","e",
-                "e","e","e","e","e","e","e","e","e","e","e","e","e"
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","gG","eE","eE","eE","eE","eE","w","w","eE","eE","eE",
+                "eE","eE","gG","eE","eE","eE","eE","eE","w","w","eE","eE","eE",
+                "eE","eE","gG","gG","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","gG","gG","gG","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","gG","gG","gG","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","gG","gG","gG","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","gG","gG","eE",
+                "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE"
             ],
     "characters":
             [
