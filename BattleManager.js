@@ -35,7 +35,13 @@ class BattleManager {
     startBattle(monsters) {
         this.selector = 0;
         this.activeEnemy = monsters[0];
-        this.activeMonster = player.monsters[0];
+        //Set player monster to first conscious monster
+        for (let i = 0; i < player.monsters.length; i++) {
+            if (!player.monsters[i].dead) {
+                this.activeMonster = player.monsters[i];
+                break;
+            }
+        }
 
         if (this.activeMonster.speed > this.activeEnemy.speed) {
             this.playerTurn = true;
@@ -199,8 +205,24 @@ class BattleManager {
         }
         if (this.activeMonster.health <= 0) {
             this.activeMonster.dead = true;
-            dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " fainted!", time: 1000 }])
-
+            await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " fainted!", time: 1000 }])
+            for (let i = 0; i < player.monsters.length; i++) {
+                if (player.monsters[i]) {
+                    if (!player.monsters[i].dead) {
+                        this.activeMonster = player.monsters[i]
+                        this.fight = false;
+                        this.selector = 0;
+                        await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " you're up!", time: 1000 }])
+                        break;
+                    }
+                }
+                if (i == player.monsters.length - 1) {
+                    await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
+                    this.fight = false;
+                    state = STATE.WORLD;
+                    resuscitate();
+                }
+            }
         }
 
         await sleep(800);

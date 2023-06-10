@@ -1,17 +1,17 @@
 NEED-TO-HAVE
     NPC pathing
-    UNCONSCIOUS-state for monsters
-        Respawing player when no conscious monsters
     Saving
-        Warping to different zones(also inside houses)
     MENU_STATES.SETTINGS_MENU
+    MONSTER_MENU from battle
+    Catching monsters
+    TYPES + TYPE-weaknesses
 
 NICE-TO-HAVE
     Permadeath option in settings
-    TYPES + TYPE-weaknesses
     Item-pickups progress quest with NPC
 
 ART
     World-sprites
         3 per character (UP, DOWN, SIDE)
+    Battle-sprites
     Custom font

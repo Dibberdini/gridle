@@ -7,9 +7,11 @@ function preload() {
   SPRITES.forEach(spritePath => {
     loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
   });
+  // myFont = loadFont("./data/DRPublikBold.ttf");
 }
 
 function setup() {
+  // textFont(myFont);
   createCanvas(600, 540);
   dialogue = new DialogManager();
   entities = [];
@@ -210,6 +212,7 @@ function sleep(millisecondsDuration) {
 function warp(warpInfo) {
   entities = [player];
   loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
+    player.tile.clear = true;
     zone = newZone;
     grid.loadZone(newZone);
     player.x = warpInfo.pos[0];
@@ -217,5 +220,22 @@ function warp(warpInfo) {
     player.tile = grid.tiles[player.x][player.y];
     player.tile.clear = false;
     player.tile.occupant = player;
+    if (warpInfo.move) {
+      player.setDirection(warpInfo.move);
+      player.move(warpInfo.move);
+    }
   })
+}
+
+function resuscitate() {
+  player.x = zone.recover[0];
+  player.y = zone.recover[1];
+  player.tile.clear = true;
+  player.tile = grid.tiles[zone.recover[0]][zone.recover[1]];
+  player.tile.clear = false;
+
+  //Heal all monsters
+  player.healAllMonsters();
+
+  dialogue.load([{ type: "statement", line: "You blacked out!" }]);
 }

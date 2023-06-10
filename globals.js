@@ -61,5 +61,15 @@ const TEXT_SPEED = {
 const SPRITES = [
     "G.png",
     "E.png",
-    "F.png"
+    "F.png",
+    "H.png",
+    "I.png",
+    "J.png",
+    "K.png",
+    "L.png",
+    "M.png",
+    "N.png",
+    "O.png",
+    "P.png",
+    "W.png"
 ]

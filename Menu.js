@@ -53,13 +53,16 @@ class Menu {
                 noStroke();
                 fill(0);
                 let monster = player.monsters[i]
+                //Monster stats
                 text(monster.name, inset, (i * lineHeight) + padding);
                 text("Lvl: " + monster.strength, 400, (i * lineHeight) + padding)
                 text(monster.health + "/" + monster.maxHealth, 400, (i * lineHeight) + padding * 2);
                 text("HP: ", inset + 5, (i * lineHeight) + padding * 2);
+
                 //Health bar
                 fill(255, 0, 0);
-                rect(inset2, (i * lineHeight) + padding * 1.5, 200, 20);
+                let percentageHealth = monster.health / monster.maxHealth * healthLength
+                rect(inset2, (i * lineHeight) + padding * 1.5, percentageHealth, 20);
                 stroke(0);
                 strokeWeight(2);
                 line(inset2, (i * lineHeight) + padding * 1.5 + 5, inset2, (i * lineHeight) + padding * 1.5 + 20);

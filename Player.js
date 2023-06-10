@@ -44,4 +44,11 @@ class Player extends Creature {
         monster.owner = this;
         this.monsters.push(monster);
     }
+
+    healAllMonsters() {
+        this.monsters.forEach(monster => {
+            monster.heal(monster.maxHealth);
+            monster.dead = false;
+        });
+    }
 }

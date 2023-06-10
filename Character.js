@@ -11,14 +11,14 @@ class Character extends Creature {
 
     work() {
         let decision = Math.random();
-        if(decision < 0.1) {
+        if (decision < 0.1) {
             decision = Math.floor((decision * 200) / 5);
             let dir = Object.values(DIRECTION)[decision];
-            if(this.direction == dir) {
+            if (this.direction == dir) {
                 this.move(dir);
             } else {
                 this.setDirection(dir);
-                if(Math.random() < 0.3) {
+                if (Math.random() < 0.3) {
                     this.move(dir);
                 }
             }
@@ -29,13 +29,11 @@ class Character extends Creature {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.DIRECTION = newDir;
         super.draw(player.x, player.y);
-        if(this.dialogues[`${this.questLevel}`]) {
+        if (this.dialogues[`${this.questLevel}`]) {
             dialogue.speak(this.dialogues[`${this.questLevel}`], this);
         }
-        if(this.role == CHARACTER_ROLES.HEALER) {
-            player.monsters.forEach(monster => {
-                monster.heal(monster.maxHealth);
-            });
+        if (this.role == CHARACTER_ROLES.HEALER) {
+            player.healAllMonsters();
         }
     }
 
