@@ -13,10 +13,17 @@ class Grid {
             for (let j = 0; j < zone.w; j++) {
                 let tile = new Tile(j, i)
                 let index = i * zone.w + j;
+
+                //Set Tile Type
                 if (zone.layout[index][0] == "g") {
                     tile.setType(TileType.GRASS);
                 } else if (zone.layout[index][0] == "w") {
                     tile.setType(TileType.WALL);
+                }
+
+                //Set Tile Sprite
+                if (zone.layout[index][1]) {
+                    tile.setModel(zone.layout[index][1]);
                 }
 
                 this.tiles[j][i] = tile;

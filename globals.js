@@ -59,5 +59,5 @@ const TEXT_SPEED = {
 }
 
 const SPRITES = [
-
+    "G.png"
 ]

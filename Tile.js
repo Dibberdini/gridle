@@ -18,19 +18,21 @@ class Tile {
     draw(x, y) {
         let newX = this.x + 4 - x;
         let newY = this.y + 4 - y;
-        push();
-
-        fill(255);
-        if (this.type == TileType.GRASS) {
-            fill(0, 255, 0);
-        } else if (this.type == TileType.WALL) {
-            fill(120, 120, 120);
+        if (this.model != 0) {
+            image(this.model, newX * TILE_WIDTH, newY * TILE_HEIGHT);
+        } else {
+            push();
+            fill(255);
+            if (this.type == TileType.GRASS) {
+                fill(0, 255, 0);
+            } else if (this.type == TileType.WALL) {
+                fill(120, 120, 120);
+            }
+            stroke(0);
+            strokeWeight(2);
+            square(newX * TILE_WIDTH, newY * TILE_HEIGHT, TILE_WIDTH);
+            pop();
         }
-
-        stroke(0);
-        strokeWeight(2);
-        square(newX * TILE_WIDTH, newY * TILE_HEIGHT, TILE_WIDTH);
-        pop();
     }
 
     setClear(clear) {
@@ -41,7 +43,7 @@ class Tile {
         return this.clear;
     }
 
-    setModel(model) {
-        this.model = model;
+    setModel(modelName) {
+        this.model = globalSpriteList.find(sprite => sprite.name == modelName).img;
     }
 }

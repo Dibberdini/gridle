@@ -3,6 +3,10 @@ function preload() {
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
   globalCharacterList = loadJSON("./data/characters.json");
+  globalSpriteList = [];
+  SPRITES.forEach(spritePath => {
+    loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
+  });
 }
 
 function setup() {
@@ -11,7 +15,7 @@ function setup() {
   entities = [];
   grid = new Grid();
   grid.loadZone(zone);
-  player = new Player(2,2, DIRECTION.EAST, 0, grid.tiles);
+  player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
   entities.push(player);
   frameRate(60);
   tick = 0;
@@ -31,17 +35,17 @@ function setup() {
 }
 
 function draw() {
-  if(state == STATE.WORLD) {
+  if (state == STATE.WORLD) {
     background(0);
     //Update current tick, if appropriate get the current input.
     tick++;
-    if(tick >= tickRate) {
+    if (tick >= tickRate) {
       tick = 0;
       getInput();
-  
+
       //Simulate Character entities
       entities.forEach(entity => {
-        if(entity instanceof Character) {
+        if (entity instanceof Character) {
           entity.work();
         }
       });
@@ -56,7 +60,7 @@ function draw() {
       entity.draw(player.x, player.y);
     });
 
-  } else if(state == STATE.PAUSED) {
+  } else if (state == STATE.PAUSED) {
     background(0);
     grid.draw();
 
@@ -65,38 +69,38 @@ function draw() {
     })
 
     menu.draw();
-  } else if(state == STATE.BATTLE) {
+  } else if (state == STATE.BATTLE) {
     battle.draw();
-  } else if(state == STATE.DIALOGUE) {
+  } else if (state == STATE.DIALOGUE) {
     dialogue.draw();
   }
 
-  if(debug) {
+  if (debug) {
     drawDebugInfo();
   }
 }
 
 function getInput() {
-  if(keyIsDown(LEFT_ARROW)) {
-    if(player.DIRECTION == DIRECTION.WEST) {
+  if (keyIsDown(LEFT_ARROW)) {
+    if (player.DIRECTION == DIRECTION.WEST) {
       player.move(DIRECTION.WEST);
     } else {
       player.setDirection(DIRECTION.WEST);
     }
-  } else if(keyIsDown(RIGHT_ARROW)) {
-    if(player.DIRECTION == DIRECTION.EAST) {
+  } else if (keyIsDown(RIGHT_ARROW)) {
+    if (player.DIRECTION == DIRECTION.EAST) {
       player.move(DIRECTION.EAST);
     } else {
       player.setDirection(DIRECTION.EAST);
     }
-  }else if(keyIsDown(UP_ARROW)) {
-    if(player.DIRECTION == DIRECTION.NORTH) {
+  } else if (keyIsDown(UP_ARROW)) {
+    if (player.DIRECTION == DIRECTION.NORTH) {
       player.move(DIRECTION.NORTH);
     } else {
       player.setDirection(DIRECTION.NORTH);
     }
-  }else if(keyIsDown(DOWN_ARROW)) {
-    if(player.DIRECTION == DIRECTION.SOUTH) {
+  } else if (keyIsDown(DOWN_ARROW)) {
+    if (player.DIRECTION == DIRECTION.SOUTH) {
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
@@ -105,33 +109,33 @@ function getInput() {
 }
 
 function keyPressed() {
-  if(state == STATE.WORLD) {
+  if (state == STATE.WORLD) {
     worldInput();
-  }else if(state == STATE.BATTLE) {
-    if(battle.playerTurn) {
-          battleInput();
-        }
-  } else if(state == STATE.PAUSED) {
+  } else if (state == STATE.BATTLE) {
+    if (battle.playerTurn) {
+      battleInput();
+    }
+  } else if (state == STATE.PAUSED) {
     pauseInput();
-  } else if(state == STATE.DIALOGUE) {
+  } else if (state == STATE.DIALOGUE) {
     dialogueInput();
   }
 }
 
 function worldInput() {
-  if(keyCode == KEYS.START) {
+  if (keyCode == KEYS.START) {
     menu.openMenu();
-    
-  } else if(keyCode == KEYS.A_KEY && JSON.stringify(player.step) == "[0,0]") {
+
+  } else if (keyCode == KEYS.A_KEY && JSON.stringify(player.step) == "[0,0]") {
     target = grid.tiles[player.x + player.DIRECTION[0]][player.y + player.DIRECTION[1]];
-    if(target.occupant instanceof Entity) {
+    if (target.occupant instanceof Entity) {
       target.occupant.interact(player);
     }
   }
 }
 
 function pauseInput() {
-  if(keyCode == UP_ARROW) {
+  if (keyCode == UP_ARROW) {
     menu.indexUp();
   } else if (keyCode == DOWN_ARROW) {
     menu.indexDown();
@@ -143,60 +147,60 @@ function pauseInput() {
 }
 
 function battleInput() {
-  if(keyCode == UP_ARROW) {
+  if (keyCode == UP_ARROW) {
     battle.updateSelector(-2);
-  } else if(keyCode == DOWN_ARROW) {
+  } else if (keyCode == DOWN_ARROW) {
     battle.updateSelector(2);
-  } else if(keyCode == LEFT_ARROW) {
+  } else if (keyCode == LEFT_ARROW) {
     battle.updateSelector(-1);
-  } else if(keyCode == RIGHT_ARROW) {
+  } else if (keyCode == RIGHT_ARROW) {
     battle.updateSelector(1);
-  } else if(keyCode == KEYS.A_KEY) {
+  } else if (keyCode == KEYS.A_KEY) {
     battle.inputA();
-  } else if(keyCode == KEYS.B_KEY) {
+  } else if (keyCode == KEYS.B_KEY) {
     battle.inputB();
   }
 }
 
 function dialogueInput() {
-  if(keyCode == KEYS.A_KEY) {
+  if (keyCode == KEYS.A_KEY) {
     dialogue.inputA();
-  } else if(keyCode == KEYS.B_KEY) {
+  } else if (keyCode == KEYS.B_KEY) {
     dialogue.inputB();
-  } else if(keyCode == UP_ARROW) {
+  } else if (keyCode == UP_ARROW) {
     dialogue.indexUp();
-  } else if(keyCode == DOWN_ARROW) {
+  } else if (keyCode == DOWN_ARROW) {
     dialogue.indexDown();
   }
 }
 
 function togglePause() {
-  if(state == STATE.WORLD) {
+  if (state == STATE.WORLD) {
     state = STATE.PAUSED;
-  } else if(state == STATE.PAUSED) {
+  } else if (state == STATE.PAUSED) {
     state = STATE.WORLD;
   }
 }
 
 function drawDebugInfo() {
-    push();
-    // Draw FPS (rounded to 2 decimal places) at the bottom left of the screen
-    let fps = frameRate();
-    fill(255);
-    stroke(0);
-    textSize(12);
-    text("FPS: " + fps.toFixed(2), 10, height - 10);
+  push();
+  // Draw FPS (rounded to 2 decimal places) at the bottom left of the screen
+  let fps = frameRate();
+  fill(255);
+  stroke(0);
+  textSize(12);
+  text("FPS: " + fps.toFixed(2), 10, height - 10);
 
-    //Draw player pos
-    textAlign(RIGHT);
-    let pos = player.tile.x + ", " + player.tile.y
-    text(pos, width-10, height-10);
+  //Draw player pos
+  textAlign(RIGHT);
+  let pos = player.tile.x + ", " + player.tile.y
+  text(pos, width - 10, height - 10);
 
-    pop();
+  pop();
 }
 
 function sleep(millisecondsDuration) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, millisecondsDuration);
-    })
+  return new Promise((resolve) => {
+    setTimeout(resolve, millisecondsDuration);
+  })
 }
