@@ -58,6 +58,6 @@ const TEXT_SPEED = {
     FAST: 2
 }
 
-const SPRITES = {
+const SPRITES = [
 
-}
+]
