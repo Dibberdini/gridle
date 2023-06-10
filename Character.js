@@ -6,7 +6,8 @@ class Character extends Creature {
         this.name = prototype.name;
         this.dialogues = prototype.dialogues;
         this.questLevel = 0;
-        this.role = prototype.role
+        this.role = prototype.role;
+        this.id = id;
     }
 
     work() {

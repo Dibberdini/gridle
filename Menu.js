@@ -151,6 +151,9 @@ class Menu {
                 this.menuState = MENU_STATES.MONSTER_MENU;
                 this.lastIndex = this.index;
                 this.index = 0;
+            } else if (this.index == 3) {
+                saveWorld();
+                dialogue.load([{ type: "statement", line: "Game succesfully saved" }])
             } else if (this.index == 4) {
                 state = this.lastState;
             }

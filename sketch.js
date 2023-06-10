@@ -7,8 +7,8 @@ function preload() {
   SPRITES.forEach(spritePath => {
     loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
   });
-  myFont = loadFont("./data/DigitalDisco.ttf");
-  worldData = {};
+  myFont = loadFont("./data/Minecraftia-Regular.ttf");
+  worldData = { characters: {} };
 }
 
 function setup() {
@@ -241,4 +241,15 @@ function resuscitate() {
   background(0);
 
   dialogue.load([{ type: "statement", line: "You blacked out!" }]);
+}
+
+function saveWorld() {
+  entities.forEach(entity => {
+    if (entity instanceof Character) {
+      if (!worldData.characters[`${entity.id}`]) {
+        worldData.characters[`${entity.id}`] = {};
+      }
+      worldData.characters[`${entity.id}`].questLevel = entity.questLevel;
+    }
+  });
 }
