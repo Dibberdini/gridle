@@ -37,10 +37,11 @@ class DialogManager {
         }
 
         //Draw dialog
-        textSize(32);
+        textSize(42);
+        textLeading(50);
         noStroke();
         fill(0);
-        text(stepDialogue, 25, height - 115, width - 25);
+        text(stepDialogue, 25, height - 85, width - 25);
 
         pop();
     }

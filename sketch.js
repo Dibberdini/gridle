@@ -1,5 +1,5 @@
 function preload() {
-  zone = loadJSON("./data/maps/map1.json")
+  zone = loadJSON("./data/maps/map1.json");
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
   globalCharacterList = loadJSON("./data/characters.json");
@@ -7,17 +7,19 @@ function preload() {
   SPRITES.forEach(spritePath => {
     loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
   });
-  // myFont = loadFont("./data/DRPublikBold.ttf");
+  myFont = loadFont("./data/DigitalDisco.ttf");
+  worldData = {};
 }
 
 function setup() {
-  // textFont(myFont);
+  textFont(myFont);
   createCanvas(600, 540);
   dialogue = new DialogManager();
   entities = [];
   grid = new Grid();
   grid.loadZone(zone);
   player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
+  worldData.player = player;
   entities.push(player);
   frameRate(60);
   tick = 0;
