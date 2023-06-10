@@ -98,6 +98,7 @@ class DialogManager {
     inputB() {
         if (this.currentLine.type == "question" && this.step >= this.currentLine.line.length) {
             this.index = 1;
+            this.draw();
             this.inputA();
         } else {
             this.inputA();
