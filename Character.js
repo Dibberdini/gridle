@@ -1,5 +1,5 @@
 class Character extends Creature {
-    constructor(x, y, DIRECTION, id, tiles) {
+    constructor(x, y, DIRECTION, id, pathing, tiles) {
         let prototype = globalCharacterList.all_characters.find(character => character.id == id);
         super(x, y, DIRECTION, 0, tiles);
         this.model = 0;
@@ -8,6 +8,7 @@ class Character extends Creature {
         this.questLevel = 0;
         this.role = prototype.role;
         this.id = id;
+        this.pathing = pathing;
 
         if (worldData.characters[`${this.id}`]) {
             this.questLevel = worldData.characters[`${this.id}`].questLevel;
@@ -15,18 +16,10 @@ class Character extends Creature {
     }
 
     work() {
-        let decision = Math.random();
-        if (decision < 0.1) {
-            decision = Math.floor((decision * 200) / 5);
-            let dir = Object.values(DIRECTION)[decision];
-            if (this.direction == dir) {
-                this.move(dir);
-            } else {
-                this.setDirection(dir);
-                if (Math.random() < 0.3) {
-                    this.move(dir);
-                }
-            }
+        if (this.pathing == "static") {
+
+        } else if (this.pathing == "roaming") {
+            this.moveRandomly();
         }
     }
 
@@ -44,5 +37,21 @@ class Character extends Creature {
 
     setQuest(newLevel) {
         this.questLevel = newLevel;
+    }
+
+    moveRandomly() {
+        let decision = Math.random();
+        if (decision < 0.1) {
+            decision = Math.floor((decision * 200) / 5);
+            let dir = Object.values(DIRECTION)[decision];
+            if (this.direction == dir) {
+                this.move(dir);
+            } else {
+                this.setDirection(dir);
+                if (Math.random() < 0.3) {
+                    this.move(dir);
+                }
+            }
+        }
     }
 }

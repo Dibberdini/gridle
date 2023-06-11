@@ -33,7 +33,7 @@ class Grid {
         }
 
         zone.characters.forEach(character => {
-            entities.push(new Character(character.x, character.y, character.direction, character.id, this.tiles))
+            entities.push(new Character(character.x, character.y, character.direction, character.id, character.pathing, this.tiles))
         });
     }
 

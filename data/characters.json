@@ -1,63 +1,34 @@
 {
     "all_characters": [
         {
-            "name": "Jesse",
-            "id": 1,
-            "role": "citizen",
-            "dialogues": {
-                "0": [
-                    {
-                        "type": "statement",
-                        "line": "Hello! Welcome to the world of gridle.",
-                        "gain": 100
-                    }
-                ],
-                "100": [
-                    {
-                        "type": "statement",
-                        "line": "Boy, I hope they add in more features soon."
-                    },
-                    {
-                        "type": "statement",
-                        "line": "I hear they just added multiple lines!"
-                    }
-                ]
-            }
+        "name": "Jesse",
+        "id": 1,
+        "role": "citizen",
+        "dialogues": {
+            "0": [
+                {"type": "statement","line": "Hello! Welcome to the world of gridle.","gain": 100}
+            ],
+            "100": [
+                {"type": "statement","line": "Boy, I hope they add in more features soon."},
+                {"type": "statement","line": "I hear they just added multiple lines!"}
+            ]}
         },
         {
-            "name": "James",
-            "id": 2,
-            "role": "citizen",
-            "dialogues": {
+        "name": "James",
+        "id": 2,
+        "role": "citizen",
+        "dialogues": {
                 "0": [
-                    {
-                        "type": "statement",
-                        "line": "Hi! I don't believe we've met.",
-                        "gain": 10
-                    }
+                    {"type": "statement","line": "Hi! I don't believe we've met.","gain": 10}
                 ],
                 "10": [
-                    {
-                        "type": "question",
-                        "line": "Are you feeling well?"
-                    },
-                    {
-                        "type": "reply_yes",
-                        "line": "That's good!",
-                        "gain": 100
-                    },
-                    {
-                        "type": "reply_no",
-                        "line": "Oh no!"
-                    }
+                    {"type": "question","line": "Are you feeling well?"},
+                    {"type": "reply_yes","line": "That's good!","gain": 100},
+                    {"type": "reply_no","line": "Oh no!"}
                 ],
                 "100": [
-                    {
-                        "type": "statement",
-                        "line": "Hi again! Good to see you."
-                    }
-                ]
-            }
+                    {"type": "statement","line": "Hi again! Good to see you."}
+                ]}
         },
         {
             "name": "Joy",
@@ -65,19 +36,11 @@
             "role": "healer",
             "dialogues": {
                 "0": [
-                    {
-                        "type": "statement",
-                        "line": "Hi! I can heal your monsters.",
-                        "gain": 100
-                    }
+                    {"type": "statement","line": "Hello! I can heal your monsters.","gain": 100}
                 ],
                 "100": [
-                    {
-                        "type": "statement",
-                        "line": "You're back to full health!"
-                    }
-                ]
-            }
+                    {"type": "statement","line": "You're back to full health!"}
+                ]}
         }
     ]
 }
