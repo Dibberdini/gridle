@@ -78,7 +78,7 @@ class Menu {
                     noStroke();
                     fill(255);
                     textSize(26);
-                    text(this.monsterMenuSelections[i], width - 120, height - 87 + i * 35);
+                    text(this.monsterMenuSelections[i], width - 120, height - 70 + i * 35);
                 }
 
                 this.drawSelector(width - 140, height - 105 + this.index * 35, 200);
@@ -137,7 +137,8 @@ class Menu {
                 this.index = this.lastIndex;
             } else {
                 if (this.lastState == STATE.BATTLE) {
-                    this.state = this.lastState;
+                    this.menuState = MENU_STATES.MAIN_MENU;
+                    state = this.lastState
                 } else {
                     this.menuState = MENU_STATES.MAIN_MENU;
                     this.index = 1;
@@ -146,7 +147,7 @@ class Menu {
         }
     }
 
-    inputA() {
+    async inputA() {
         if (this.menuState == MENU_STATES.MAIN_MENU) {
             if (this.index == 1) {
                 this.menuState = MENU_STATES.MONSTER_MENU;
@@ -164,9 +165,16 @@ class Menu {
                 if (this.index == 0) {
                     console.log(player.monsters[this.lastIndex]);
                 } else if (this.index == 1) {
-                    this.switching = true;
-                    this.selected = false;
-                    this.index = 0;
+                    if (this.lastState == STATE.BATTLE) {
+                        battle.activeMonster = player.monsters[this.lastIndex];
+                        this.selected = false;
+                        await dialogue.load([{ type: "timed", line: `${player.monsters[this.lastIndex].name}, you're up!`, time: 1000 }])
+                        state = this.lastState;
+                    } else {
+                        this.switching = true;
+                        this.selected = false;
+                        this.index = 0;
+                    }
                 } else if (this.index == 2) {
                     this.index = this.lastIndex;
                     this.selected = false;

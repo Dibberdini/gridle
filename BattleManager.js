@@ -167,6 +167,11 @@ class BattleManager {
         } else {
             if (this.selector == 0) {
                 this.fight = true;
+            } else if (this.selector == 2) {
+                state = STATE.PAUSED;
+                menu.lastState = STATE.BATTLE;
+                menu.menuState = MENU_STATES.MONSTER_MENU;
+                this.selector = 0;
             } else if (this.selector == 3) {
                 state = STATE.WORLD;
             }
