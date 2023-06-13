@@ -1,8 +1,7 @@
 NEED-TO-HAVE
-    NPC pathing
     Saving
     MENU_STATES.SETTINGS_MENU
-    MONSTER_MENU from battle
+    Monster_MENU stats page
     Catching monsters
     TYPES + TYPE-weaknesses
 
