@@ -46,6 +46,7 @@ class Character extends Creature {
 
     moveRandomly() {
         let decision = Math.random();
+        //10% chance to act
         if (decision < 0.1) {
             //Pick one of four directions. ONLY WORKS if decision is <0.1
             decision = Math.floor((decision * 200) / 5);
