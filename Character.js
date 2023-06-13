@@ -50,27 +50,32 @@ class Character extends Creature {
             //Pick one of four directions. ONLY WORKS if decision is <0.1
             decision = Math.floor((decision * 200) / 5);
             let dir = Object.values(DIRECTION)[decision];
+            let desiredTile = [this.x + dir[0], this.y + dir[1]]
             //If already facing this way, move in this direction
-            if (this.direction == dir) {
+            if (this.direction == dir && this.tileIsInPath(desiredTile)) {
                 this.move(dir);
             } else {
                 this.setDirection(dir);
                 //33% chance to face a new direction AND move
-                if (Math.random() < 0.3) {
-                    let desiredTile = [this.x + dir[0], this.y + dir[1]]
-                    if ((grid.tiles[desiredTile[0]] || [])[desiredTile[1]] === undefined) {
-                        //Desired tile does not exist
-                    } else {
-                        //Check if desired tile is in characters path
-                        for (let i = 0; i < this.path.length; i++) {
-                            if (JSON.stringify(this.path[i]) == JSON.stringify(desiredTile)) {
-                                this.move(dir);
-                                break;
-                            }
-                        }
-                    }
+                if (Math.random < 0.33 && this.tileIsInPath(desiredTile)) {
+                    this.move(dir);
                 }
             }
+        }
+    }
+
+    tileIsInPath(desiredTile) {
+        if ((grid.tiles[desiredTile[0]] || [])[desiredTile[1]] === undefined) {
+            //Desired tile does not exist
+            return false;
+        } else {
+            //Check if desired tile is in characters path
+            for (let i = 0; i < this.path.length; i++) {
+                if (JSON.stringify(this.path[i]) == JSON.stringify(desiredTile)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
