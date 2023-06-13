@@ -9,6 +9,11 @@ class Character extends Creature {
         this.role = prototype.role;
         this.id = id;
         this.pathing = pathing;
+        this.path;
+
+        if (this.pathing == "roaming") {
+            this.path = zone.paths.find(path => path.id == this.id).path;
+        }
 
         if (worldData.characters[`${this.id}`]) {
             this.questLevel = worldData.characters[`${this.id}`].questLevel;
@@ -42,14 +47,28 @@ class Character extends Creature {
     moveRandomly() {
         let decision = Math.random();
         if (decision < 0.1) {
+            //Pick one of four directions. ONLY WORKS if decision is <0.1
             decision = Math.floor((decision * 200) / 5);
             let dir = Object.values(DIRECTION)[decision];
+            //If already facing this way, move in this direction
             if (this.direction == dir) {
                 this.move(dir);
             } else {
                 this.setDirection(dir);
+                //33% chance to face a new direction AND move
                 if (Math.random() < 0.3) {
-                    this.move(dir);
+                    let desiredTile = [this.x + dir[0], this.y + dir[1]]
+                    if ((grid.tiles[desiredTile[0]] || [])[desiredTile[1]] === undefined) {
+                        //Desired tile does not exist
+                    } else {
+                        //Check if desired tile is in characters path
+                        for (let i = 0; i < this.path.length; i++) {
+                            if (JSON.stringify(this.path[i]) == JSON.stringify(desiredTile)) {
+                                this.move(dir);
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
