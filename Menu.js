@@ -138,6 +138,7 @@ class Menu {
             } else {
                 if (this.lastState == STATE.BATTLE) {
                     this.menuState = MENU_STATES.MAIN_MENU;
+                    this.index = 0;
                     state = this.lastState
                 } else {
                     this.menuState = MENU_STATES.MAIN_MENU;
@@ -166,10 +167,11 @@ class Menu {
                     console.log(player.monsters[this.lastIndex]);
                 } else if (this.index == 1) {
                     if (this.lastState == STATE.BATTLE) {
-                        battle.activeMonster = player.monsters[this.lastIndex];
                         this.selected = false;
+                        this.index = 0;
                         await dialogue.load([{ type: "timed", line: `${player.monsters[this.lastIndex].name}, you're up!`, time: 1000 }])
                         state = this.lastState;
+                        battle.changeMonster(player.monsters[this.lastIndex], false);
                     } else {
                         this.switching = true;
                         this.selected = false;

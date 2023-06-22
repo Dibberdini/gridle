@@ -17,6 +17,7 @@ class BattleManager {
         this.selector = 0;
         this.fight = false;
         this.playerTurn = true;
+        this.participatingMonsters = [];
     }
 
     encounter(monsterList, strength) {
@@ -33,26 +34,21 @@ class BattleManager {
     }
 
     startBattle(monsters) {
+        this.participatingMonsters = [];
         this.selector = 0;
         this.activeEnemy = monsters[0];
         //Set player monster to first conscious monster
         for (let i = 0; i < player.monsters.length; i++) {
             if (!player.monsters[i].dead) {
                 this.activeMonster = player.monsters[i];
+                this.participatingMonsters.push(this.activeMonster);
                 break;
             }
         }
 
-        if (this.activeMonster.speed > this.activeEnemy.speed) {
-            this.playerTurn = true;
-        } else {
-            this.playerTurn = false;
-            dialogue.clear();
-            this.performEnemyTurn();
-        }
-
+        this.calculateEnemyMove();
+        this.playerTurn = true;
         state = STATE.BATTLE;
-
     }
 
     draw() {
@@ -133,37 +129,10 @@ class BattleManager {
 
     async inputA() {
         if (this.fight && this.playerTurn) {
-            this.playerTurn = false;
-            let move = this.activeMonster.moveSet[this.selector]
-            this.activeMonster.attackMove(move, this.activeEnemy);
-
-            //Setup message to display while move is carried out.
-            let message = this.activeMonster.name + " used " + move.name + "!";
-            dialogue.load([{ type: "battle", line: message }]);
-            //Wait until animation is finished, then check if opponent died.
-            while (this.activeEnemy.outstandingDamage > 0) {
-                await sleep(100);
-            }
-            if (this.activeEnemy.dead) {
-                //Calculate won EXP, and award it to monster
-                let EXPGain = Math.ceil(Math.pow(this.activeEnemy.strength, 2.3) * this.activeMonster.prototype.growth + 20);
-                if (this.activeEnemy.owner != "wild") {
-                    EXPGain *= 1.5;
-                }
-                this.activeMonster.gainEXP(EXPGain);
-                while (this.activeMonster.outstandingEXP > 0) {
-                    await sleep(100);
-                }
-                //Show EXP-gain dialogue
-                let EXP_Message = this.activeMonster.name + " gained " + EXPGain + " experience!";
-                await dialogue.load([{ type: "timed", line: EXP_Message, time: 1000 }])
-
-                this.fight = false;
-                state = STATE.WORLD;
-            } else {
-                await sleep(800)
-                this.performEnemyTurn();
-            }
+            let move = this.activeMonster.moveSet[this.selector];
+            this.activeMonster.loadedMove = move;
+            this.activeMonster.loadedTarget = this.activeEnemy;
+            this.performTurn();
         } else {
             if (this.selector == 0) {
                 this.fight = true;
@@ -193,44 +162,121 @@ class BattleManager {
         pop();
     }
 
-    async performEnemyTurn() {
+    changeMonster(newMonster, freeChange) {
+        this.activeMonster = newMonster;
+        this.activeEnemy.loadedTarget = this.activeMonster;
+        if (this.participatingMonsters.includes(this.activeMonster)) {
+            //Don't add monster to list of fighting monsters twice
+        } else {
+            this.participatingMonsters.push(this.activeMonster)
+        }
+        this.activeMonster.loadedMove = null;
+        if (freeChange) {
+            return;
+        }
+        this.performTurn();
+    }
+
+    async rewardEXP() {
+        //Calculate won EXP
+        let EXPGain = Math.ceil(Math.pow(this.activeEnemy.strength, 2.3) * this.activeMonster.prototype.growth + 20);
+        if (this.activeEnemy.owner != "wild") {
+            EXPGain *= 1.5;
+        }
+        EXPGain = Math.ceil(EXPGain / this.participatingMonsters.length);
+
+        //Award EXP to each participating monster
+        for (let i = 0; i < this.participatingMonsters.length; i++) {
+            if (Object.is(this.activeMonster, this.participatingMonsters[i])) {
+                this.activeMonster.gainEXP(EXPGain);
+                while (this.activeMonster.outstandingEXP > 0) {
+                    await sleep(100);
+                }
+            } else {
+                this.participatingMonsters[i].experience += (EXPGain)
+                this.participatingMonsters[i].checkLevelUp();
+            }
+            //Show EXP-gain dialogue
+            let EXP_Message = this.participatingMonsters[i].name + " gained " + EXPGain + " experience!";
+            await dialogue.load([{ type: "timed", line: EXP_Message, time: 1000 }])
+        }
+
+    }
+
+    async calculateEnemyMove() {
         let move;
         if (this.activeEnemy.owner == "wild") {
             //Select random move from wild monsters moveset
             move = (this.activeEnemy.moveSet[Math.floor(Math.random() * this.activeEnemy.moveSet.length)]);
-            this.activeEnemy.attackMove(move, this.activeMonster);
+            this.activeEnemy.loadedMove = move;
+            this.activeEnemy.loadedTarget = this.activeMonster;
+        }
+    }
+
+    async performTurn() {
+        this.playerTurn = false;
+        //Calculate turnorder based on combat participants' speed
+        let turnOrder = [];
+        if (this.activeEnemy.speed > this.activeMonster) {
+            turnOrder.push(this.activeEnemy);
+            turnOrder.push(this.activeMonster);
+        } else {
+            turnOrder.push(this.activeMonster);
+            turnOrder.push(this.activeEnemy);
         }
 
-        //Setup message to display while move is carried out.
-        let message = "Enemy " + this.activeEnemy.name + " used " + move.name + "!";
-        dialogue.load([{ type: "battle", line: message }]);
+        //For each monster in turnOrder perform their loaded moves, if they're alive.
+        for (let i = 0; i < turnOrder.length; i++) {
+            let monster = turnOrder[i];
+            if (monster.loadedMove && !monster.dead) {
+                let crit = monster.attackMove(monster.loadedMove, monster.loadedTarget);
 
-        while (this.activeMonster.outstandingDamage > 0) {
-            await sleep(100);
+                //Setup message to display while move is carried out.
+                let message = monster.name + " used " + monster.loadedMove.name + "!";
+                if (!Object.is(monster.owner, player)) {
+                    message = "Enemy " + message;
+                }
+                dialogue.load([{ type: "battle", line: message }]);
+
+                //Wait until animation is finished, then check if opponent died.
+                while (monster.loadedTarget.outstandingDamage > 0) {
+                    await sleep(100);
+                }
+                if (crit) {
+                    await sleep(500);
+                    await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
+                } else {
+                    await sleep(800);
+                }
+            }
         }
-        if (this.activeMonster.health <= 0) {
-            this.activeMonster.dead = true;
+
+        //If player's monster died -
+        if (this.activeMonster.dead) {
             await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " fainted!", time: 1000 }])
             for (let i = 0; i < player.monsters.length; i++) {
-                if (player.monsters[i]) {
-                    if (!player.monsters[i].dead) {
-                        this.activeMonster = player.monsters[i]
-                        this.fight = false;
-                        this.selector = 0;
-                        await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " you're up!", time: 1000 }])
-                        break;
-                    }
-                }
-                if (i == player.monsters.length - 1) {
+                //- Find the next living monster, otherwise end battle.
+                if (player.monsters[i] && !player.monsters[i].dead) {
+                    this.changeMonster(player.monsters[i], true);
+                    this.fight = false;
+                    this.selector = 0;
+                    await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " you're up!", time: 1000 }])
+                    this.playerTurn = true;
+                    break;
+                } else if (i == player.monsters.length - 1) {
                     await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
                     this.fight = false;
                     state = STATE.WORLD;
                     resuscitate();
                 }
             }
+        } else if (this.activeEnemy.dead) {
+            await this.rewardEXP();
+            this.fight = false;
+            state = STATE.WORLD;
+        } else {
+            this.calculateEnemyMove();
+            this.playerTurn = true;
         }
-
-        await sleep(800);
-        this.playerTurn = true;
     }
 }

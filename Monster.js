@@ -10,18 +10,21 @@ class Monster {
         this.model = monsterPrototype.model;
         this.type = monsterPrototype.type;
         this.moveSet = [globalMoveList.moves[0]];
- 
+
         this.name = monsterPrototype.name;
         this.experience = 0;
+        this.requiredEXP;
+        this.setRequiredEXP();
         this.strength = 1;
         this.health = this.maxHealth;
         this.dead = false;
         this.owner = "wild";
 
+        //Battle-specific parameters
         this.outstandingDamage = 0;
         this.outstandingEXP = 0;
-        this.requiredEXP;
-        this.setRequiredEXP();
+        this.loadedMove;
+        this.loadedTarget;
     }
 
     setStrength(strength) {
@@ -33,21 +36,21 @@ class Monster {
         this.health *= strength;
 
         this.strength = strength;
-        
+
         this.setRequiredEXP();
 
         //Give the monster attack-moves
         var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
-        while(monsterMoveList.length > 0 && this.moveSet < 3) {
+        while (monsterMoveList.length > 0 && this.moveSet < 3) {
             let highestMove = monsterMoveList.pop();
-            if(monster.strength >= highestMove[0]) {
+            if (monster.strength >= highestMove[0]) {
                 monster.learnMove(highestMove[1]);
             }
         }
     }
 
     draw(isEnemy) {
-        if(isEnemy) {
+        if (isEnemy) {
             this.drawModel(400, 60);
             this.drawStats(70, 60, false);
         } else {
@@ -57,9 +60,9 @@ class Monster {
     }
 
     drawModel(x, y) {
-        if(this.model == 0) {
+        if (this.model == 0) {
             push();
-            fill(0,250,0);
+            fill(0, 250, 0);
             noStroke();
             rect(x, y, 120, 120);
             pop();
@@ -76,56 +79,52 @@ class Monster {
         text("Lvl: " + this.strength, x + 20, y + 25);
 
         //Update HP
-        if(this.outstandingDamage > 0) {
+        if (this.outstandingDamage > 0) {
             this.health--;
             this.outstandingDamage--;
 
-            if(this.health <= 0) {
+            if (this.health <= 0) {
                 this.health = 0;
                 this.dead = true;
             }
 
-            if(this.outstandingDamage <= 0) {
+            if (this.outstandingDamage <= 0) {
                 this.outstandingDamage = 0;
             }
         }
 
         //Draw HP
         text("HP: ", x + 10, y + 50);
-        if(fullStats) {
+        if (fullStats) {
             textSize(16);
-            text(this.health + "/" + this.maxHealth, x+53, y+39);
+            text(this.health + "/" + this.maxHealth, x + 53, y + 39);
         }
         strokeWeight(2);
         noFill();
-        rect(x+53, y+40, 120, 8);
+        rect(x + 53, y + 40, 120, 8);
         noStroke();
-        fill(255,0,0);
+        fill(255, 0, 0);
         let percentageHealth = this.health / this.maxHealth * 120;
-        rect(x+53, y+40, percentageHealth, 8);
+        rect(x + 53, y + 40, percentageHealth, 8);
 
         //Update XP
-        if(this.outstandingEXP > 0) {
+        if (this.outstandingEXP > 0) {
             this.experience++;
             this.outstandingEXP--;
-
-            if(this.experience >= this.requiredEXP) {
-                this.experience -= this.requiredEXP;
-                this.gainStrength();
-            }
+            this.checkLevelUp();
         }
 
         //Draw XP
         let percentageXP = this.experience / this.requiredEXP * 130
         fill(51, 204, 255);
-        rect(x+1,y+53, percentageXP, 8);
+        rect(x + 1, y + 53, percentageXP, 8);
 
         //Draw Border
         stroke(0);
         strokeWeight(3);
         fill(0);
-        line(x, y + 20, x, y+60);
-        line(x, y+60, x+130, y+60);
+        line(x, y + 20, x, y + 60);
+        line(x, y + 60, x + 130, y + 60);
         triangle(x + 130, y + 55, x + 140, y + 60, x + 130, y + 65);
         pop();
     }
@@ -134,14 +133,19 @@ class Monster {
         this.name = name;
     }
 
-    async attackMove(move, target) {
+    attackMove(move, target) {
         let crit = Math.ceil(Math.random() * 2);
-        let damage = (((((2*this.strength*crit) / 5) + 2) * move.power * (this.attack / target.defence)) / 50) + 2;
+        let damage = (((((2 * this.strength * crit) / 5) + 2) * move.power * (this.attack / target.defence)) / 50) + 2;
         let random = Math.random() * 0.15 + 1;
         damage *= random;
         damage = Math.ceil(damage);
 
         target.takeDamage(damage);
+
+        if (crit == 2) {
+            return true
+        }
+        return false;
     }
 
     takeDamage(damage) {
@@ -150,13 +154,20 @@ class Monster {
 
     heal(healAmount) {
         this.health += healAmount;
-        if(this.health > this.maxHealth) {
+        if (this.health > this.maxHealth) {
             this.health = this.maxHealth;
         }
     }
 
     gainEXP(exp) {
         this.outstandingEXP += exp;
+    }
+
+    checkLevelUp() {
+        if (this.experience >= this.requiredEXP) {
+            this.experience -= this.requiredEXP;
+            this.gainStrength();
+        }
     }
 
     gainStrength() {
@@ -170,14 +181,14 @@ class Monster {
         this.evasion += this.prototype.evasion;
         this.health += this.prototype.maxHealth;
 
-        if(this.experience >= this.requiredEXP) {
+        if (this.experience >= this.requiredEXP) {
             this.gainStrength();
         }
     }
 
     learnMove(moveName) {
         var newMove = globalMoveList.moves.find(move => move.name == moveName);
-        if(this.moveSet.length < 3) {
+        if (this.moveSet.length < 3) {
             this.moveSet.push(newMove);
         }
     }
