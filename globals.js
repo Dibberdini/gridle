@@ -58,6 +58,11 @@ const TEXT_SPEED = {
     FAST: 2
 }
 
+const ITEMS = {
+    MONSTERBALL: "ball_regular",
+    POTION: "potion"
+}
+
 const SPRITES = [
     "0.png",
     "1.png",

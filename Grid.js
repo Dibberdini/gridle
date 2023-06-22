@@ -32,8 +32,17 @@ class Grid {
             }
         }
 
+        //Add all characters
         zone.characters.forEach(character => {
             entities.push(new Character(character.x, character.y, character.direction, character.id, character.pathing, this.tiles))
+        });
+        //Add all items
+        zone.items.forEach(item => {
+            if (worldData.pickedItems[`${item.id}`]) {
+                //This item has already been picked up.
+            } else {
+                entities.push(new Item(item.x, item.y, item.id, item.type, null, this.tiles));
+            }
         });
     }
 

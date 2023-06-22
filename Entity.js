@@ -14,6 +14,10 @@ class Entity {
     }
 
     interact() {
-        
+
+    }
+
+    draw() {
+
     }
 }

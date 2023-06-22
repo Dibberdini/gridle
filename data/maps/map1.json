@@ -1,7 +1,7 @@
 {
-    "w": 13,
-    "h": 15,
-    "layout": 
+        "w": 13,
+        "h": 15,
+        "layout": 
             [
             "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","wV",
             "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","wV",
@@ -19,22 +19,27 @@
             "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","gG","gG","wV",
             "eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","eE","wV"
             ],
-    "characters":
+        "characters":
             [
                 {"x":8, "y":8, "direction":[0, -1], "id": 1, "pathing": "roaming"},
                 {"x":5, "y":4, "direction":[-1, 0], "id": 2, "pathing": "roaming"},
                 {"x":10, "y":4, "direction":[1, 0], "id": 3, "pathing": "static"}
             ],
-    "monsters":
+        "monsters":
             [
                 0,1
             ],
-    "zone_strength": 3,
-    "warp": {"8":
+        "items":
+            [
+                {"x": 5, "y": 10, "id": 1, "type": "ball_regular"},
+                {"x": 3, "y": 13, "id": 2, "type": "ball_regular"}
+            ],
+        "zone_strength": 3,
+        "warp": {"8":
                 {"4": {"map": "map2.json", "pos": [2, 6]}}
             },
-    "recover": [8,5],
-    "paths": 
+        "recover": [8,5],
+        "paths": 
             [
                 {"id": 1, "path": [
                                     [6,8],[7,8],[8,8],

@@ -2,6 +2,7 @@ class Player extends Creature {
     constructor(x, y, DIRECTION, model, tiles) {
         super(x, y, DIRECTION, model, tiles);
         this.monsters = [];
+        this.inventory = [];
     }
 
     draw(x, y) {
@@ -43,6 +44,15 @@ class Player extends Creature {
     addMonster(monster) {
         monster.owner = this;
         this.monsters.push(monster);
+    }
+
+    addItem(item) {
+        let index = this.inventory.findIndex(element => element.type == item.type)
+        if (index < 0) {
+            this.inventory.push({ type: item.type, count: 1, })
+        } else {
+            this.inventory[index].count++;
+        }
     }
 
     healAllMonsters() {

@@ -13,6 +13,7 @@
             ],
     "characters": [],
     "monsters": [1],
+    "items": [],
     "zone_strength": 5,
     "warp": {
         "2": {

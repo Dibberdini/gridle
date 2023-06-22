@@ -8,7 +8,7 @@ function preload() {
     loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
   });
   myFont = loadFont("./data/Minecraftia-Regular.ttf");
-  worldData = { characters: {} };
+  worldData = { characters: {}, pickedItems: {} };
 }
 
 function setup() {
@@ -245,6 +245,10 @@ function resuscitate() {
 }
 
 function saveWorld() {
+  //Save player
+  worldData.player = player;
+
+  //Save questlevels of characters
   entities.forEach(entity => {
     if (entity instanceof Character) {
       if (!worldData.characters[`${entity.id}`]) {
@@ -253,4 +257,8 @@ function saveWorld() {
       worldData.characters[`${entity.id}`].questLevel = entity.questLevel;
     }
   });
+}
+
+function addToPickedItems(item) {
+  worldData.pickedItems[`${item.id}`] = true;
 }
