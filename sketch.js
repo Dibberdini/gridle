@@ -27,6 +27,7 @@ function setup() {
   state = STATE.WORLD;
   menu = new Menu();
   battle = new BattleManager();
+  animationFrame = 0;
 
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
   let secondmonster = new Monster(globalMonsterList.monsters[1]);
@@ -77,6 +78,8 @@ function draw() {
     battle.draw();
   } else if (state == STATE.DIALOGUE) {
     dialogue.draw();
+  } else if (state == STATE.ANIMATION) {
+    animationFrame++;
   }
 
   if (debug) {

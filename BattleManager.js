@@ -33,7 +33,7 @@ class BattleManager {
         this.startBattle(trainerInfo.monsters);
     }
 
-    startBattle(monsters) {
+    async startBattle(monsters) {
         this.participatingMonsters = [];
         this.selector = 0;
         this.activeEnemy = monsters[0];
@@ -48,6 +48,7 @@ class BattleManager {
 
         this.calculateEnemyMove();
         this.playerTurn = true;
+        await AnimationManager.beginBattle();
         state = STATE.BATTLE;
     }
 

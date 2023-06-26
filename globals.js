@@ -21,7 +21,8 @@ const STATE = {
     WORLD: "world",
     PAUSED: "paused",
     BATTLE: "battle",
-    DIALOGUE: "dialogue"
+    DIALOGUE: "dialogue",
+    ANIMATION: "animation"
 }
 
 const KEYS = {
