@@ -4,6 +4,7 @@ class Item extends Entity {
         this.id = id;
         this.type = type;
         this.owner = owner;
+        this.name = Item.getItemInfo(type).name;
     }
 
     draw(x, y) {
@@ -43,5 +44,24 @@ class Item extends Entity {
 
         //Add to inventory of player.
         this.owner.addItem(this);
+    }
+
+    static getItemInfo(itemType) {
+        let info = { hasWorldUse: false, hasBattleUse: false, name: "Unknown" };
+        switch (itemType) {
+            case "ball_regular":
+                info.hasBattleUse = true;
+                info.hasWorldUse = false;
+                info.name = "Ball";
+                break;
+            case "potion":
+                info.hasBattleUse = true;
+                info.hasWorldUse = true;
+                info.name = "Potion";
+                break;
+            default:
+                break;
+        }
+        return info
     }
 }

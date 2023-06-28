@@ -30,7 +30,7 @@ class Character extends Creature {
 
     interact(origin) {
         let newDir = [origin.x - this.x, origin.y - this.y]
-        this.DIRECTION = newDir;
+        this.direction = newDir;
         super.draw(player.x, player.y);
         if (this.dialogues[`${this.questLevel}`]) {
             dialogue.speak(this.dialogues[`${this.questLevel}`], this);
@@ -57,8 +57,8 @@ class Character extends Creature {
                 this.move(dir);
             } else {
                 this.setDirection(dir);
-                //33% chance to face a new direction AND move
-                if (Math.random < 0.33 && this.tileIsInPath(desiredTile)) {
+                //66% chance to face a new direction AND move
+                if (Math.random < 0.66 && this.tileIsInPath(desiredTile)) {
                     this.move(dir);
                 }
             }

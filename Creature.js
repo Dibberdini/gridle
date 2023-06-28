@@ -1,7 +1,7 @@
 class Creature extends Entity {
     constructor(x, y, DIRECTION, model, tiles) {
         super(x, y, model, tiles);
-        this.DIRECTION = DIRECTION;
+        this.direction = DIRECTION;
         this.step = [0, 0];
         this.autonomous = true;
     }
@@ -21,8 +21,8 @@ class Creature extends Entity {
             line(
                 newX * TILE_WIDTH + 0.5 * TILE_WIDTH,
                 newY * TILE_HEIGHT + 0.5 * TILE_HEIGHT,
-                newX * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.DIRECTION[0] * TILE_WIDTH * 0.5),
-                newY * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.DIRECTION[1] * TILE_HEIGHT * 0.5));
+                newX * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.direction[0] * TILE_WIDTH * 0.5),
+                newY * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.direction[1] * TILE_HEIGHT * 0.5));
             pop();
         }
     }
@@ -66,7 +66,7 @@ class Creature extends Entity {
     }
 
     setDirection(DIRECTION) {
-        this.DIRECTION = DIRECTION;
+        this.direction = DIRECTION;
     }
 
     interact() {

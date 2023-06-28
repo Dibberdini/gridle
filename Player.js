@@ -2,7 +2,7 @@ class Player extends Creature {
     constructor(x, y, DIRECTION, model, tiles) {
         super(x, y, DIRECTION, model, tiles);
         this.monsters = [];
-        this.inventory = [];
+        this.inventory = [{ type: "cancel", name: "Cancel", count: "" }];
     }
 
     draw(x, y) {
@@ -17,8 +17,8 @@ class Player extends Creature {
             line(
                 4 * TILE_WIDTH + 0.5 * TILE_WIDTH,
                 4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT,
-                4 * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.DIRECTION[0] * TILE_WIDTH * 0.5),
-                4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.DIRECTION[1] * TILE_HEIGHT * 0.5));
+                4 * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.direction[0] * TILE_WIDTH * 0.5),
+                4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.direction[1] * TILE_HEIGHT * 0.5));
             pop();
         }
     }
@@ -49,7 +49,9 @@ class Player extends Creature {
     addItem(item) {
         let index = this.inventory.findIndex(element => element.type == item.type)
         if (index < 0) {
-            this.inventory.push({ type: item.type, count: 1, })
+            let cancel = this.inventory.pop()
+            this.inventory.push({ type: item.type, name: item.name, count: 1, })
+            this.inventory.push(cancel);
         } else {
             this.inventory[index].count++;
         }

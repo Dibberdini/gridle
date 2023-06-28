@@ -10,6 +10,7 @@ class Menu {
         this.lastState = STATE.WORLD;
         this.selected = false;
         this.switching = false;
+        this.offset = 0;
 
         this.mainMenuSelections = [
             "Bojstiary",
@@ -29,7 +30,7 @@ class Menu {
     draw() {
         push();
 
-        if (this.menuState == MENU_STATES.MAIN_MENU) {
+        if (this.menuState == MENU_STATES.MAIN_MENU || this.menuState == MENU_STATES.ITEM_MENU) {
             stroke(100);
             strokeWeight(3);
             fill(50);
@@ -37,10 +38,30 @@ class Menu {
             noStroke();
             fill(255);
             textSize(24);
-            this.drawSelector(this.x + 16, (this.y + 20) + (this.margin * this.index), 255)
 
             for (let i = 0; i < this.mainMenuSelections.length; i++) {
                 text(this.mainMenuSelections[i], this.x + this.margin, this.y + 17 + this.margin * (i + 1));
+            }
+
+            if (this.menuState == MENU_STATES.ITEM_MENU) {
+                fill(50);
+                stroke(100);
+                rect(this.x - 70, this.y + 70, this.w + 69, 250);
+                noStroke();
+                fill(255);
+                textSize(24);
+                for (let i = 0; i < 5; i++) {
+                    if (player.inventory[i + this.offset]) {
+                        text(player.inventory[i + this.offset].name, this.x - 30, this.y + 125 + 45 * i);
+                        textAlign(RIGHT);
+                        text(player.inventory[i + this.offset].count, this.x + 180, this.y + 125 + 45 * i)
+                        textAlign(LEFT);
+                    }
+                    this.drawSelector(this.x - 45, this.y + 90 + 45 * (this.index - this.offset), 255);
+                }
+
+            } else {
+                this.drawSelector(this.x + 16, (this.y + 20) + (this.margin * this.index), 255)
             }
         } else if (this.menuState == MENU_STATES.MONSTER_MENU) {
             background(230);
@@ -105,6 +126,11 @@ class Menu {
             this.index--;
         } else if (this.menuState == MENU_STATES.MONSTER_MENU && this.index != 0) {
             this.index--;
+        } else if (this.menuState == MENU_STATES.ITEM_MENU && this.index != 0) {
+            this.index--;
+            if (this.index == this.offset - 1) {
+                this.offset--;
+            }
         }
     }
 
@@ -117,6 +143,11 @@ class Menu {
             } else if (!this.selected && this.index != player.monsters.length - 1) {
                 this.index++;
             }
+        } else if (this.menuState == MENU_STATES.ITEM_MENU && this.index < player.inventory.length - 1) {
+            this.index++;
+            if (this.index == this.offset + 5) {
+                this.offset++;
+            }
         }
     }
 
@@ -128,6 +159,10 @@ class Menu {
     inputB() {
         if (this.menuState == MENU_STATES.MAIN_MENU) {
             state = this.lastState;
+        } else if (this.menuState == MENU_STATES.ITEM_MENU) {
+            this.index = 2;
+            this.offset = 0;
+            this.menuState = MENU_STATES.MAIN_MENU;
         } else if (this.menuState == MENU_STATES.MONSTER_MENU) {
             if (this.selected) {
                 this.selected = false;
@@ -154,12 +189,21 @@ class Menu {
                 this.menuState = MENU_STATES.MONSTER_MENU;
                 this.lastIndex = this.index;
                 this.index = 0;
+            } else if (this.index == 2) {
+                this.menuState = MENU_STATES.ITEM_MENU;
+                this.index = 0;
             } else if (this.index == 4) {
                 saveWorld();
                 state = this.lastState;
                 dialogue.load([{ type: "statement", line: "Game succesfully saved" }]);
             } else if (this.index == 5) {
                 state = this.lastState;
+            }
+        } else if (this.menuState == MENU_STATES.ITEM_MENU) {
+            if (player.inventory[this.index + this.offset].type == "cancel") {
+                this.index = 2;
+                this.offset = 0;
+                this.menuState = MENU_STATES.MAIN_MENU;
             }
         } else if (this.menuState == MENU_STATES.MONSTER_MENU) {
             if (this.selected) {

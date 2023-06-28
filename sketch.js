@@ -89,25 +89,25 @@ function draw() {
 
 function getInput() {
   if (keyIsDown(LEFT_ARROW)) {
-    if (player.DIRECTION == DIRECTION.WEST) {
+    if (player.direction == DIRECTION.WEST) {
       player.move(DIRECTION.WEST);
     } else {
       player.setDirection(DIRECTION.WEST);
     }
   } else if (keyIsDown(RIGHT_ARROW)) {
-    if (player.DIRECTION == DIRECTION.EAST) {
+    if (player.direction == DIRECTION.EAST) {
       player.move(DIRECTION.EAST);
     } else {
       player.setDirection(DIRECTION.EAST);
     }
   } else if (keyIsDown(UP_ARROW)) {
-    if (player.DIRECTION == DIRECTION.NORTH) {
+    if (player.direction == DIRECTION.NORTH) {
       player.move(DIRECTION.NORTH);
     } else {
       player.setDirection(DIRECTION.NORTH);
     }
   } else if (keyIsDown(DOWN_ARROW)) {
-    if (player.DIRECTION == DIRECTION.SOUTH) {
+    if (player.direction == DIRECTION.SOUTH) {
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
@@ -134,7 +134,7 @@ function worldInput() {
     menu.openMenu();
 
   } else if (keyCode == KEYS.A_KEY && JSON.stringify(player.step) == "[0,0]") {
-    target = grid.tiles[player.x + player.DIRECTION[0]][player.y + player.DIRECTION[1]];
+    target = grid.tiles[player.x + player.direction[0]][player.y + player.direction[1]];
     if (target.occupant instanceof Entity) {
       target.occupant.interact(player);
     }
