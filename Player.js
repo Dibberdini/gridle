@@ -57,6 +57,14 @@ class Player extends Creature {
         }
     }
 
+    removeItem(itemIndex) {
+        if (this.inventory[itemIndex].count > 1) {
+            this.inventory[itemIndex].count--;
+        } else {
+            this.inventory.splice(itemIndex, 1);
+        }
+    }
+
     healAllMonsters() {
         this.monsters.forEach(monster => {
             monster.heal(monster.maxHealth);

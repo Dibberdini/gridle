@@ -23,6 +23,7 @@ class Monster {
         //Battle-specific parameters
         this.outstandingDamage = 0;
         this.outstandingEXP = 0;
+        this.outstandingHealing = 0;
         this.loadedMove;
         this.loadedTarget;
     }
@@ -134,6 +135,7 @@ class Monster {
     }
 
     attackMove(move, target) {
+        let moveInfo = {};
         let crit = Math.ceil(Math.random() * 2);
         let damage = (((((2 * this.strength * crit) / 5) + 2) * move.power * (this.attack / target.defence)) / 50) + 2;
         let random = Math.random() * 0.15 + 1;
@@ -143,20 +145,24 @@ class Monster {
         target.takeDamage(damage);
 
         if (crit == 2) {
-            return true
+            return moveInfo.crit = true;
         }
-        return false;
+        return moveInfo;
     }
 
     takeDamage(damage) {
         this.outstandingDamage = damage;
     }
 
-    heal(healAmount) {
+    increaseHealth(healAmount) {
         this.health += healAmount;
         if (this.health > this.maxHealth) {
             this.health = this.maxHealth;
         }
+    }
+
+    heal(healAmount) {
+        this.outstandingHealing = healAmount
     }
 
     gainEXP(exp) {

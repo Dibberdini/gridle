@@ -64,4 +64,19 @@ class Item extends Entity {
         }
         return info
     }
+
+    static useItem(itemType) {
+        switch (itemType) {
+            case "potion":
+                menu.loadedItem = { heal: 20 }
+                menu.lastState = state;
+                state = STATE.PAUSED;
+                menu.menuState = MENU_STATES.MONSTER_MENU;
+                menu.lastIndex = menu.index;
+                menu.index = 0;
+                break;
+            default:
+                break;
+        }
+    }
 }

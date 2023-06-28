@@ -55,6 +55,9 @@ class DialogManager {
         if (this.currentLine.type == DIALOGUE_TYPE.BATTLE) {
             state = this.lastState;
         } else if (this.currentLine.type == DIALOGUE_TYPE.TIMED) {
+            while (this.step < this.currentLine.line.length) {
+                await sleep(50);
+            }
             await sleep(this.currentLine.time);
             state = this.lastState;
         }

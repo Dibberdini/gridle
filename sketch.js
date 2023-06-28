@@ -116,16 +116,21 @@ function getInput() {
 }
 
 function keyPressed() {
-  if (state == STATE.WORLD) {
-    worldInput();
-  } else if (state == STATE.BATTLE) {
-    if (battle.playerTurn) {
+  switch (state) {
+    case STATE.WORLD:
+      worldInput();
+      break;
+    case STATE.BATTLE:
       battleInput();
-    }
-  } else if (state == STATE.PAUSED) {
-    pauseInput();
-  } else if (state == STATE.DIALOGUE) {
-    dialogueInput();
+      break;
+    case STATE.PAUSED:
+      pauseInput();
+      break;
+    case STATE.DIALOGUE:
+      dialogueInput();
+      break;
+    default:
+      break;
   }
 }
 
