@@ -29,13 +29,15 @@ function setup() {
   battle = new BattleManager();
   animationFrame = 0;
 
+  //Test parameters
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
   let secondmonster = new Monster(globalMonsterList.monsters[1]);
   firstmonster.setStrength(5);
   secondmonster.setStrength(3);
   player.addMonster(firstmonster);
   player.addMonster(secondmonster);
-
+  player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
+  player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
   debug = true;
 }
 

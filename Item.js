@@ -65,7 +65,7 @@ class Item extends Entity {
         return info
     }
 
-    static useItem(itemType) {
+    static async useItem(itemType) {
         switch (itemType) {
             case "potion":
                 menu.loadedItem = { heal: 20 }
@@ -75,6 +75,18 @@ class Item extends Entity {
                 menu.lastIndex = menu.index;
                 menu.index = 0;
                 break;
+            case "ball_regular":
+                battle.selectingItem = false;
+                menu.index = 0;
+                menu.offset = 0;
+                menu.menuState = MENU_STATES.MAIN_MENU;
+                battle.draw();
+                await AnimationManager.throwBall();
+                if (battle.activeEnemy.catch(0, player)) {
+                    battle.caughtMonster();
+                } else {
+                    await dialogue.load([{ type: "statement", line: "Oh no! it broke free!" }]);
+                }
             default:
                 break;
         }

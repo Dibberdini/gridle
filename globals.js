@@ -65,6 +65,16 @@ const ITEMS = {
     POTION: "potion"
 }
 
+const STATUSES = {
+    NONE: "none",
+    POISONED: "psn",
+    BURNED: "brn",
+    PARALYZED: "plz",
+    ASLEEP: "slp",
+    FROZEN: "frz",
+
+}
+
 const SPRITES = [
     "0.png",
     "1.png",

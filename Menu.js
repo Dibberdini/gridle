@@ -149,9 +149,19 @@ class Menu {
             }
         } else if (this.menuState == MENU_STATES.ITEM_MENU) {
             if (this.selected) {
+                let selectedItem = player.inventory[this.lastIndex + this.offset];
                 switch (this.itemMenuSelections[this.index]) {
                     case "Use":
-                        Item.useItem(player.inventory[this.lastIndex + this.offset].type)
+                        let useCase = Item.getItemInfo(selectedItem.type);
+                        if (state == STATE.BATTLE && useCase.hasBattleUse) {
+                            Item.useItem(selectedItem.type);
+                            player.removeItem(this.lastIndex + this.offset);
+                        } else if (useCase.hasWorldUse) {
+                            Item.useItem(selectedItem.type);
+                            player.removeItem(this.lastIndex + this.offset);
+                        } else {
+                            await dialogue.load([{ type: "statement", line: "You can't use that here!" }]);
+                        }
                         break;
                     case "Toss":
                         player.removeItem(this.lastIndex + this.offset);
@@ -169,8 +179,6 @@ class Menu {
                 } else {
                     if (Item.getItemInfo(itemType).hasWorldUse) {
                         this.itemMenuSelections = ["Use", "Toss", "Cancel"];
-                    } else {
-                        this.itemMenuSelections = ["Toss", "Cancel"];
                     }
                     this.selected = true;
                     this.lastIndex = this.index;

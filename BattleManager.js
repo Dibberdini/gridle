@@ -148,8 +148,12 @@ class BattleManager {
             this.activeMonster.loadedTarget = this.activeEnemy;
             this.performTurn();
         } else if (this.selectingItem) {
-            menu.inputA();
-            menu.inputA();
+            if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
+                menu.inputA();
+                menu.inputA();
+            } else {
+                await dialogue.load([{ type: "timed", line: "You can't use that here!", time: 800 }]);
+            }
         } else {
             if (this.selector == 0) {
                 this.fight = true;
@@ -299,12 +303,21 @@ class BattleManager {
                 }
             }
         } else if (this.activeEnemy.dead) {
-            await this.rewardEXP();
-            this.fight = false;
-            state = STATE.WORLD;
+            if (this.activeEnemy.owner == "wild") {
+                await this.rewardEXP();
+                this.fight = false;
+                state = STATE.WORLD;
+            }
         } else {
             this.calculateEnemyMove();
             this.playerTurn = true;
         }
+    }
+
+    async caughtMonster() {
+        await dialogue.load([{ type: "timed", line: `Success! ${this.activeEnemy.name} was caught!`, time: 1000 }]);
+        player.addMonster(this.activeEnemy);
+        this.fight = false;
+        state = STATE.WORLD;
     }
 }

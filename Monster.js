@@ -9,6 +9,7 @@ class Monster {
         this.evasion = monsterPrototype.evasion;
         this.model = monsterPrototype.model;
         this.type = monsterPrototype.type;
+        this.catchRate = monsterPrototype.catchRate;
         this.moveSet = [globalMoveList.moves[0]];
 
         this.name = monsterPrototype.name;
@@ -19,6 +20,7 @@ class Monster {
         this.health = this.maxHealth;
         this.dead = false;
         this.owner = "wild";
+        this.status = "none";
 
         //Battle-specific parameters
         this.outstandingDamage = 0;
@@ -145,7 +147,7 @@ class Monster {
         target.takeDamage(damage);
 
         if (crit == 2) {
-            return moveInfo.crit = true;
+            moveInfo.crit = true;
         }
         return moveInfo;
     }
@@ -201,5 +203,38 @@ class Monster {
 
     setRequiredEXP() {
         this.requiredEXP = Math.ceil(1.6 * Math.pow(this.strength, 2.7) + 10);
+    }
+
+    catch(ballStrength, newOwner) {
+        let random = Math.round(Math.random() * (255 - ballStrength));
+        let status = 0
+        if (this.status == STATUSES.ASLEEP || this.status == STATUSES.FROZEN) {
+            status = 25;
+        } else if (this.status == STATUSES.POISONED || this.status == STATUSES.BURNED || this.status == STATUSES.PARALYZED) {
+            status = 12;
+        }
+        random -= status;
+        if (random <= 0) {
+            return true;
+        }
+        let fortitude = this.maxHealth * 255;
+        if (ballStrength == 55) {
+            fortitude = Math.ceil(fortitude / 8);
+        } else if (ballStrength == 105) {
+            fortitude = Math.ceil(fortitude / 12);
+        }
+        let health = Math.ceil(this.health / 4);
+        fortitude = Math.ceil(fortitude / health);
+        if (fortitude > 255) {
+            fortitude = 255;
+        }
+        if (this.catchRate < random) {
+            return false;
+        }
+        let random2 = Math.ceil(Math.random() * 255);
+        if (random2 <= fortitude) {
+            return true;
+        }
+        return false;
     }
 }

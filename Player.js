@@ -3,6 +3,7 @@ class Player extends Creature {
         super(x, y, DIRECTION, model, tiles);
         this.monsters = [];
         this.inventory = [{ type: "cancel", name: "Cancel", count: "" }];
+        this.bank = [];
     }
 
     draw(x, y) {
@@ -41,9 +42,14 @@ class Player extends Creature {
         }
     }
 
-    addMonster(monster) {
+    async addMonster(monster) {
         monster.owner = this;
-        this.monsters.push(monster);
+        if (this.monsters.length < 6) {
+            this.monsters.push(monster);
+        } else {
+            await dialogue.load([{ type: "timed", line: `No room for ${monster.name}, it was moved to bank`, time: 800 }]);
+            this.bank.push(monster);
+        }
     }
 
     addItem(item) {
