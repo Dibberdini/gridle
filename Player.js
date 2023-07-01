@@ -4,6 +4,13 @@ class Player extends Creature {
         this.monsters = [];
         this.inventory = [{ type: "cancel", name: "Cancel", count: "" }];
         this.bank = [];
+        this.money = 0;
+
+        let idNum = "0_";
+        for (let i = 0; i < 8; i++) {
+            idNum += Math.round(Math.random() * 9);
+        }
+        this.id = idNum;
     }
 
     draw(x, y) {
@@ -43,7 +50,7 @@ class Player extends Creature {
     }
 
     async addMonster(monster) {
-        monster.owner = this;
+        monster.owner = this.id;
         if (this.monsters.length < 6) {
             this.monsters.push(monster);
         } else {

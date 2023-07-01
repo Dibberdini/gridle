@@ -21,5 +21,6 @@
         }
     },
     "recover": [2,5],
-    "paths": []
+    "paths": [],
+    "name": "map2.json"
 }

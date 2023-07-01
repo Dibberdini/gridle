@@ -1,5 +1,11 @@
 function preload() {
-  zone = loadJSON("./data/maps/map1.json");
+  let zoneName;
+  if (getItem("save")) {
+    zoneName = `./data/maps/${getItem("save").zone}`
+  } else {
+    zoneName = "./data/maps/map1.json"
+  }
+  zone = loadJSON(zoneName);
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
   globalCharacterList = loadJSON("./data/characters.json");
@@ -8,7 +14,7 @@ function preload() {
     loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
   });
   myFont = loadFont("./data/Minecraftia-Regular.ttf");
-  worldData = { characters: {}, pickedItems: {} };
+  worldData = { characters: {}, pickedItems: {}, player: {} };
 }
 
 function setup() {
@@ -17,10 +23,6 @@ function setup() {
   dialogue = new DialogManager();
   entities = [];
   grid = new Grid();
-  grid.loadZone(zone);
-  player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
-  worldData.player = player;
-  entities.push(player);
   frameRate(60);
   tick = 0;
   tickRate = 15;
@@ -28,6 +30,22 @@ function setup() {
   menu = new Menu();
   battle = new BattleManager();
   animationFrame = 0;
+  settings = {};
+
+  if (getItem("save")) {
+    loadSave();
+  } else {
+    newWorld();
+  }
+  saveWorld();
+
+  debug = true;
+}
+
+function newWorld() {
+  grid.loadZone(zone);
+  player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
+  entities.push(player);
   settings = { textSpeed: TEXT_SPEED.NORMAL };
 
   //Test parameters
@@ -41,7 +59,51 @@ function setup() {
   player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
   player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
   player.inventory.push(t);
-  debug = true;
+}
+
+function loadSave() {
+  worldData = getItem("save");
+  grid.loadZone(zone);
+
+  player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, 0, grid.tiles);
+  player.id = worldData.player.id;
+  player.money = worldData.player.money;
+  player.inventory = worldData.player.inventory;
+
+  worldData.player.monsters.forEach(monster => {
+    let newMonster = new Monster(monster.prototype);
+    newMonster.name = monster.name;
+    newMonster.owner = monster.owner;
+    newMonster.health = monster.health;
+    newMonster.status = monster.status;
+    newMonster.attack = monster.attack;
+    newMonster.defence = monster.defence;
+    newMonster.speed = monster.speed;
+    newMonster.maxHealth = monster.maxHealth;
+    newMonster.evasion = monster.evasion;
+    newMonster.moveSet = monster.moveSet;
+
+    player.monsters.push(newMonster);
+  });
+
+  worldData.player.bank.forEach(monster => {
+    let newMonster = new Monster(monster.prototype);
+    newMonster.name = monster.name;
+    newMonster.owner = monster.owner;
+    newMonster.health = monster.health;
+    newMonster.status = monster.status;
+    newMonster.attack = monster.attack;
+    newMonster.defence = monster.defence;
+    newMonster.speed = monster.speed;
+    newMonster.maxHealth = monster.maxHealth;
+    newMonster.evasion = monster.evasion;
+    newMonster.moveSet = monster.moveSet;
+
+    player.bank.push(newMonster);
+  });
+
+  entities.push(player);
+  settings = worldData.settings;
 }
 
 function draw() {
@@ -263,7 +325,17 @@ function resuscitate() {
 
 function saveWorld() {
   //Save player
-  worldData.player = player;
+  worldData.player.id = player.id;
+  worldData.player.x = Math.round(player.x);
+  worldData.player.y = Math.round(player.y);
+  worldData.player.direction = player.direction;
+  worldData.player.money = player.money;
+  worldData.player.monsters = player.monsters;
+  worldData.player.bank = player.bank;
+  worldData.player.inventory = player.inventory;
+
+  //Save settings
+  worldData.settings = settings;
 
   //Save questlevels of characters
   entities.forEach(entity => {
@@ -274,6 +346,13 @@ function saveWorld() {
       worldData.characters[`${entity.id}`].questLevel = entity.questLevel;
     }
   });
+
+  //Save current world
+  worldData.zone = zone.name;
+}
+
+function writeSave() {
+  storeItem("save", worldData);
 }
 
 function addToPickedItems(item) {

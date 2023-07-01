@@ -355,6 +355,7 @@ class Menu {
                 this.index = 0;
             } else if (this.index == 4) {
                 saveWorld();
+                writeSave();
                 state = this.lastState;
                 dialogue.load([{ type: "statement", line: "Game succesfully saved" }]);
             } else if (this.index == 5) {

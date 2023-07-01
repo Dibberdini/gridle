@@ -297,16 +297,14 @@ class BattleManager {
                     break;
                 } else if (i == player.monsters.length - 1) {
                     await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
-                    this.fight = false;
-                    state = STATE.WORLD;
+                    this.returnToWorld()
                     resuscitate();
                 }
             }
         } else if (this.activeEnemy.dead) {
             if (this.activeEnemy.owner == "wild") {
                 await this.rewardEXP();
-                this.fight = false;
-                state = STATE.WORLD;
+                this.returnToWorld();
             }
         } else {
             this.calculateEnemyMove();
@@ -317,7 +315,13 @@ class BattleManager {
     async caughtMonster() {
         await dialogue.load([{ type: "timed", line: `Success! ${this.activeEnemy.name} was caught!`, time: 1000 }]);
         player.addMonster(this.activeEnemy);
+        this.returnToWorld();
+    }
+
+    returnToWorld() {
         this.fight = false;
+        this.activeMonster.loadedMove = null;
+        this.activeMonster.loadedTarget = null;
         state = STATE.WORLD;
     }
 }
