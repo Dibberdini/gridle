@@ -12,7 +12,7 @@ class DialogManager {
         //Rolling text
         let stepDialogue = "";
         if (this.step < this.currentLine.line.length) {
-            this.step += TEXT_SPEED.NORMAL;
+            this.step += settings.textSpeed;
             stepDialogue = this.currentLine.line.substring(0, this.step);
         } else {
             stepDialogue = this.currentLine.line;

@@ -28,6 +28,7 @@ function setup() {
   menu = new Menu();
   battle = new BattleManager();
   animationFrame = 0;
+  settings = { textSpeed: TEXT_SPEED.NORMAL };
 
   //Test parameters
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
@@ -36,8 +37,10 @@ function setup() {
   secondmonster.setStrength(3);
   player.addMonster(firstmonster);
   player.addMonster(secondmonster);
+  let t = player.inventory.pop();
   player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
   player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
+  player.inventory.push(t);
   debug = true;
 }
 
@@ -157,6 +160,10 @@ function pauseInput() {
     menu.inputB();
   } else if (keyCode == KEYS.A_KEY) {
     menu.inputA();
+  } else if (keyCode == LEFT_ARROW) {
+    menu.indexLeft();
+  } else if (keyCode == RIGHT_ARROW) {
+    menu.indexRight();
   }
 }
 

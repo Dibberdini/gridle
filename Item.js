@@ -72,7 +72,6 @@ class Item extends Entity {
                 menu.lastState = state;
                 state = STATE.PAUSED;
                 menu.menuState = MENU_STATES.MONSTER_MENU;
-                menu.lastIndex = menu.index;
                 menu.index = 0;
                 break;
             case "ball_regular":

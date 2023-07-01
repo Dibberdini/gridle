@@ -56,6 +56,7 @@ const MENU_STATES = {
 }
 
 const TEXT_SPEED = {
+    SLOW: 0.5,
     NORMAL: 1,
     FAST: 2
 }
