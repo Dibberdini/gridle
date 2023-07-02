@@ -137,7 +137,7 @@ class Menu {
             let monster = player.monsters[i]
             //Monster stats
             text(monster.name, inset, (i * lineHeight) + padding);
-            text("Lvl: " + monster.strength, 400, (i * lineHeight) + padding)
+            text("Lvl: " + monster.level, 400, (i * lineHeight) + padding)
             text(monster.health + "/" + monster.maxHealth, 400, (i * lineHeight) + padding * 2);
             text("HP: ", inset + 5, (i * lineHeight) + padding * 2);
 

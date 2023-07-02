@@ -51,8 +51,8 @@ function newWorld() {
   //Test parameters
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
   let secondmonster = new Monster(globalMonsterList.monsters[1]);
-  firstmonster.setStrength(5);
-  secondmonster.setStrength(3);
+  firstmonster.setLevel(5);
+  secondmonster.setLevel(3);
   player.addMonster(firstmonster);
   player.addMonster(secondmonster);
   let t = player.inventory.pop();

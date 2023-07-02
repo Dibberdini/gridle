@@ -21,11 +21,11 @@ class BattleManager {
         this.selectingItem = false;
     }
 
-    encounter(monsterList, strength) {
+    encounter(monsterList, level) {
         //Pick a random monster from the zone list
         var monster = new Monster(monsterList[Math.floor(Math.random() * monsterList.length)]);
         //Set the monster to an appropriate strength-level
-        monster.setStrength(strength);
+        monster.setLevel(level);
 
         this.startBattle([monster]);
     }
@@ -211,7 +211,7 @@ class BattleManager {
 
     async rewardEXP() {
         //Calculate won EXP
-        let EXPGain = Math.ceil(Math.pow(this.activeEnemy.strength, 2.3) * this.activeMonster.prototype.growth + 20);
+        let EXPGain = Math.ceil((this.activeEnemy.prototype.yield * this.activeEnemy.level / 7));
         if (this.activeEnemy.owner != "wild") {
             EXPGain *= 1.5;
         }
@@ -221,6 +221,7 @@ class BattleManager {
         for (let i = 0; i < this.participatingMonsters.length; i++) {
             if (Object.is(this.activeMonster, this.participatingMonsters[i])) {
                 this.activeMonster.gainEXP(EXPGain);
+                this.activeEnemy.gainEV(this.activeEnemy);
                 while (this.activeMonster.outstandingEXP > 0) {
                     await sleep(100);
                 }

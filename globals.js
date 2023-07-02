@@ -76,6 +76,13 @@ const STATUSES = {
 
 }
 
+const GROWTH_RATES = {
+    FAST: "fast",
+    MEDIUM_FAST: "m_fast",
+    MEDIUM_SLOW: "m_slow",
+    SLOW: "slow"
+}
+
 const SPRITES = [
     "0.png",
     "1.png",

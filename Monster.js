@@ -5,22 +5,29 @@ class Monster {
         this.attack = monsterPrototype.attack;
         this.defence = monsterPrototype.defence;
         this.speed = monsterPrototype.speed;
+        this.special = monsterPrototype.special;
         this.maxHealth = monsterPrototype.maxHealth;
-        this.evasion = monsterPrototype.evasion;
+
         this.model = monsterPrototype.model;
         this.type = monsterPrototype.type;
         this.catchRate = monsterPrototype.catchRate;
         this.moveSet = [globalMoveList.moves[0]];
-
         this.name = monsterPrototype.name;
+        this.level = 1;
         this.experience = 0;
-        this.requiredEXP;
-        this.setRequiredEXP();
-        this.strength = 1;
+        this.requiredEXP = this.calculateRequiredEXP();
         this.health = this.maxHealth;
         this.dead = false;
         this.owner = "wild";
         this.status = "none";
+
+        this.EVs = { health: 0, attack: 0, defence: 0, special: 0, speed: 0 }
+        this.IVs = { health: 0, attack: 0, defence: 0, special: 0, speed: 0 }
+        this.IVs.health = Math.round(Math.random() * 15);
+        this.IVs.attack = Math.round(Math.random() * 15);
+        this.IVs.defence = Math.round(Math.random() * 15);
+        this.IVs.special = Math.round(Math.random() * 15);
+        this.IVs.speed = Math.round(Math.random() * 15);
 
         //Battle-specific parameters
         this.outstandingDamage = 0;
@@ -30,17 +37,12 @@ class Monster {
         this.loadedTarget;
     }
 
-    setStrength(strength) {
-        this.attack *= strength;
-        this.defence *= strength;
-        this.speed *= strength;
-        this.maxHealth *= strength;
-        this.evasion *= strength;
-        this.health *= strength;
+    setLevel(level) {
+        while (this.level < level) {
+            this.levelUp();
+        }
 
-        this.strength = strength;
-
-        this.setRequiredEXP();
+        this.requiredEXP = this.calculateRequiredEXP();
 
         //Give the monster attack-moves
         var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
@@ -79,7 +81,7 @@ class Monster {
         text(this.name, x, y)
 
         //Draw Level
-        text("Lvl: " + this.strength, x + 20, y + 25);
+        text("Lvl: " + this.level, x + 20, y + 25);
 
         //Update HP
         if (this.outstandingDamage > 0) {
@@ -139,7 +141,7 @@ class Monster {
     attackMove(move, target) {
         let moveInfo = {};
         let crit = Math.ceil(Math.random() * 2);
-        let damage = (((((2 * this.strength * crit) / 5) + 2) * move.power * (this.attack / target.defence)) / 50) + 2;
+        let damage = (((((2 * this.level * crit) / 5) + 2) * move.power * (this.attack / target.defence)) / 50) + 2;
         let random = Math.random() * 0.15 + 1;
         damage *= random;
         damage = Math.ceil(damage);
@@ -174,24 +176,80 @@ class Monster {
     checkLevelUp() {
         if (this.experience >= this.requiredEXP) {
             this.experience -= this.requiredEXP;
-            this.gainStrength();
+            this.levelUp();
         }
     }
 
-    gainStrength() {
-        this.strength++;
-        this.setRequiredEXP();
+    levelUp() {
+        this.level++;
+        this.requiredEXP = this.calculateRequiredEXP();
 
-        this.attack += this.prototype.attack;
-        this.defence += this.prototype.defence;
-        this.speed += this.prototype.speed;
-        this.maxHealth += this.prototype.maxHealth;
-        this.evasion += this.prototype.evasion;
-        this.health += this.prototype.maxHealth;
+        this.calculateStats();
 
         if (this.experience >= this.requiredEXP) {
-            this.gainStrength();
+            this.levelUp();
         }
+    }
+
+    calculateStats() {
+        let stats = ["attack", "defence", "speed", "special"]
+
+        stats.forEach(stat => {
+            this[`${stat}`] = Math.round(((((this.prototype[`${stat}`] + this.IVs[`${stat}`]) * 2 + (Math.sqrt(this.EVs[`${stat}`]) / 4)) * this.level) / 100) + 5);
+        });
+
+        let healthIncrease = Math.round(((((this.prototype.maxHealth + this.IVs.health) * 2 + (Math.sqrt(this.EVs.health) / 4)) * this.level) / 100) + this.level + 10);
+        this.health += healthIncrease - this.maxHealth;
+        this.maxHealth = healthIncrease;
+    }
+
+    gainEV(defeatedMonster) {
+        this.EVs.attack += defeatedMonster.prototype.attack;
+        if (this.EVs.attack > 25600) {
+            this.EVs.attack = 25600;
+        }
+        this.EVs.defence += defeatedMonster.prototype.defence;
+        if (this.EVs.defence > 25600) {
+            this.EVs.defence = 25600;
+        }
+        this.EVs.speed += defeatedMonster.prototype.speed;
+        if (this.EVs.speed > 25600) {
+            this.EVs.speed = 25600;
+        }
+        this.EVs.special += defeatedMonster.prototype.special;
+        if (this.EVs.special > 25600) {
+            this.EVs.special = 25600;
+        }
+        this.EVs.health += defeatedMonster.prototype.maxHealth;
+        if (this.EVs.health > 25600) {
+            this.EVs.health = 25600;
+        }
+    }
+
+    calculateRequiredEXP() {
+        let experienceToNextLevel = 0;
+        let experienceToThisLevel = 0;
+        switch (this.prototype.growth) {
+            case GROWTH_RATES.FAST:
+                experienceToNextLevel = (4 * Math.pow(this.level + 1, 3)) / 5;
+                experienceToThisLevel = (4 * Math.pow(this.level, 3)) / 5;
+                break;
+            case GROWTH_RATES.MEDIUM_FAST:
+                experienceToNextLevel = (Math.pow(this.level + 1, 3));
+                experienceToThisLevel = (Math.pow(this.level, 3));
+                break;
+            case GROWTH_RATES.MEDIUM_SLOW:
+                experienceToNextLevel = (6 / 5) * Math.pow(this.level + 1, 3) - 15 * Math.pow(this.level + 1, 2) + 100 * (this.level + 1) - 140;
+                experienceToThisLevel = (6 / 5) * Math.pow(this.level, 3) - 15 * Math.pow(this.level, 2) + 100 * this.level - 140;
+                break;
+            case GROWTH_RATES.SLOW:
+                experienceToNextLevel = (5 * Math.pow(this.level + 1, 3)) / 4;
+                experienceToThisLevel = (5 * Math.pow(this.level, 3)) / 4;
+                break;
+            default:
+                break;
+        }
+        return Math.round(experienceToNextLevel - experienceToThisLevel);
     }
 
     learnMove(moveName) {
@@ -199,10 +257,6 @@ class Monster {
         if (this.moveSet.length < 3) {
             this.moveSet.push(newMove);
         }
-    }
-
-    setRequiredEXP() {
-        this.requiredEXP = Math.ceil(1.6 * Math.pow(this.strength, 2.7) + 10);
     }
 
     catch(ballStrength, newOwner) {
