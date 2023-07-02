@@ -80,8 +80,9 @@ function loadSave() {
     newMonster.defence = monster.defence;
     newMonster.speed = monster.speed;
     newMonster.maxHealth = monster.maxHealth;
-    newMonster.evasion = monster.evasion;
     newMonster.moveSet = monster.moveSet;
+    newMonster.level = monster.level;
+    newMonster.experience = monster.experience;
 
     player.monsters.push(newMonster);
   });

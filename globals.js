@@ -83,6 +83,13 @@ const GROWTH_RATES = {
     SLOW: "slow"
 }
 
+const TYPES = {
+    normal: {},
+    fire: { water: 0.5, grass: 2 },
+    water: { fire: 2, grass: 0.5 },
+    grass: { fire: 0.5, water: 2 }
+}
+
 const SPRITES = [
     "0.png",
     "1.png",

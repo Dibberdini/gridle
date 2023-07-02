@@ -121,7 +121,7 @@ class BattleManager {
 
         //If in fight-mode check if there is a move here
         if (this.fight) {
-            if (this.activeMonster[newSelection]) {
+            if (this.activeMonster.moveSet[newSelection]) {
                 this.selector = newSelection;
                 return;
             }
@@ -129,7 +129,6 @@ class BattleManager {
                 return;
             }
         } else if (this.selectingItem) {
-            //Up
             if (dir == 2) {
                 menu.indexDown();
             } else if (dir == -2) {
@@ -219,19 +218,21 @@ class BattleManager {
 
         //Award EXP to each participating monster
         for (let i = 0; i < this.participatingMonsters.length; i++) {
+            //Show EXP-gain dialogue
+            let EXP_Message = this.participatingMonsters[i].name + " gained " + EXPGain + " experience!";
+            await dialogue.load([{ type: "timed", line: EXP_Message, time: 400 }]);
+
             if (Object.is(this.activeMonster, this.participatingMonsters[i])) {
                 this.activeMonster.gainEXP(EXPGain);
                 this.activeEnemy.gainEV(this.activeEnemy);
                 while (this.activeMonster.outstandingEXP > 0) {
                     await sleep(100);
                 }
+                await sleep(500);
             } else {
                 this.participatingMonsters[i].experience += (EXPGain)
-                this.participatingMonsters[i].checkLevelUp();
+                this.participatingMonsters[i].checkLevelUp(false);
             }
-            //Show EXP-gain dialogue
-            let EXP_Message = this.participatingMonsters[i].name + " gained " + EXPGain + " experience!";
-            await dialogue.load([{ type: "timed", line: EXP_Message, time: 1000 }])
         }
 
     }
@@ -266,7 +267,7 @@ class BattleManager {
 
                 //Setup message to display while move is carried out.
                 let message = monster.name + " used " + monster.loadedMove.name + "!";
-                if (!Object.is(monster.owner, player)) {
+                if (monster.owner != player.id) {
                     message = "Enemy " + message;
                 }
                 dialogue.load([{ type: "battle", line: message }]);
@@ -275,11 +276,16 @@ class BattleManager {
                 while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length) {
                     await sleep(50);
                 }
-                await sleep(200)
+                await sleep(400)
                 if (move.crit) {
                     await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
-                } else {
-                    await sleep(800);
+                }
+                if (move.effectiveness) {
+                    if (move.effectiveness == 0.5) {
+                        await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 800 }]);
+                    } else if (move.effectiveness == 2) {
+                        await dialogue.load([{ type: "timed", line: "It's super effective!", time: 800 }]);
+                    }
                 }
             }
         }
