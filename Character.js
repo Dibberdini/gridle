@@ -28,12 +28,12 @@ class Character extends Creature {
         }
     }
 
-    interact(origin) {
+    async interact(origin) {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.direction = newDir;
         super.draw(player.x, player.y);
         if (this.dialogues[`${this.questLevel}`]) {
-            dialogue.speak(this.dialogues[`${this.questLevel}`], this);
+            await dialogue.speak(this.dialogues[`${this.questLevel}`], this);
         }
         if (this.role == CHARACTER_ROLES.HEALER) {
             player.healAllMonsters();

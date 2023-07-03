@@ -10,7 +10,8 @@
                 ],
                 "100": [
                     {"type": "statement","line": "Boy, I hope they add in more features soon."},
-                    {"type": "statement","line": "I hear they just added multiple lines!"}
+                    {"type": "statement","line": "I hear they just added multiple lines!"},
+                    {"type": "statment", "line": "I'm super excited about that..."}
                 ]}
         },
         {

@@ -381,7 +381,9 @@ class Menu {
                         break;
                 }
                 this.selected = false;
-                this.index = this.lastIndex;
+                if (this.menuState == MENU_STATES.ITEM_MENU) {
+                    this.index = this.lastIndex;
+                }
             } else {
                 let itemType = player.inventory[this.index + this.offset].type;
                 if (itemType == "cancel") {

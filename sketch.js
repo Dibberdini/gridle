@@ -42,71 +42,6 @@ function setup() {
   debug = true;
 }
 
-function newWorld() {
-  grid.loadZone(zone);
-  player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
-  entities.push(player);
-  settings = { textSpeed: TEXT_SPEED.NORMAL };
-
-  //Test parameters
-  let firstmonster = new Monster(globalMonsterList.monsters[0]);
-  let secondmonster = new Monster(globalMonsterList.monsters[1]);
-  firstmonster.setLevel(5);
-  secondmonster.setLevel(3);
-  player.addMonster(firstmonster);
-  player.addMonster(secondmonster);
-  let t = player.inventory.pop();
-  player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
-  player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
-  player.inventory.push(t);
-}
-
-function loadSave() {
-  worldData = getItem("save");
-  grid.loadZone(zone);
-
-  player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, 0, grid.tiles);
-  player.id = worldData.player.id;
-  player.money = worldData.player.money;
-  player.inventory = worldData.player.inventory;
-
-  worldData.player.monsters.forEach(monster => {
-    let newMonster = new Monster(monster.prototype);
-    newMonster.name = monster.name;
-    newMonster.owner = monster.owner;
-    newMonster.health = monster.health;
-    newMonster.status = monster.status;
-    newMonster.attack = monster.attack;
-    newMonster.defence = monster.defence;
-    newMonster.speed = monster.speed;
-    newMonster.maxHealth = monster.maxHealth;
-    newMonster.moveSet = monster.moveSet;
-    newMonster.level = monster.level;
-    newMonster.experience = monster.experience;
-
-    player.monsters.push(newMonster);
-  });
-
-  worldData.player.bank.forEach(monster => {
-    let newMonster = new Monster(monster.prototype);
-    newMonster.name = monster.name;
-    newMonster.owner = monster.owner;
-    newMonster.health = monster.health;
-    newMonster.status = monster.status;
-    newMonster.attack = monster.attack;
-    newMonster.defence = monster.defence;
-    newMonster.speed = monster.speed;
-    newMonster.maxHealth = monster.maxHealth;
-    newMonster.evasion = monster.evasion;
-    newMonster.moveSet = monster.moveSet;
-
-    player.bank.push(newMonster);
-  });
-
-  entities.push(player);
-  settings = worldData.settings;
-}
-
 function draw() {
   if (state == STATE.WORLD) {
     background(0);
@@ -371,4 +306,69 @@ function download(content, fileName, contentType) {
 function downloadSave() {
   let data = JSON.stringify(getItem("save"));
   download(data, 'gridle.json', 'text/plain');
+}
+
+function newWorld() {
+  grid.loadZone(zone);
+  player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
+  entities.push(player);
+  settings = { textSpeed: TEXT_SPEED.NORMAL };
+
+  //Test parameters
+  let firstmonster = new Monster(globalMonsterList.monsters[0]);
+  let secondmonster = new Monster(globalMonsterList.monsters[1]);
+  firstmonster.setLevel(5);
+  secondmonster.setLevel(3);
+  player.addMonster(firstmonster);
+  player.addMonster(secondmonster);
+  let t = player.inventory.pop();
+  player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
+  player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
+  player.inventory.push(t);
+}
+
+function loadSave() {
+  worldData = getItem("save");
+  grid.loadZone(zone);
+
+  player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, 0, grid.tiles);
+  player.id = worldData.player.id;
+  player.money = worldData.player.money;
+  player.inventory = worldData.player.inventory;
+
+  worldData.player.monsters.forEach(monster => {
+    let newMonster = new Monster(monster.prototype);
+    newMonster.name = monster.name;
+    newMonster.owner = monster.owner;
+    newMonster.health = monster.health;
+    newMonster.status = monster.status;
+    newMonster.attack = monster.attack;
+    newMonster.defence = monster.defence;
+    newMonster.speed = monster.speed;
+    newMonster.maxHealth = monster.maxHealth;
+    newMonster.moveSet = monster.moveSet;
+    newMonster.level = monster.level;
+    newMonster.experience = monster.experience;
+
+    player.monsters.push(newMonster);
+  });
+
+  worldData.player.bank.forEach(monster => {
+    let newMonster = new Monster(monster.prototype);
+    newMonster.name = monster.name;
+    newMonster.owner = monster.owner;
+    newMonster.health = monster.health;
+    newMonster.status = monster.status;
+    newMonster.attack = monster.attack;
+    newMonster.defence = monster.defence;
+    newMonster.speed = monster.speed;
+    newMonster.maxHealth = monster.maxHealth;
+    newMonster.evasion = monster.evasion;
+    newMonster.moveSet = monster.moveSet;
+
+    player.bank.push(newMonster);
+  });
+
+  entities.push(player);
+  settings = worldData.settings;
 }

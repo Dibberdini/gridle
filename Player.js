@@ -37,7 +37,7 @@ class Player extends Creature {
                 if (Math.random() < 0.2) {
                     let monsterList = [];
                     for (let i = 0; i < zone.monsters.length; i++) {
-                        monsterList.push(globalMonsterList.monsters[zone.monsters[i]]);
+                        monsterList.push(globalMonsterList.monsters.find(monster => monster.id == zone.monsters[i]));
                     }
                     battle.encounter(monsterList, zone.zone_strength);
                     this.step = [0, 0];

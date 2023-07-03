@@ -5,7 +5,10 @@ class DialogManager {
         this.lastState;
         this.step = 0;
         this.speaker = null;
-        this.index = 0;
+        this.index = 1;
+        this.answer = null;
+
+        this.options = ["No", "Yes"];
     }
 
     draw() {
@@ -27,13 +30,25 @@ class DialogManager {
 
         //Draw reply box
         if (this.currentLine.type == DIALOGUE_TYPE.QUESTION) {
-            rect(width - 100, height - 220, 98.5, 80)
+            let chars = 0;
+            let charWidth = 25
+            this.options.forEach(option => {
+                if (option.length > chars) {
+                    chars = option.length;
+                }
+            });
+            let w = chars * charWidth + 10;
+            let h = 35 * this.options.length;
+            let x = width - 1.5 - w;
+            let y = height - 140 - h;
+            rect(x, y, w, h);
             textSize(24)
             fill(0);
             noStroke();
-            text("Yes", width - 75, height - 173);
-            text("No", width - 75, height - 138);
-            this.drawSelector(width - 88, height - 208 + this.index * 30);
+            for (let i = 0; i < this.options.length; i++) {
+                text(this.options[i], x + 27, y + h + 5 - i * 30);
+            }
+            this.drawSelector(x + 10, y + h - 28 - this.index * 30);
         }
 
         //Draw dialog
@@ -50,49 +65,101 @@ class DialogManager {
         this.lastState = state;
         this.currentDialogue = dialogue.map((x) => x);
         this.currentLine = this.currentDialogue[0];
-        this.step = 0;
         state = STATE.DIALOGUE;
+
+        await this.display();
+    }
+
+    async display() {
+        this.continue = false;
+        this.index = 1;
+        this.step = 0;
+        this.answer = null;
+
         if (this.currentLine.type == DIALOGUE_TYPE.BATTLE) {
             state = this.lastState;
-        } else if (this.currentLine.type == DIALOGUE_TYPE.TIMED) {
-            while (this.step < this.currentLine.line.length) {
-                await sleep(50);
-            }
+            return;
+        }
+
+        //Wait until rolling text is done
+        while (this.step < this.currentLine.line.length) {
+            await sleep(5);
+        }
+
+        //If this is timed dialogue wait until the timer is done
+        if (this.currentLine.type == DIALOGUE_TYPE.TIMED) {
             await sleep(this.currentLine.time);
             state = this.lastState;
+            return;
+        }
+
+        //Otherwise, wait until continue is pressed;
+        while (!this.continue) {
+            await sleep(1);
+        }
+
+        //Check if this line advances relationship with character
+        if (this.currentLine.gain) {
+            this.speaker.setQuest(parseInt(this.currentLine.gain));
+        }
+
+        //If this is a question and the is 'no', skip the following yes-reply in the array.
+        if (this.currentLine.type == DIALOGUE_TYPE.QUESTION && this.answer == "No") {
+            this.currentDialogue.shift();
+        } else if (this.currentLine.type == DIALOGUE_TYPE.REPLY_YES) {
+            //If this line is a yes-reply skip the following no-reply in the array.
+            this.currentDialogue.shift();
+        }
+
+        this.currentDialogue.shift();
+        //Check if there are more lines.
+        if (this.currentDialogue.length > 0) {
+            this.currentLine = this.currentDialogue[0];
+            this.display();
+        } else {
+            state = this.lastState;
+            this.speaker = null;
         }
     }
 
-    speak(dialogue, speaker) {
+
+    async speak(dialogue, speaker) {
         this.speaker = speaker;
-        this.load(dialogue);
+        await this.load(dialogue);
+    }
+
+    async ask(newLine) {
+        if (this.options[1] == "Yes") {
+            this.index = 1;
+        } else {
+            this.index = 0;
+        }
+        this.continue = false;
+        this.answer = null;
+        this.lastState = state;
+        this.step = 0;
+        state = STATE.DIALOGUE;
+        this.currentLine = { type: DIALOGUE_TYPE.QUESTION, line: newLine };
+
+        while (this.step < this.currentLine.line.length) {
+            await sleep(5);
+        }
+
+        while (!this.continue) {
+            await sleep(1);
+        }
+        state = this.lastState;
+        this.options = ["No", "Yes"];
+        this.index = 1;
+        return this.answer;
     }
 
     inputA() {
         //Check if rolling text is done.
         if (this.step >= this.currentLine.line.length) {
-            //Check if this line advances relationship with character
-            if (this.currentLine.gain) {
-                this.speaker.setQuest(parseInt(this.currentLine.gain));
-            }
+            this.continue = true;
             if (this.currentLine.type == DIALOGUE_TYPE.QUESTION) {
-                //If this is a question and the index is at the 'no'-position, skip the following yes-reply in the array.
-                if (this.index == 1) {
-                    this.currentDialogue.shift();
-                }
-            } else if (this.currentLine.type == DIALOGUE_TYPE.REPLY_YES) {
-                //If this line is a yes-reply skip the following no-reply in the array.
-                this.currentDialogue.shift();
-            }
-            this.currentDialogue.shift();
-            this.index = 0;
-            //Check if there are more lines.
-            if (this.currentDialogue.length > 0) {
-                this.currentLine = this.currentDialogue[0];
-                this.step = 0;
-            } else {
-                state = this.lastState;
-                this.speaker = null;
+                this.answer = this.options[this.index];
             }
         } else {
             this.step = this.currentLine.line.length;
@@ -100,12 +167,19 @@ class DialogManager {
     }
 
     inputB() {
-        if (this.currentLine.type == "question" && this.step >= this.currentLine.line.length) {
-            this.index = 1;
-            this.draw();
-            this.inputA();
+        if (this.step >= this.currentLine.line.length) {
+            if (this.currentLine.type == DIALOGUE_TYPE.QUESTION) {
+                if (this.options[1] == "Yes") {
+                    this.index = 1;
+                    this.draw();
+                    this.inputA();
+                } else {
+                    this.continue = true;
+                    this.answer = false;
+                }
+            }
         } else {
-            this.inputA();
+            this.step = this.currentLine.line.length;
         }
     }
 
@@ -122,14 +196,14 @@ class DialogManager {
     }
 
     indexDown() {
-        if (this.index == 0 && this.step >= this.currentLine.line.length) {
-            this.index = 1;
+        if (this.index != 0 && this.step >= this.currentLine.line.length) {
+            this.index--
         }
     }
 
     indexUp() {
-        if (this.index == 1 && this.step >= this.currentLine.line.length) {
-            this.index = 0;
+        if (this.index != this.options.length - 1 && this.step >= this.currentLine.line.length) {
+            this.index++;
         }
     }
 }

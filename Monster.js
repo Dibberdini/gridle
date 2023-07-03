@@ -48,7 +48,8 @@ class Monster {
         while (monsterMoveList.length > 0 && this.moveSet.length < 4) {
             let highestMove = monsterMoveList.pop();
             if (this.level >= highestMove.level) {
-                this.learnMove(highestMove.id);
+                var newMove = globalMoveList.moves.find(move => move.id == highestMove.id);
+                this.moveSet.push(newMove);
             }
         }
     }
@@ -131,7 +132,6 @@ class Monster {
         if (this.outstandingEXP > 0) {
             this.experience++;
             this.outstandingEXP--;
-            await this.checkLevelUp(true);
         }
 
         pop();
@@ -184,32 +184,27 @@ class Monster {
         this.outstandingEXP += exp;
     }
 
-    async checkLevelUp(showDialogue) {
+    checkLevelUp() {
         if (this.experience >= this.requiredEXP) {
-            this.experience -= this.requiredEXP;
-            await this.levelUp(showDialogue);
+            return true;
         }
     }
 
-    async levelUp(showDialogue) {
+    async levelUp() {
+        this.experience -= this.requiredEXP;
         this.level++;
         this.requiredEXP = this.calculateRequiredEXP();
         this.calculateStats();
 
-        if (showDialogue) {
-            if (state = STATE.BATTLE) {
-                battle.draw();
-            }
-            await dialogue.load([{ type: "timed", line: `${this.name} rose to level ${this.level}!`, time: 700 }]);
+        if (state == STATE.BATTLE) {
+            battle.draw();
         }
+        await dialogue.load([{ type: "timed", line: `${this.name} rose to level ${this.level}`, time: 700 }]);
 
         var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
         for (let i = 0; i < monsterMoveList.length; i++) {
             if (monsterMoveList[i].level == this.level) {
-                if (this.moveSet.length < 4) {
-                    this.learnMove(monsterMoveList[i].id);
-                    dialogue.load([{ type: "timed", line: `${this.name} learned ${monsterMoveList[i].name}!`, time: 700 }]);
-                }
+                await this.learnMove(monsterMoveList[i].id);
             }
         }
 
@@ -279,10 +274,44 @@ class Monster {
         return Math.round(experienceToNextLevel - experienceToThisLevel);
     }
 
-    learnMove(moveId) {
-        var newMove = globalMoveList.moves.find(move => move.id == moveId);
-        if (this.moveSet.length < 3) {
+    async learnMove(moveId) {
+        if (this.moveSet.length < 4) {
+            var newMove = globalMoveList.moves.find(move => move.id == moveId);
             this.moveSet.push(newMove);
+            await dialogue.load([{ type: "statement", line: `${this.name} learned ${newMove.name}!` }]);
+        } else {
+            await this.tooManyMoves(moveId);
+        }
+    }
+
+    async tooManyMoves(moveId) {
+        var newMove = globalMoveList.moves.find(move => move.id == moveId);
+        await dialogue.load([{ type: "statement", line: `${this.name} is trying to learn ${newMove.name},` }]);
+        await dialogue.load([{ type: "statement", line: "but it already knows 4 moves." }]);
+        let learn = await dialogue.ask("Delete a move to make room for this one?");
+        if (learn == "No") {
+            await dialogue.load([{ type: "statement", line: `${this.name} did not learn ${newMove.name}.` }]);
+        } else {
+            dialogue.options = [];
+            for (let i = 0; i < this.moveSet.length; i++) {
+                dialogue.options.push(this.moveSet[i].name);
+            }
+            let choice = await dialogue.ask("Which move should be forgotten?");
+            if (choice == false) {
+                this.tooManyMoves(moveId);
+                return;
+            } else {
+                for (let i = 0; i < this.moveSet.length; i++) {
+                    if (this.moveSet[i].name == choice) {
+                        this.moveSet[i] = newMove;
+                        break;
+                    }
+                }
+                await dialogue.load([
+                    { type: "statement", line: "Poof!" },
+                    { type: "statement", line: `${this.name} forgot ${choice}, and...` },
+                    { type: "statement", line: `${this.name} learned ${newMove.name}!` }]);
+            }
         }
     }
 

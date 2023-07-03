@@ -71,8 +71,8 @@ class Item extends Entity {
                 menu.loadedItem = { heal: 20 }
                 menu.lastState = state;
                 state = STATE.PAUSED;
-                menu.menuState = MENU_STATES.MONSTER_MENU;
                 menu.index = 0;
+                menu.menuState = MENU_STATES.MONSTER_MENU;
                 break;
             case "ball_regular":
                 battle.selectingItem = false;

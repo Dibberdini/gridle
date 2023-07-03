@@ -218,20 +218,27 @@ class BattleManager {
 
         //Award EXP to each participating monster
         for (let i = 0; i < this.participatingMonsters.length; i++) {
+            let monster = this.participatingMonsters[i];
             //Show EXP-gain dialogue
-            let EXP_Message = this.participatingMonsters[i].name + " gained " + EXPGain + " experience!";
-            await dialogue.load([{ type: "timed", line: EXP_Message, time: 400 }]);
+            let EXP_Message = monster.name + " gained " + EXPGain + " experience!";
+            await dialogue.load([{ type: "timed", line: EXP_Message, time: 500 }]);
 
-            if (Object.is(this.activeMonster, this.participatingMonsters[i])) {
-                this.activeMonster.gainEXP(EXPGain);
-                this.activeEnemy.gainEV(this.activeEnemy);
-                while (this.activeMonster.outstandingEXP > 0) {
-                    await sleep(100);
+            if (Object.is(this.activeMonster, monster)) {
+                monster.gainEXP(EXPGain);
+                while (monster.outstandingEXP > 0) {
+                    await sleep(5);
+                    if (monster.checkLevelUp()) {
+                        await monster.levelUp();
+                    }
                 }
                 await sleep(500);
             } else {
-                this.participatingMonsters[i].experience += (EXPGain)
-                this.participatingMonsters[i].checkLevelUp(false);
+                monster.experience += (EXPGain)
+                monster.gainEV(this.activeEnemy);
+                if (monster.checkLevelUp()) {
+                    await monster.levelUp();
+                }
+
             }
         }
 
