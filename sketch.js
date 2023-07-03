@@ -316,7 +316,7 @@ function newWorld() {
 
   //Test parameters
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
-  let secondmonster = new Monster(globalMonsterList.monsters[1]);
+  let secondmonster = new Monster(globalMonsterList.monsters[2]);
   firstmonster.setLevel(5);
   secondmonster.setLevel(3);
   player.addMonster(firstmonster);

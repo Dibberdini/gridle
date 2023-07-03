@@ -4,15 +4,25 @@
                 {"name":"Booper",
                 "attack":48, "defence":65, "speed": 43, "maxHealth":44,
                 "special": 50, "model":0, "type":["water"], "id": 1,
-                "growth": "m_slow","catchRate": 45, "yield": 63},
+                "growth": "m_slow","catchRate": 45, "yield": 63,
+                "nextForm": {"level": 15, "id": 2}},
+                {"name": "Dooper",
+                "attack":59, "defence": 80, "speed": 58, "maxHealth":59,
+                "special": 65, "model": 0, "type":["water"], "id": 2,
+                "growth": "m_slow","catchRate": 45, "yield": 142},
                 {"name":"Screpper",
                 "attack":56, "defence":35, "speed": 72, "maxHealth":30,
-                "special": 25,"model":0, "type":["fire"], "id": 2,
+                "special": 25,"model":0, "type":["fire"], "id": 3,
                 "growth": "m_fast", "catchRate": 255, "yield": 51}
                 ],
     "learnset":
                 [
                 {"name":"Booper", "moves": [
+                    {"id": 1, "name": "Scramble", "level": 1},
+                    {"id": 2, "name": "Bubble", "level": 7},
+                    {"id": 3, "name": "Scrape", "level": 14}
+                ]},
+                {"name":"Dooper", "moves": [
                     {"id": 1, "name": "Scramble", "level": 1},
                     {"id": 2, "name": "Bubble", "level": 7},
                     {"id": 3, "name": "Scrape", "level": 14}

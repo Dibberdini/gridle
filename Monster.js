@@ -210,7 +210,49 @@ class Monster {
 
         if (this.experience >= this.requiredEXP) {
             this.levelUp(showDialogue);
+            return;
         }
+
+        if (this.prototype.nextForm && this.level >= this.prototype.nextForm.level) {
+            await this.evolve();
+        }
+    }
+
+    async evolve() {
+        let newName = this.species;
+        let newPrototype = globalMonsterList.monsters.find(monster => monster.id == this.prototype.nextForm.id);
+        this.prototype = newPrototype;
+        this.species = this.prototype.name;
+        this.calculateStats();
+        this.requiredEXP = this.calculateRequiredEXP();
+
+        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
+        monsterMoveList = monsterMoveList.map((x) => x);
+        while (monsterMoveList.length > 0 && this.moveSet.length < 4) {
+            let highestMove = monsterMoveList.pop();
+            if (this.level >= highestMove.level) {
+                if (this.knowsMove(highestMove.id)) {
+                    break;
+                } else {
+                    this.learnMove(highestMove.id);
+                    break;
+                }
+            }
+        }
+        await dialogue.load([{ type: "statement", line: `${this.name} evolved into ${this.prototype.name}!` }]);
+
+        if (this.name == newName) {
+            this.name = this.species;
+        }
+    }
+
+    knowsMove(moveId) {
+        for (let i = 0; i < this.moveSet.length; i++) {
+            if (this.moveSet[i].id == moveId) {
+                return true;
+            }
+        }
+        return false;
     }
 
     calculateStats() {
