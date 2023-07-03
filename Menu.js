@@ -12,6 +12,7 @@ class Menu {
         this.switching = false;
         this.offset = 0;
         this.loadedItem = null;
+        this.loadedMonster = null;
 
         this.mainMenuSelections = [
             "Bojstiary",
@@ -48,6 +49,9 @@ class Menu {
                 break;
             case MENU_STATES.MONSTER_MENU:
                 this.drawMonsterMenu();
+                break;
+            case MENU_STATES.STATS_MENU:
+                this.drawStatsMenu();
                 break;
             default:
                 break;
@@ -171,6 +175,37 @@ class Menu {
                 text(this.monsterMenuSelections[i], width - 120, height - 70 + i * 35);
             }
         }
+    }
+
+    drawStatsMenu() {
+        push();
+        let monster = this.loadedMonster;
+        background(230);
+        textSize(26);
+        let lineHeight = 35
+        text(`${monster.name}   //   ${monster.species}`, 20, 40);
+        text(`Attack: ${monster.attack}`, 30, 10 + lineHeight * 2);
+        text(`Defence: ${monster.defence}`, 30, 10 + lineHeight * 3);
+        text(`Speed: ${monster.speed}`, 30, 10 + lineHeight * 4);
+        text(`Special: ${monster.special}`, 30, 10 + lineHeight * 5);
+        text(`Health: ${monster.health}/${monster.maxHealth}`, 30, 10 + lineHeight * 6);
+
+        text(`Moves`, 300, 400);
+        for (let i = 0; i < monster.moveSet.length; i++) {
+            text(`${monster.moveSet[i].name}`, 320, 400 + (i + 1) * lineHeight);
+        }
+
+        text(`Type`, 20, 400);
+        if (monster.type[0]) {
+            text(`${monster.type[0]}`, 30, 400 + lineHeight);
+        }
+        if (monster.type[1]) {
+            text(`${monster.type[1]}`, 100, 400 + lineHeight);
+        }
+
+        monster.drawModel(width - 250, 40);
+
+        pop();
     }
 
     drawCursor() {
@@ -338,6 +373,9 @@ class Menu {
                 this.menuState = MENU_STATES.MAIN_MENU;
                 this.index = 1;
             }
+        } else if (this.menuState == MENU_STATES.STATS_MENU) {
+            this.loadedMonster = null;
+            this.menuState = MENU_STATES.MONSTER_MENU;
         }
     }
 
@@ -402,7 +440,8 @@ class Menu {
         } else if (this.menuState == MENU_STATES.MONSTER_MENU) {
             if (this.selected) {
                 if (this.index == 0) {
-                    console.log(player.monsters[this.lastIndex]);
+                    this.loadedMonster = player.monsters[this.lastIndex];
+                    this.menuState = MENU_STATES.STATS_MENU;
                 } else if (this.index == 1) {
                     if (this.lastState == STATE.BATTLE) {
                         this.selected = false;
