@@ -275,8 +275,17 @@ class Monster {
     }
 
     async learnMove(moveId) {
+        var newMove = globalMoveList.moves.find(move => move.id == moveId);
+        for (let i = 0; i < this.moveSet.length; i++) {
+            if (this.moveSet[i].id == moveId) {
+                await dialogue.load([
+                    { type: "statement", line: `${this.name} is trying to learn ${newMove.name},` },
+                    { type: "statement", line: "but it already knows it" }]);
+                return;
+            }
+        }
+
         if (this.moveSet.length < 4) {
-            var newMove = globalMoveList.moves.find(move => move.id == moveId);
             this.moveSet.push(newMove);
             await dialogue.load([{ type: "statement", line: `${this.name} learned ${newMove.name}!` }]);
         } else {
