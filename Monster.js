@@ -376,7 +376,7 @@ class Monster {
         }
     }
 
-    catch(ballStrength, newOwner) {
+    catch(ballStrength) {
         let random = Math.round(Math.random() * (255 - ballStrength));
         let status = 0
         if (this.status == STATUSES.ASLEEP || this.status == STATUSES.FROZEN) {
@@ -391,7 +391,7 @@ class Monster {
         let fortitude = this.maxHealth * 255;
         if (ballStrength == 55) {
             fortitude = Math.ceil(fortitude / 8);
-        } else if (ballStrength == 105) {
+        } else {
             fortitude = Math.ceil(fortitude / 12);
         }
         let health = Math.ceil(this.health / 4);

@@ -82,7 +82,7 @@ class Item extends Entity {
                 player.removeItem(index);
                 battle.draw();
                 await AnimationManager.throwBall();
-                if (battle.activeEnemy.catch(0, player)) {
+                if (battle.activeEnemy.catch(0)) {
                     await battle.caughtMonster();
                 } else {
                     await dialogue.load([{ type: "statement", line: "Oh no! it broke free!" }]);
