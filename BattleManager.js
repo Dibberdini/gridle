@@ -152,8 +152,6 @@ class BattleManager {
                 await menu.inputA();
                 //Check that item didn't kill or catch enemy.
                 if (this.activeEnemy.dead == false && this.activeEnemy.owner != player.id) {
-                    console.log("lesgo");
-                    console.log(this.activeEnemy.owner);
                     this.performTurn();
                 }
             } else {
@@ -225,9 +223,11 @@ class BattleManager {
         //Award EXP to each participating monster
         for (let i = 0; i < this.participatingMonsters.length; i++) {
             let monster = this.participatingMonsters[i];
-            //Show EXP-gain dialogue
-            let EXP_Message = monster.name + " gained " + EXPGain + " experience!";
-            await dialogue.load([{ type: "timed", line: EXP_Message, time: 500 }]);
+            if (!monster.dead) {
+                //Show EXP-gain dialogue
+                let EXP_Message = monster.name + " gained " + EXPGain + " experience!";
+                await dialogue.load([{ type: "timed", line: EXP_Message, time: 500 }]);
+            }
 
             if (Object.is(this.activeMonster, monster)) {
                 monster.gainEXP(EXPGain);
@@ -238,7 +238,7 @@ class BattleManager {
                     }
                 }
                 await sleep(500);
-            } else {
+            } else if (!monster.dead) {
                 monster.experience += (EXPGain)
                 monster.gainEV(this.activeEnemy);
                 if (monster.checkLevelUp()) {
@@ -309,10 +309,9 @@ class BattleManager {
             for (let i = 0; i < player.monsters.length; i++) {
                 //- Find the next living monster, otherwise end battle.
                 if (player.monsters[i] && !player.monsters[i].dead) {
-                    this.changeMonster(player.monsters[i], true);
+                    await this.changeMonster(player.monsters[i], true);
                     this.fight = false;
                     this.selector = 0;
-                    await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " you're up!", time: 1000 }])
                     this.playerTurn = true;
                     break;
                 } else if (i == player.monsters.length - 1) {

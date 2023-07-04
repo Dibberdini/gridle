@@ -149,8 +149,6 @@ class Monster {
             crit = 2;
         }
         let damage = (((((2 * this.level * crit) / 5) + 2) * move.power * (this.attack / target.defence)) / 50) + 2;
-        let random = Math.random() * 0.15 + 1;
-        damage *= random;
         damage = Math.ceil(damage);
 
         if (move.type == this.type[0] || move.type == this.type[1]) {
@@ -161,6 +159,8 @@ class Monster {
             damage *= effectiveness;
             moveInfo.effectiveness = effectiveness;
         }
+        let random = map(Math.random(), 0, 1, 217, 255) / 255;
+        damage = Math.round(damage * random);
         target.takeDamage(damage);
         return moveInfo;
     }
