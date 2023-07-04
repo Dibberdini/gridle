@@ -14,10 +14,25 @@ class Entity {
     }
 
     interact() {
-
+        if (this.type && this.type == "PC") {
+            menu.menuState = MENU_STATES.BANK_MENU;
+            menu.lastIndex = menu.index;
+            menu.index = 0;
+            state = STATE.PAUSED;
+        }
     }
 
-    draw() {
+    draw(x, y) {
+        let newX = this.x + 4 - x;
+        let newY = this.y + 4 - y;
 
+        if (this.model == 0) {
+            push()
+            fill(255, 0, 255);
+            noStroke();
+            ellipseMode(CORNER);
+            circle(newX * TILE_WIDTH, newY * TILE_HEIGHT, TILE_WIDTH);
+            pop();
+        }
     }
 }

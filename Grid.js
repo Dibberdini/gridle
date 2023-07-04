@@ -44,6 +44,12 @@ class Grid {
                 entities.push(new Item(item.x, item.y, item.id, item.type, null, this.tiles));
             }
         });
+        //Add all entities
+        zone.entities.forEach(entity => {
+            let newEntity = new Entity(entity.x, entity.y, entity.model, this.tiles);
+            newEntity.type = entity.type;
+            entities.push(newEntity);
+        });
     }
 
     draw() {

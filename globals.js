@@ -53,7 +53,8 @@ const MENU_STATES = {
     BESTIARY_MENU: "beast",
     SETTINGS_MENU: "settings",
     STATS_MENU: "stats",
-    ITEM_MENU: "item"
+    ITEM_MENU: "item",
+    BANK_MENU: "bank"
 }
 
 const TEXT_SPEED = {

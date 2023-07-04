@@ -53,6 +53,9 @@ class Menu {
             case MENU_STATES.STATS_MENU:
                 this.drawStatsMenu();
                 break;
+            case MENU_STATES.BANK_MENU:
+                this.drawBankMenu();
+                break;
             default:
                 break;
         }
@@ -204,6 +207,13 @@ class Menu {
         }
 
         monster.drawModel(width - 250, 40);
+
+        pop();
+    }
+
+    drawBankMenu() {
+        push();
+        background(230);
 
         pop();
     }
@@ -376,6 +386,10 @@ class Menu {
         } else if (this.menuState == MENU_STATES.STATS_MENU) {
             this.loadedMonster = null;
             this.menuState = MENU_STATES.MONSTER_MENU;
+        } else if (this.menuState == MENU_STATES.BANK_MENU) {
+            this.index = this.lastIndex;
+            this.menuState = MENU_STATES.MAIN_MENU;
+            state = STATE.WORLD;
         }
     }
 
