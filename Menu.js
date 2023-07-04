@@ -13,6 +13,8 @@ class Menu {
         this.offset = 0;
         this.loadedItem = null;
         this.loadedMonster = null;
+        this.withdrawing = false;
+        this.depositing = false;
 
         this.mainMenuSelections = [
             "Bojstiary",
@@ -213,8 +215,32 @@ class Menu {
 
     drawBankMenu() {
         push();
+        textSize(24);
         background(230);
+        let monsters = [];
+        if (this.withdrawing) {
+            monsters = player.bank;
+        } else if (this.depositing) {
+            monsters = player.monsters;
+        }
 
+        if (monsters.length > 0) {
+            for (let i = 0; i < 8; i++) {
+                if (monsters[i + this.offset]) {
+                    text(`LVL: ${monsters[i + this.offset].level}  |  ${monsters[i + this.offset].name}`, 80, 100 + i * 40);
+                }
+            }
+            if (this.offset > 0) {
+                triangle(40, 40, 45, 35, 50, 40);
+            }
+            if (monsters.length > this.offset + 8) {
+                triangle(40, 400, 45, 405, 50, 400);
+            }
+        } else {
+            text("Withdraw", 250, 300);
+            text("Deposit", 250, 350);
+            text("Cancel", 250, 400);
+        }
         pop();
     }
 
@@ -258,6 +284,13 @@ class Menu {
                 }
                 this.index == 1 ? opacity = 255 : opacity = 140;
                 this.drawSelector(53, height - 72, opacity);
+            case MENU_STATES.BANK_MENU:
+                if (this.withdrawing || this.depositing) {
+                    this.drawSelector(55, 65 + (this.index - this.offset) * 40, 0);
+                } else {
+                    this.drawSelector(230, 264 + this.index * 51, 0);
+                }
+                break;
             default:
                 break;
         }
@@ -275,6 +308,11 @@ class Menu {
             }
         } else if (this.menuState == MENU_STATES.SETTINGS_MENU && this.index != 0) {
             this.index--;
+        } else if (this.menuState == MENU_STATES.BANK_MENU && this.index != 0) {
+            this.index--;
+            if (this.index == this.offset - 1) {
+                this.offset--;
+            }
         }
     }
 
@@ -298,6 +336,20 @@ class Menu {
             }
         } else if (this.menuState == MENU_STATES.SETTINGS_MENU && this.index != 1) {
             this.index++;
+        } else if (this.menuState == MENU_STATES.BANK_MENU) {
+            if (this.withdrawing && this.index < player.bank.length - 1) {
+                this.index++;
+                if (this.index == this.offset + 8) {
+                    this.offset++;
+                }
+            } else if (this.depositing && this.index < player.monsters.length - 1) {
+                this.index++;
+                if (this.index == this.offset + 8) {
+                    this.offset++;
+                }
+            } else if (!this.withdrawing && !this.depositing && this.index < 2) {
+                this.index++;
+            }
         }
     }
 
@@ -387,9 +439,17 @@ class Menu {
             this.loadedMonster = null;
             this.menuState = MENU_STATES.MONSTER_MENU;
         } else if (this.menuState == MENU_STATES.BANK_MENU) {
-            this.index = this.lastIndex;
-            this.menuState = MENU_STATES.MAIN_MENU;
-            state = STATE.WORLD;
+            if (this.withdrawing) {
+                this.withdrawing = false;
+                this.offset = 0;
+            } else if (this.depositing) {
+                this.depositing = false;
+                this.offset = 0;
+            } else {
+                this.index = this.lastIndex;
+                this.menuState = MENU_STATES.MAIN_MENU;
+                state = STATE.WORLD;
+            }
         }
     }
 
@@ -512,6 +572,46 @@ class Menu {
         } else if (this.menuState == MENU_STATES.SETTINGS_MENU && this.index == 1) {
             this.index = 3;
             this.menuState = MENU_STATES.MAIN_MENU;
+        } else if (this.menuState == MENU_STATES.BANK_MENU) {
+            if (this.withdrawing) {
+                if (player.monsters.length < 6) {
+                    let monster = player.bank.splice(this.index, 1)[0];
+                    player.monsters.push(monster);
+                    await dialogue.load([{ type: "statement", line: `${monster.name} was withdrawn.` }]);
+                } else {
+                    await dialogue.load([{ type: "statement", line: "Cannot have a team of more than 6 monsters!" }]);
+                }
+                this.withdrawing = false;
+                this.index = 0;
+                this.offset = 0;
+            } else if (this.depositing) {
+                if (player.monsters.length > 1) {
+                    let monster = player.monsters.splice(this.index, 1)[0];
+                    player.bank.push(monster);
+                    await dialogue.load([{ type: "statement", line: `${monster.name} was deposited.` }]);
+                } else {
+                    await dialogue.load([{ type: "statement", line: "Must have at least one monster!" }]);
+                }
+                this.depositing = false;
+                this.index = 0;
+                this.offset = 0;
+            } else {
+                if (this.index == 0) {
+                    if (player.bank.length > 0) {
+                        this.index = 0;
+                        this.withdrawing = true;
+                    } else {
+                        await dialogue.load([{ type: "statement", line: "Bank is empty!" }]);
+                    }
+                } else if (this.index == 1) {
+                    this.index = 0;
+                    this.depositing = true;
+                } else if (this.index == 2) {
+                    this.menuState = MENU_STATES.MAIN_MENU;
+                    this.index = this.lastIndex;
+                    this.state = STATE.WORLD;
+                }
+            }
         }
     }
 }
