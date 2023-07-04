@@ -18,6 +18,7 @@ function preload() {
 }
 
 function setup() {
+  index = 0;
   textFont(myFont);
   createCanvas(600, 540);
   dialogue = new DialogManager();
@@ -26,18 +27,11 @@ function setup() {
   frameRate(60);
   tick = 0;
   tickRate = 15;
-  state = STATE.WORLD;
+  state = STATE.TITLE;
   menu = new Menu();
   battle = new BattleManager();
   animationFrame = 0;
   settings = {};
-
-  if (getItem("save")) {
-    loadSave();
-  } else {
-    newWorld();
-  }
-  saveWorld();
 
   debug = true;
 }
@@ -83,6 +77,8 @@ function draw() {
     dialogue.draw();
   } else if (state == STATE.ANIMATION) {
     animationFrame++;
+  } else if (state == STATE.TITLE) {
+    TitleMenu.draw();
   }
 
   if (debug) {
@@ -131,6 +127,9 @@ function keyPressed() {
       break;
     case STATE.DIALOGUE:
       dialogueInput();
+      break;
+    case STATE.TITLE:
+      titleInput();
       break;
     default:
       break;
@@ -193,6 +192,30 @@ function dialogueInput() {
   }
 }
 
+function titleInput() {
+  switch (keyCode) {
+    case UP_ARROW:
+      if (index != 0) {
+        index--;
+      }
+      break;
+    case DOWN_ARROW:
+      if (index != 1) {
+        index++;
+      }
+      break;
+    case KEYS.A_KEY:
+      if (index == 0) {
+        TitleMenu.continue();
+      } else if (index == 1) {
+        TitleMenu.newGame();
+      }
+      break;
+    default:
+      break;
+  }
+}
+
 function togglePause() {
   if (state == STATE.WORLD) {
     state = STATE.PAUSED;
@@ -211,7 +234,7 @@ function drawDebugInfo() {
   text("FPS: " + fps.toFixed(2), 10, height);
 
   //Draw player pos
-  if (player.tile) {
+  if (state == STATE.WORLD && player.tile) {
     textAlign(RIGHT);
     let pos = player.tile.x + ", " + player.tile.y
     text(pos, width - 10, height);
@@ -310,7 +333,7 @@ function downloadSave() {
 
 function newWorld() {
   grid.loadZone(zone);
-  player = new Player(2, 2, DIRECTION.EAST, 0, grid.tiles);
+  player = new Player(8, 5, DIRECTION.SOUTH, 0, grid.tiles);
   entities.push(player);
   settings = { textSpeed: TEXT_SPEED.NORMAL };
 
@@ -325,6 +348,8 @@ function newWorld() {
   player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
   player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
   player.inventory.push(t);
+
+  saveWorld();
 }
 
 function loadSave() {
@@ -371,4 +396,5 @@ function loadSave() {
 
   entities.push(player);
   settings = worldData.settings;
+  saveWorld();
 }

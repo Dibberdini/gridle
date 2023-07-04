@@ -393,6 +393,13 @@ class Menu {
                 this.index = 0;
             } else if (this.index == 4) {
                 saveWorld();
+                if (getItem("save")) {
+                    let continueSave = await dialogue.ask("This will overwrite current save. Continue?")
+                    if (continueSave == "No") {
+                        state = this.lastState;
+                        return;
+                    }
+                }
                 writeSave();
                 state = this.lastState;
                 dialogue.load([{ type: "statement", line: "Game succesfully saved" }]);

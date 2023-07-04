@@ -170,7 +170,7 @@ class DialogManager {
         if (this.step >= this.currentLine.line.length) {
             if (this.currentLine.type == DIALOGUE_TYPE.QUESTION) {
                 if (this.options[1] == "Yes") {
-                    this.index = 1;
+                    this.index = 0;
                     this.draw();
                     this.inputA();
                 } else {
