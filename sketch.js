@@ -87,11 +87,11 @@ function draw() {
 }
 
 function getInput() {
-  if (keyIsDown(LEFT_ARROW)) {
-    if (player.direction == DIRECTION.WEST) {
-      player.move(DIRECTION.WEST);
+  if (keyIsDown(UP_ARROW)) {
+    if (player.direction == DIRECTION.NORTH) {
+      player.move(DIRECTION.NORTH);
     } else {
-      player.setDirection(DIRECTION.WEST);
+      player.setDirection(DIRECTION.NORTH);
     }
   } else if (keyIsDown(RIGHT_ARROW)) {
     if (player.direction == DIRECTION.EAST) {
@@ -99,17 +99,17 @@ function getInput() {
     } else {
       player.setDirection(DIRECTION.EAST);
     }
-  } else if (keyIsDown(UP_ARROW)) {
-    if (player.direction == DIRECTION.NORTH) {
-      player.move(DIRECTION.NORTH);
-    } else {
-      player.setDirection(DIRECTION.NORTH);
-    }
   } else if (keyIsDown(DOWN_ARROW)) {
     if (player.direction == DIRECTION.SOUTH) {
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
+    }
+  } else if (keyIsDown(LEFT_ARROW)) {
+    if (player.direction == DIRECTION.WEST) {
+      player.move(DIRECTION.WEST);
+    } else {
+      player.setDirection(DIRECTION.WEST);
     }
   }
 }

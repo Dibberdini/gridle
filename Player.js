@@ -33,6 +33,9 @@ class Player extends Creature {
 
     async update() {
         if (super.update() == "arrived") {
+            if (this.stopping()) {
+                this.checkDirectionChange();
+            }
             if (this.tile.type == TileType.GRASS && this.monsters.length > 0) {
                 if (Math.random() < 0.2) {
                     let monsterList = [];
@@ -47,6 +50,31 @@ class Player extends Creature {
                 warp(warpInfo);
             }
             return "arrived";
+        }
+    }
+
+    stopping() {
+        if (this.direction == DIRECTION.NORTH && keyIsDown(UP_ARROW)) {
+            return false;
+        } else if (this.direction == DIRECTION.EAST && keyIsDown(RIGHT_ARROW)) {
+            return false;
+        } else if (this.direction == DIRECTION.SOUTH && keyIsDown(DOWN_ARROW)) {
+            return false;
+        } else if (this.direction == DIRECTION.WEST && keyIsDown(LEFT_ARROW)) {
+            return false;
+        }
+        return true;
+    }
+
+    checkDirectionChange() {
+        if (keyIsDown(UP_ARROW) && this.direction != DIRECTION.NORTH) {
+            this.setDirection(DIRECTION.NORTH);
+        } else if (keyIsDown(RIGHT_ARROW) && this.direction != DIRECTION.EAST) {
+            this.setDirection(DIRECTION.EAST);
+        } else if (keyIsDown(DOWN_ARROW) && this.direction != DIRECTION.SOUTH) {
+            this.setDirection(DIRECTION.SOUTH);
+        } else if (keyIsDown(LEFT_ARROW) && this.direction != DIRECTION.WEST) {
+            this.setDirection(DIRECTION.WEST);
         }
     }
 
