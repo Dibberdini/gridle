@@ -1,11 +1,9 @@
 function preload() {
-  let zoneName;
+  defaultZone = loadJSON("./data/maps/map1.json");
+  savedZone = null;
   if (getItem("save")) {
-    zoneName = `./data/maps/${getItem("save").zone}`
-  } else {
-    zoneName = "./data/maps/map1.json"
+    savedZone = loadJSON(`./data/maps/${getItem("save").zone}`);
   }
-  zone = loadJSON(zoneName);
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
   globalCharacterList = loadJSON("./data/characters.json");
@@ -18,6 +16,7 @@ function preload() {
 }
 
 function setup() {
+  let zone;
   index = 0;
   textFont(myFont);
   createCanvas(600, 540);
@@ -32,6 +31,12 @@ function setup() {
   battle = new BattleManager();
   animationFrame = 0;
   settings = {};
+
+  //Mobile settings
+  sizeControl = createSlider(50, 100, 100);
+  sizeControl.size(300);
+  sizeControl.changed(resize);
+  sizeControl.addClass("mobile");
 
   debug = false;
 }
@@ -332,6 +337,7 @@ function downloadSave() {
 }
 
 function newWorld() {
+  zone = defaultZone
   grid.loadZone(zone);
   player = new Player(8, 5, DIRECTION.SOUTH, 0, grid.tiles);
   entities.push(player);
@@ -354,6 +360,7 @@ function newWorld() {
 
 function loadSave() {
   worldData = getItem("save");
+  zone = savedZone;
   grid.loadZone(zone);
 
   player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, 0, grid.tiles);
@@ -397,4 +404,11 @@ function loadSave() {
   entities.push(player);
   settings = worldData.settings;
   saveWorld();
+}
+
+function resize() {
+  let scale = sizeControl.value();
+  let w = Math.round(600 * (scale / 100));
+  let h = Math.round(540 * (scale / 100));
+  document.body.getElementsByTagName("canvas")[0].style.cssText = `width: ${w}px; height: ${h}px`;
 }

@@ -1,8 +1,28 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
 canvas {
   display: block;
+}
+
+div.content {
+  width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile {
+  display: none;
+}
+
+/* Use a media query to add a breakpoint at 800px: */
+@media screen and (max-width: 800px) {
+
+  .mobile {
+    display: inline-block;
+    /* The width is 100%, when the viewport is 800px or smaller */
+  }
 }
