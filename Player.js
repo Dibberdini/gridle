@@ -46,6 +46,7 @@ class Player extends Creature {
                 let warpInfo = zone.warp[`${this.tile.x}`][`${this.tile.y}`];
                 warp(warpInfo);
             }
+            return "arrived";
         }
     }
 

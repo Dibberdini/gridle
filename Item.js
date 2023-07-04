@@ -65,7 +65,7 @@ class Item extends Entity {
         return info
     }
 
-    static async useItem(itemType) {
+    static async useItem(itemType, index) {
         switch (itemType) {
             case "potion":
                 menu.loadedItem = { heal: 20 }
@@ -79,10 +79,11 @@ class Item extends Entity {
                 menu.index = 0;
                 menu.offset = 0;
                 menu.menuState = MENU_STATES.MAIN_MENU;
+                player.removeItem(index);
                 battle.draw();
                 await AnimationManager.throwBall();
                 if (battle.activeEnemy.catch(0, player)) {
-                    battle.caughtMonster();
+                    await battle.caughtMonster();
                 } else {
                     await dialogue.load([{ type: "statement", line: "Oh no! it broke free!" }]);
                 }

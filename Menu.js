@@ -413,9 +413,9 @@ class Menu {
                     case "Use":
                         let useCase = Item.getItemInfo(selectedItem.type);
                         if (state == STATE.BATTLE && useCase.hasBattleUse) {
-                            Item.useItem(selectedItem.type);
+                            await Item.useItem(selectedItem.type, this.lastIndex + this.offset);
                         } else if (useCase.hasWorldUse) {
-                            Item.useItem(selectedItem.type);
+                            await Item.useItem(selectedItem.type, this.lastIndex + this.offset);
                         } else {
                             await dialogue.load([{ type: "statement", line: "You can't use that here!" }]);
                         }

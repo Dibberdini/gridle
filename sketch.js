@@ -33,7 +33,7 @@ function setup() {
   animationFrame = 0;
   settings = {};
 
-  debug = true;
+  debug = false;
 }
 
 function draw() {

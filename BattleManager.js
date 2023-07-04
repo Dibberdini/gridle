@@ -148,8 +148,14 @@ class BattleManager {
             this.performTurn();
         } else if (this.selectingItem) {
             if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
-                menu.inputA();
-                menu.inputA();
+                await menu.inputA();
+                await menu.inputA();
+                //Check that item didn't kill or catch enemy.
+                if (this.activeEnemy.dead == false && this.activeEnemy.owner != player.id) {
+                    console.log("lesgo");
+                    console.log(this.activeEnemy.owner);
+                    this.performTurn();
+                }
             } else {
                 await dialogue.load([{ type: "timed", line: "You can't use that here!", time: 800 }]);
             }
@@ -322,13 +328,15 @@ class BattleManager {
             }
         } else {
             this.calculateEnemyMove();
+            this.activeMonster.loadedMove = null;
+            this.activeMonster.loadedTarget = null;
             this.playerTurn = true;
         }
     }
 
     async caughtMonster() {
         await dialogue.load([{ type: "timed", line: `Success! ${this.activeEnemy.name} was caught!`, time: 1000 }]);
-        player.addMonster(this.activeEnemy);
+        await player.addMonster(this.activeEnemy);
         this.returnToWorld();
     }
 
@@ -336,6 +344,8 @@ class BattleManager {
         this.fight = false;
         this.activeMonster.loadedMove = null;
         this.activeMonster.loadedTarget = null;
+        this.activeEnemy.loadedMove = false;
+        this.activeEnemy.loadedTarget = false;
         state = STATE.WORLD;
     }
 }

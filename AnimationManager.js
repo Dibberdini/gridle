@@ -59,14 +59,12 @@ class AnimationManager {
 
         //Draw animation
         push();
-        while (animationFrame < 45) {
+        while (animationFrame < 90) {
             noStroke();
             fill(0);
             let x = animationFrame % 10;
             let y = Math.floor(animationFrame / 10);
             rect(x * 60, y * 60, 60);
-            rect(x + 1 * 60, y + 1 * 60, 60);
-            animationFrame++;
 
             await sleep(2);
         }
