@@ -6,7 +6,13 @@
             "role": "citizen",
             "dialogues": {
                 "0": [
-                    {"type": "statement","line": "Hello! Welcome to the world of gridle.","gain": 100}
+                    {"type": "statement","line": "Hello! Welcome to the world of gridle.","gain": 20}
+                ],
+                "20": [
+                    {"type": "statement", "line": "Could you show me a Screpper?", "checkMonster": {"species": "Screpper", "gain": 25}}
+                ],
+                "25": [
+                    {"type": "statement", "line": "Wow! That's a Screpper!", "gain": 100}
                 ],
                 "100": [
                     {"type": "statement","line": "Boy, I hope they add in more features soon."},

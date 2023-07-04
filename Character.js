@@ -32,12 +32,37 @@ class Character extends Creature {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.direction = newDir;
         super.draw(player.x, player.y);
-        if (this.dialogues[`${this.questLevel}`]) {
-            await dialogue.speak(this.dialogues[`${this.questLevel}`], this);
+        let currentDialogue = this.dialogues[`${this.questLevel}`];
+        if (currentDialogue) {
+            if (currentDialogue[0].checkMonster && this.checkforMonster(currentDialogue[0].checkMonster.species)) {
+                this.setQuest(currentDialogue[0].checkMonster.gain);
+                await dialogue.speak(this.dialogues[`${this.questLevel}`], this);
+            } else if (currentDialogue[0].checkItem && this.checkforItem(currentDialogue[0].checkItem.itemType)) {
+                this.setQuest(currentDialogue.checkItem.gain);
+                await dialogue.speak(this.dialogues[`${this.questLevel}`], this)
+            } else {
+                await dialogue.speak(currentDialogue, this);
+            }
         }
         if (this.role == CHARACTER_ROLES.HEALER) {
             player.healAllMonsters();
         }
+    }
+
+    checkforItem(itemType) {
+        for (let i = 0; i < player.inventory.length; i++) {
+            if (player.inventory[i].type == itemType) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    checkforMonster(monsterSpecies) {
+        if (player.monsters[0].species == monsterSpecies) {
+            return true;
+        }
+        return false;
     }
 
     setQuest(newLevel) {

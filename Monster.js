@@ -219,8 +219,18 @@ class Monster {
     }
 
     async evolve() {
-        let newName = this.species;
+        if (!this.prototype.nextForm) {
+            return;
+        }
+
         let newPrototype = globalMonsterList.monsters.find(monster => monster.id == this.prototype.nextForm.id);
+        let cancel = await AnimationManager.evolution(this.prototype, newPrototype, this.name);
+        if (cancel) {
+            await dialogue.load([{ type: "statement", line: `Huh? ${this.name} stopped evolving?` }]);
+            return;
+        }
+
+        let newName = this.species;
         this.prototype = newPrototype;
         this.species = this.prototype.name;
         this.calculateStats();
