@@ -18,7 +18,7 @@
             [
                 {"type": "PC", "x": 4, "y": 3, "model": 0}
             ],
-    "zone_strength": 5,
+    "zone_strength": {"min": 5, "max": 8},
     "warp": {
         "2": {
             "6": {"map": "map1.json", "pos": [8,4], "move": [0,1]}

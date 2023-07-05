@@ -382,6 +382,7 @@ function loadSave() {
     newMonster.moveSet = monster.moveSet;
     newMonster.level = monster.level;
     newMonster.experience = monster.experience;
+    newMonster.requiredEXP = monster.requiredEXP;
 
     player.monsters.push(newMonster);
   });
@@ -396,8 +397,10 @@ function loadSave() {
     newMonster.defence = monster.defence;
     newMonster.speed = monster.speed;
     newMonster.maxHealth = monster.maxHealth;
-    newMonster.evasion = monster.evasion;
     newMonster.moveSet = monster.moveSet;
+    newMonster.level = monster.level;
+    newMonster.experience = monster.experience;
+    newMonster.requiredEXP = monster.requiredEXP;
 
     player.bank.push(newMonster);
   });

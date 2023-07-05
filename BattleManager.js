@@ -19,12 +19,15 @@ class BattleManager {
         this.playerTurn = true;
         this.participatingMonsters = [];
         this.selectingItem = false;
+        this.fleeAttempts = 0;
     }
 
-    encounter(monsterList, level) {
+    encounter(monsterList, zoneStrength) {
         //Pick a random monster from the zone list
         var monster = new Monster(monsterList[Math.floor(Math.random() * monsterList.length)]);
         //Set the monster to an appropriate strength-level
+        let level = map(Math.random(), 0, 1, zoneStrength.min, zoneStrength.max);
+        level = Math.round(level);
         monster.setLevel(level);
 
         this.startBattle([monster]);
@@ -145,6 +148,7 @@ class BattleManager {
             let move = this.activeMonster.moveSet[this.selector];
             this.activeMonster.loadedMove = move;
             this.activeMonster.loadedTarget = this.activeEnemy;
+            this.fleeAttempts = 0;
             this.performTurn();
         } else if (this.selectingItem) {
             if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
@@ -157,7 +161,7 @@ class BattleManager {
             } else {
                 await dialogue.load([{ type: "timed", line: "You can't use that here!", time: 800 }]);
             }
-        } else {
+        } else if (this.playerTurn) {
             if (this.selector == 0) {
                 this.fight = true;
             } else if (this.selector == 1) {
@@ -171,7 +175,7 @@ class BattleManager {
                 menu.menuState = MENU_STATES.MONSTER_MENU;
                 this.selector = 0;
             } else if (this.selector == 3) {
-                state = STATE.WORLD;
+                this.flee();
             }
         }
     }
@@ -261,6 +265,26 @@ class BattleManager {
             move = (this.activeEnemy.moveSet[Math.floor(Math.random() * this.activeEnemy.moveSet.length)]);
             this.activeEnemy.loadedMove = move;
             this.activeEnemy.loadedTarget = this.activeMonster;
+        }
+    }
+
+    async flee() {
+        if (this.activeMonster.speed > this.activeEnemy.speed) {
+            await dialogue.load([{ type: "timed", line: "Got away safely.", time: 800 }]);
+            this.fleeAttempts = 0;
+            this.returnToWorld();
+            return;
+        }
+
+        let odds = (this.activeMonster.speed * 32) / ((this.activeEnemy.speed / 4) % 256) + 30 * this.fleeAttempts;
+        console.log(odds);
+        if (odds > 255 || odds > (Math.random() * 255)) {
+            await dialogue.load([{ type: "timed", line: "Escape attempt failed!", time: 800 }]);
+            this.performTurn();
+        } else {
+            await dialogue.load([{ type: "timed", line: "Got away safely.", time: 800 }]);
+            this.fleeAttempts = 0;
+            this.returnToWorld();
         }
     }
 
