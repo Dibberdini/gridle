@@ -215,10 +215,14 @@ class BattleManager {
     async rewardEXP() {
         //Calculate won EXP
         let EXPGain = Math.ceil((this.activeEnemy.prototype.yield * this.activeEnemy.level / 7));
+        EXPGain = Math.ceil(EXPGain / this.participatingMonsters.length);
+        //OPTIONAL: random step. Exclude if unbalanced.
+        let random = map(Math.random(), 0, 1, 217, 255) / 255;
+        EXPGain = Math.round(random * EXPGain);
+
         if (this.activeEnemy.owner != "wild") {
             EXPGain *= 1.5;
         }
-        EXPGain = Math.ceil(EXPGain / this.participatingMonsters.length);
 
         //Award EXP to each participating monster
         for (let i = 0; i < this.participatingMonsters.length; i++) {

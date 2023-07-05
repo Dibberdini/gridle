@@ -13,6 +13,7 @@ function preload() {
   });
   myFont = loadFont("./data/Minecraftia-Regular.ttf");
   worldData = { characters: {}, pickedItems: {}, player: {} };
+  titleCard = loadImage("./data/sprites/title/1.png");
 }
 
 function setup() {

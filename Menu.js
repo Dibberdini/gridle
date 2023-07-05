@@ -118,7 +118,6 @@ class Menu {
             }
         }
         if (this.selected) {
-            this.drawSelector(this.x - 45, this.y + 90 + 45 * (this.lastIndex - this.offset), 255);
             fill(100);
 
             rect(width - 150, height - (40 * this.itemMenuSelections.length), 150, 40 * this.itemMenuSelections.length);
@@ -252,6 +251,7 @@ class Menu {
             case MENU_STATES.ITEM_MENU:
                 if (this.selected) {
                     this.drawSelector(width - 140, height - (35 * this.itemMenuSelections.length) + this.index * 35, 200);
+                    // this.drawSelector(this.x - 45, this.y + 90 + 45 * (this.lastIndex - this.offset), 255);
                 } else {
                     this.drawSelector(this.x - 45, this.y + 90 + 45 * (this.index - this.offset), 255);
                 }
@@ -284,6 +284,7 @@ class Menu {
                 }
                 this.index == 1 ? opacity = 255 : opacity = 140;
                 this.drawSelector(53, height - 72, opacity);
+                break;
             case MENU_STATES.BANK_MENU:
                 if (this.withdrawing || this.depositing) {
                     this.drawSelector(55, 65 + (this.index - this.offset) * 40, 0);

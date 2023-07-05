@@ -5,10 +5,12 @@ class TitleMenu {
 
     static draw() {
         push();
-        background(0);
+        background(41);
         fill(255);
         textSize(30);
         textAlign(CENTER, CENTER);
+
+        image(titleCard, 120, 100);
         text("Continue", width / 2, 400);
         text("New Game", width / 2 + 4, 450);
 

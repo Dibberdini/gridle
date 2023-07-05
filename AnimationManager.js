@@ -84,14 +84,14 @@ class AnimationManager {
 
         //Draw animation
         push();
-        background(0);
+        background(255);
         let duration = 8
         AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
         await dialogue.load([{ type: "timed", line: `What? ${monsterName} is evolving!`, time: 1000 }]);
         let animationDelta = animationFrame;
         while (animationFrame < animationDelta + frameRate() * duration) {
             if ((animationDelta - animationFrame) % 2 == 0) {
-                background(0);
+                background(255);
                 let mapped = map(Math.random(), 0, 1, 0, frameRate() * duration);
                 if (mapped > -(animationDelta - animationFrame)) {
                     AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
