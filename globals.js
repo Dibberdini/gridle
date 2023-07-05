@@ -28,8 +28,13 @@ const STATE = {
 
 const KEYS = {
     START: 13,
+    SELECT: 78,
     A_KEY: 65,
-    B_KEY: 83
+    B_KEY: 83,
+    LEFT: 37,
+    UP: 38,
+    RIGHT: 39,
+    DOWN: 40
 }
 
 const DIALOGUE_TYPE = {

@@ -54,26 +54,26 @@ class Player extends Creature {
     }
 
     stopping() {
-        if (this.direction == DIRECTION.NORTH && keyIsDown(UP_ARROW)) {
+        if (this.direction == DIRECTION.NORTH && keyIsDown(KEYS.UP)) {
             return false;
-        } else if (this.direction == DIRECTION.EAST && keyIsDown(RIGHT_ARROW)) {
+        } else if (this.direction == DIRECTION.EAST && keyIsDown(KEYS.RIGHT)) {
             return false;
-        } else if (this.direction == DIRECTION.SOUTH && keyIsDown(DOWN_ARROW)) {
+        } else if (this.direction == DIRECTION.SOUTH && keyIsDown(KEYS.DOWN)) {
             return false;
-        } else if (this.direction == DIRECTION.WEST && keyIsDown(LEFT_ARROW)) {
+        } else if (this.direction == DIRECTION.WEST && keyIsDown(KEYS.LEFT)) {
             return false;
         }
         return true;
     }
 
     checkDirectionChange() {
-        if (keyIsDown(UP_ARROW) && this.direction != DIRECTION.NORTH) {
+        if (keyIsDown(KEYS.UP) && this.direction != DIRECTION.NORTH) {
             this.setDirection(DIRECTION.NORTH);
-        } else if (keyIsDown(RIGHT_ARROW) && this.direction != DIRECTION.EAST) {
+        } else if (keyIsDown(KEYS.RIGHT) && this.direction != DIRECTION.EAST) {
             this.setDirection(DIRECTION.EAST);
-        } else if (keyIsDown(DOWN_ARROW) && this.direction != DIRECTION.SOUTH) {
+        } else if (keyIsDown(KEYS.DOWN) && this.direction != DIRECTION.SOUTH) {
             this.setDirection(DIRECTION.SOUTH);
-        } else if (keyIsDown(LEFT_ARROW) && this.direction != DIRECTION.WEST) {
+        } else if (keyIsDown(KEYS.LEFT) && this.direction != DIRECTION.WEST) {
             this.setDirection(DIRECTION.WEST);
         }
     }

@@ -93,25 +93,25 @@ function draw() {
 }
 
 function getInput() {
-  if (keyIsDown(UP_ARROW)) {
+  if (keyIsDown(KEYS.UP)) {
     if (player.direction == DIRECTION.NORTH) {
       player.move(DIRECTION.NORTH);
     } else {
       player.setDirection(DIRECTION.NORTH);
     }
-  } else if (keyIsDown(RIGHT_ARROW)) {
+  } else if (keyIsDown(KEYS.RIGHT)) {
     if (player.direction == DIRECTION.EAST) {
       player.move(DIRECTION.EAST);
     } else {
       player.setDirection(DIRECTION.EAST);
     }
-  } else if (keyIsDown(DOWN_ARROW)) {
+  } else if (keyIsDown(KEYS.DOWN)) {
     if (player.direction == DIRECTION.SOUTH) {
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
     }
-  } else if (keyIsDown(LEFT_ARROW)) {
+  } else if (keyIsDown(KEYS.LEFT)) {
     if (player.direction == DIRECTION.WEST) {
       player.move(DIRECTION.WEST);
     } else {
@@ -155,29 +155,29 @@ function worldInput() {
 }
 
 function pauseInput() {
-  if (keyCode == UP_ARROW) {
+  if (keyCode == KEYS.UP) {
     menu.indexUp();
-  } else if (keyCode == DOWN_ARROW) {
+  } else if (keyCode == KEYS.DOWN) {
     menu.indexDown();
   } else if (keyCode == KEYS.START || keyCode == KEYS.B_KEY) {
     menu.inputB();
   } else if (keyCode == KEYS.A_KEY) {
     menu.inputA();
-  } else if (keyCode == LEFT_ARROW) {
+  } else if (keyCode == KEYS.LEFT) {
     menu.indexLeft();
-  } else if (keyCode == RIGHT_ARROW) {
+  } else if (keyCode == KEYS.RIGHT) {
     menu.indexRight();
   }
 }
 
 function battleInput() {
-  if (keyCode == UP_ARROW) {
+  if (keyCode == KEYS.UP) {
     battle.updateSelector(-2);
-  } else if (keyCode == DOWN_ARROW) {
+  } else if (keyCode == KEYS.DOWN) {
     battle.updateSelector(2);
-  } else if (keyCode == LEFT_ARROW) {
+  } else if (keyCode == KEYS.LEFT) {
     battle.updateSelector(-1);
-  } else if (keyCode == RIGHT_ARROW) {
+  } else if (keyCode == KEYS.RIGHT) {
     battle.updateSelector(1);
   } else if (keyCode == KEYS.A_KEY) {
     battle.inputA();
@@ -191,21 +191,21 @@ function dialogueInput() {
     dialogue.inputA();
   } else if (keyCode == KEYS.B_KEY) {
     dialogue.inputB();
-  } else if (keyCode == UP_ARROW) {
+  } else if (keyCode == KEYS.UP) {
     dialogue.indexUp();
-  } else if (keyCode == DOWN_ARROW) {
+  } else if (keyCode == KEYS.DOWN) {
     dialogue.indexDown();
   }
 }
 
 function titleInput() {
   switch (keyCode) {
-    case UP_ARROW:
+    case KEYS.UP:
       if (index != 0) {
         index--;
       }
       break;
-    case DOWN_ARROW:
+    case KEYS.DOWN:
       if (index != 1) {
         index++;
       }
