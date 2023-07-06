@@ -146,10 +146,15 @@ class BattleManager {
     async inputA() {
         if (this.fight && this.playerTurn) {
             let move = this.activeMonster.moveSet[this.selector];
-            this.activeMonster.loadedMove = move;
-            this.activeMonster.loadedTarget = this.activeEnemy;
-            this.fleeAttempts = 0;
-            this.performTurn();
+            if (move.pp > 0) {
+                this.activeMonster.loadedMove = move;
+                this.activeMonster.loadedTarget = this.activeEnemy;
+                this.fleeAttempts = 0;
+                move.pp--;
+                this.performTurn();
+            } else {
+                await dialogue.load([{ type: "timed", line: "No more PP!", time: 800 }]);
+            }
         } else if (this.selectingItem) {
             if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
                 await menu.inputA();
@@ -217,10 +222,17 @@ class BattleManager {
     }
 
     async rewardEXP() {
-        //Calculate won EXP
+        //Calculate won EXP based on slain monster and number of participating monsters
         let EXPGain = Math.ceil((this.activeEnemy.prototype.yield * this.activeEnemy.level / 7));
-        EXPGain = Math.ceil(EXPGain / this.participatingMonsters.length);
-        //OPTIONAL: random step. Exclude if unbalanced.
+        let expShare = 0;
+        this.participatingMonsters.forEach(monster => {
+            if (!monster.dead) {
+                expShare++;
+            }
+        });
+        EXPGain = Math.ceil(EXPGain / expShare);
+
+        //OPTIONAL: random modifier. Exclude if unbalanced.
         let random = map(Math.random(), 0, 1, 217, 255) / 255;
         EXPGain = Math.round(random * EXPGain);
 
@@ -277,7 +289,6 @@ class BattleManager {
         }
 
         let odds = (this.activeMonster.speed * 32) / ((this.activeEnemy.speed / 4) % 256) + 30 * this.fleeAttempts;
-        console.log(odds);
         if (odds > 255 || odds > (Math.random() * 255)) {
             await dialogue.load([{ type: "timed", line: "Escape attempt failed!", time: 800 }]);
             this.performTurn();
@@ -303,7 +314,7 @@ class BattleManager {
         //For each monster in turnOrder perform their loaded moves, if they're alive.
         for (let i = 0; i < turnOrder.length; i++) {
             let monster = turnOrder[i];
-            if (monster.loadedMove && !monster.dead) {
+            if (monster.loadedMove && !monster.dead && monster.cooldown == 0) {
                 let move = monster.attackMove(monster.loadedMove, monster.loadedTarget);
 
                 //Setup message to display while move is carried out.
@@ -313,21 +324,30 @@ class BattleManager {
                 }
                 dialogue.load([{ type: "battle", line: message }]);
 
-                //Wait until animation is finished, then check if opponent died.
-                while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length) {
-                    await sleep(50);
+                //Wait until animation is finished.
+                while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length || monster.outstandingHealing > 0) {
+                    await sleep(10);
                 }
                 await sleep(400)
-                if (move.crit) {
-                    await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
-                }
-                if (move.effectiveness) {
-                    if (move.effectiveness == 0.5) {
-                        await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 800 }]);
-                    } else if (move.effectiveness == 2) {
-                        await dialogue.load([{ type: "timed", line: "It's super effective!", time: 800 }]);
+                if (move.missed) {
+                    await dialogue.load([{ type: "timed", line: `${monster.name} missed!` }]);
+                } else if (move.effectiveness && move.effectiveness == 0) {
+                    await dialogue.load([{ type: "timed", line: "It has no effect...", time: 800 }]);
+                } else {
+                    if (move.crit) {
+                        await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
+                    }
+                    if (move.effectiveness) {
+                        if (move.effectiveness == 0.5) {
+                            await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 800 }]);
+                        } else if (move.effectiveness == 2) {
+                            await dialogue.load([{ type: "timed", line: "It's super effective!", time: 800 }]);
+                        }
                     }
                 }
+            } else if (monster.cooldown > 0) {
+                await dialogue.load([{ type: "timed", line: `${monster.name} is recovering from ${monster.loadedMove.name}`, time: 800 }]);
+                monster.cooldown--;
             }
         }
 
@@ -349,8 +369,8 @@ class BattleManager {
                 }
             }
         } else if (this.activeEnemy.dead) {
+            await this.rewardEXP();
             if (this.activeEnemy.owner == "wild") {
-                await this.rewardEXP();
                 this.returnToWorld();
             }
         } else {
@@ -368,6 +388,9 @@ class BattleManager {
     }
 
     returnToWorld() {
+        player.monsters.forEach(monster => {
+            monster.resetBattleStats();
+        });
         this.fight = false;
         this.activeMonster.loadedMove = null;
         this.activeMonster.loadedTarget = null;

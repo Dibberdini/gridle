@@ -19,7 +19,7 @@ class Monster {
         this.health = this.maxHealth;
         this.dead = false;
         this.owner = "wild";
-        this.status = "none";
+        this.status = STATUSES.NONE;
         this.critRate = monsterPrototype.speed / 2;
 
         this.EVs = { health: 0, attack: 0, defence: 0, special: 0, speed: 0 }
@@ -30,7 +30,12 @@ class Monster {
         this.IVs.special = Math.round(Math.random() * 15);
         this.IVs.speed = Math.round(Math.random() * 15);
 
-        //Battle-specific parameters
+        //Battle-stats
+        this.cooldown = 0;
+        this.evasion = 100;
+        this.accuracy = 100;
+
+        //Mutable parameters
         this.outstandingDamage = 0;
         this.outstandingEXP = 0;
         this.outstandingHealing = 0;
@@ -49,6 +54,7 @@ class Monster {
             let highestMove = monsterMoveList.pop();
             if (this.level >= highestMove.level) {
                 var newMove = globalMoveList.moves.find(move => move.id == highestMove.id);
+                newMove.maxPP = newMove.pp;
                 this.moveSet.push(newMove);
             }
         }
@@ -92,6 +98,7 @@ class Monster {
 
             if (this.health <= 0) {
                 this.health = 0;
+                this.cooldown = 0;
                 this.dead = true;
             }
 
@@ -161,12 +168,54 @@ class Monster {
         }
         let random = map(Math.random(), 0, 1, 217, 255) / 255;
         damage = Math.round(damage * random);
-        target.takeDamage(damage);
+
+        let accuracy = move.accuracy * this.accuracy * target.evasion;
+        constrain(accuracy, 0, 255);
+        let randomA = Math.round(Math.random() * 255);
+        let randomS = Math.round(Math.random() * 255);
+        if (damage == 0 && effectiveness != 0) {
+            randomS = 0;
+        }
+
+        if (randomA < accuracy) {
+            target.takeDamage(damage);
+            if (move.status) {
+                if (move.status == STATUSES.HEALING) {
+                    this.heal(this.maxHealth / 2);
+                } else if (randomS < accuracy) {
+                    target.setStatus(move.status);
+                }
+            }
+            if (move.cooldown) {
+                this.cooldown = move.cooldown;
+                moveInfo.cooldown = true;
+            }
+        } else {
+            moveInfo.missed = true;
+        }
+        moveInfo.damage = damage;
         return moveInfo;
+    }
+
+    resetBattleStats() {
+        this.evasion = 100;
+        this.accuracy = 100;
+        this.cooldown = 0;
     }
 
     takeDamage(damage) {
         this.outstandingDamage = damage;
+    }
+
+    setStatus(status) {
+        switch (status) {
+            case STATUSES.PARALYZED:
+                return;
+            case STATUSES.
+                default:
+                break;
+        }
+        this.status = status;
     }
 
     increaseHealth(healAmount) {
@@ -328,6 +377,7 @@ class Monster {
 
     async learnMove(moveId) {
         var newMove = globalMoveList.moves.find(move => move.id == moveId);
+        newMove.maxPP = newMove.pp;
         for (let i = 0; i < this.moveSet.length; i++) {
             if (this.moveSet[i].id == moveId) {
                 await dialogue.load([

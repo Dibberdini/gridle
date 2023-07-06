@@ -80,7 +80,7 @@ const STATUSES = {
     PARALYZED: "plz",
     ASLEEP: "slp",
     FROZEN: "frz",
-
+    HEALING: "hel"
 }
 
 const GROWTH_RATES = {

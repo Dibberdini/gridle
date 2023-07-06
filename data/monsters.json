@@ -18,17 +18,17 @@
     "learnset":
                 [
                 {"name":"Booper", "moves": [
-                    {"id": 1, "name": "Scramble", "level": 1},
-                    {"id": 2, "name": "Bubble", "level": 7},
-                    {"id": 3, "name": "Scrape", "level": 14}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 3, "level": 14}
                 ]},
                 {"name":"Dooper", "moves": [
-                    {"id": 1, "name": "Scramble", "level": 1},
-                    {"id": 2, "name": "Bubble", "level": 7},
-                    {"id": 3, "name": "Scrape", "level": 14}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 3, "level": 14}
                 ]},
                 {"name":"Screpper", "moves": [
-                    {"id": 1, "name": "Scramble", "level": 1}
+                    {"id": 1, "level": 1}
                 ]}
                 ]
 }

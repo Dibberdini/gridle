@@ -1,8 +1,8 @@
 {
     "moves": 
                 [
-                {"name":"Scramble", "power":60, "accuracy": 100, "type":"normal", "cooldown":1, "id": 1},
-                {"name":"Bubble", "power": 40, "accuracy": 100, "type": "water", "cooldown": 1, "id": 2},
-                {"name":"Scrape", "power":80, "accuracy": 80, "type":"fire", "cooldown":1, "id": 3}
+                {"name":"Scramble", "power":60, "accuracy": 100, "pp": 35, "type":"normal", "cooldown":0, "id": 1},
+                {"name":"Bubble", "power": 40, "accuracy": 100, "pp": 25, "type": "water", "cooldown": 0, "id": 2},
+                {"name":"Scrape", "power":80, "accuracy": 80, "pp": 20, "type":"fire", "cooldown":0, "id": 3}
                 ]
 }

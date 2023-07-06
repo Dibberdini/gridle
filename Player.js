@@ -112,6 +112,9 @@ class Player extends Creature {
             monster.health = monster.maxHealth;
             monster.status = STATUSES.NONE;
             monster.dead = false;
+            monster.moveSet.forEach(move => {
+                move.pp = move.maxPP;
+            });
         });
     }
 }
