@@ -110,6 +110,12 @@ class BattleManager {
                         this.fightSelections[i][2]);
                 }
             }
+            let selectedMove = this.activeMonster.moveSet[this.selector]
+            fill(180);
+            rect(width - 240, height - 140, 238.5, 138.5);
+            fill(0);
+            text(`TYPE: ${selectedMove.type}`, 380, 470);
+            text(`PP: ${selectedMove.pp}/${selectedMove.maxPP}`, 380, 500);
         } else if (this.selectingItem) {
             menu.drawItemMenu();
             menu.drawCursor();

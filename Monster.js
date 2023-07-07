@@ -54,6 +54,7 @@ class Monster {
             let highestMove = monsterMoveList.pop();
             if (this.level >= highestMove.level) {
                 var newMove = globalMoveList.moves.find(move => move.id == highestMove.id);
+                newMove = { ...newMove };
                 newMove.maxPP = newMove.pp;
                 this.moveSet.push(newMove);
             }
@@ -377,6 +378,7 @@ class Monster {
 
     async learnMove(moveId) {
         var newMove = globalMoveList.moves.find(move => move.id == moveId);
+        newMove == { ...newMove };
         newMove.maxPP = newMove.pp;
         for (let i = 0; i < this.moveSet.length; i++) {
             if (this.moveSet[i].id == moveId) {
