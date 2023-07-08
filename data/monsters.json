@@ -3,55 +3,113 @@
                 [
                 {"name":"Arto-Adam",
                 "attack":48, "defence":65, "speed": 43, "maxHealth":44,
-                "special": 50, "model":"001.png", "type":["ADAM"], "id": 1,
+                "special": 50, "type":["ADAM"], "id": 1,
                 "growth": "m_slow","catchRate": 45, "yield": 63,
                 "nextForm": {"level": 16, "id": 2}},
                 {"name": "Adam uden skæg",
                 "attack":63, "defence": 80, "speed": 58, "maxHealth":59,
-                "special": 65, "model": "002.png", "type":["ADAM"], "id": 2,
+                "special": 65, "type":["ADAM"], "id": 2,
                 "growth": "m_slow","catchRate": 45, "yield": 142,
                 "nextForm": {"level": 36, "id": 3}},
                 {"name":"Adam med skæg",
                 "attack":79, "defence":100, "speed": 78, "maxHealth":79,
-                "special": 85,"model":"003.png", "type":["ADAM"], "id": 3,
+                "special": 85, "type":["ADAM"], "id": 3,
                 "growth": "m_slow", "catchRate": 45, "yield": 239},
                 {"name":"Skolefoto-Bing",
                 "attack":49, "defence":49, "speed": 45, "maxHealth":45,
-                "special": 65, "model":"004.png", "type":["HEIBING"], "id": 4,
+                "special": 65, "type":["HEIBING"], "id": 4,
                 "growth": "m_slow","catchRate": 45, "yield": 6364,
                 "nextForm": {"level": 16, "id": 5}},
                 {"name":"Bing med Bil",
                 "attack":62, "defence":63, "speed": 60, "maxHealth":60,
-                "special": 80, "model":"005.png", "type":["HEIBING"], "id": 5,
+                "special": 80, "type":["HEIBING"], "id": 5,
                 "growth": "m_slow","catchRate": 45, "yield": 142,
                 "nextForm": {"level": 32, "id": 6}},
                 {"name":"Bing med baby",
                 "attack":82, "defence":83, "speed": 80, "maxHealth":80,
-                "special": 100, "model":"006.png", "type":["HEIBING"], "id": 6,
+                "special": 100, "type":["HEIBING"], "id": 6,
                 "growth": "m_slow","catchRate": 45, "yield": 236},
                 {"name":"Støvsuger-Mikkel",
                 "attack":52, "defence":43, "speed": 65, "maxHealth":39,
-                "special": 60, "model":"007.png", "type":["MIKKEL"], "id": 7,
+                "special": 60, "type":["MIKKEL"], "id": 7,
                 "growth": "m_slow","catchRate": 45, "yield": 62,
                 "nextForm": {"level": 16, "id": 8}},
                 {"name":"Ski-Mikkel",
                 "attack":64, "defence":58, "speed": 80, "maxHealth":58,
-                "special": 65, "model":"008.png", "type":["MIKKEL"], "id": 8,
+                "special": 65, "type":["MIKKEL"], "id": 8,
                 "growth": "m_slow","catchRate": 45, "yield": 142,
                 "nextForm": {"level": 36, "id": 9}},
                 {"name":"Mikkel med hund",
                 "attack":84, "defence":78, "speed": 100, "maxHealth":78,
-                "special": 85, "model":"009.png", "type":["MIKKEL"], "id": 9,
+                "special": 85, "type":["MIKKEL"], "id": 9,
                 "growth": "m_slow","catchRate": 45, "yield": 267},
                 {"name":"Morten uden DP",
                 "attack":56, "defence":35, "speed": 72, "maxHealth":30,
-                "special": 25, "model":"010.png", "type":["MORTEN"], "id": 10,
+                "special": 25, "type":["MORTEN"], "id": 10,
                 "growth": "m_fast","catchRate": 255, "yield": 51,
                 "nextForm": {"level": 20, "id": 11}},
                 {"name":"Morten med DP",
                 "attack":81, "defence":60, "speed": 97, "maxHealth":55,
-                "special": 50, "model":"011.png", "type":["MORTEN"], "id": 11,
-                "growth": "m_fast","catchRate": 127, "yield": 145}
+                "special": 50, "type":["MORTEN"], "id": 11,
+                "growth": "m_fast","catchRate": 127, "yield": 145},
+                {"name":"Joakim uden skæg",
+                "attack":80, "defence":50, "speed": 25, "maxHealth":80,
+                "special": 40, "type":["JOAKIM"], "id": 12,
+                "growth": "m_fast","catchRate": 190, "yield": 65,
+                "nextForm": {"level": 20, "id": 13}},
+                {"name":"Joakim med skæg",
+                "attack":105, "defence":75, "speed": 50, "maxHealth":105,
+                "special": 65, "type":["JOAKIM"], "id": 13,
+                "growth": "m_fast","catchRate": 75, "yield": 175},
+                {"name":"Flæxitrak",
+                "attack":105, "defence":79, "speed": 76, "maxHealth":50,
+                "special": 35, "type":["FELIX"], "id": 14,
+                "growth": "m_fast","catchRate": 45, "yield": 159},
+                {"name":"pre-KPT Alex",
+                "attack":65, "defence":95, "speed": 45, "maxHealth":40,
+                "special": 60, "type":["ALEX"], "id": 15,
+                "growth": "m_fast","catchRate": 190, "yield": 68,
+                "nextForm": {"level": 20, "id": 16}},
+                {"name":"post-KPT Alex",
+                "attack":90, "defence":120, "speed": 60, "maxHealth":65,
+                "special": 85, "type":["ALEX"], "id": 16,
+                "growth": "m_fast","catchRate": 60, "yield": 172},
+                {"name":"KW Olaf",
+                "attack":85, "defence":95, "speed": 25, "maxHealth":80,
+                "special": 30, "type":["OLAF"], "id": 17,
+                "growth": "slow","catchRate": 120, "yield": 69,
+                "nextForm": {"level": 25, "id": 17}},
+                {"name":"Google Olaf",
+                "attack":130, "defence":120, "speed": 40, "maxHealth":105,
+                "special": 45, "type":["OLAF"], "id": 18,
+                "growth": "slow","catchRate": 60, "yield": 170},
+                {"name":"Rejse-Bing",
+                "attack":55, "defence":115, "speed": 60, "maxHealth":65,
+                "special": 100, "type":["HEIBING"], "id": 19,
+                "growth": "m_fast","catchRate": 45, "yield": 87},
+                {"name":"Morten",
+                "attack":80, "defence":100, "speed": 20, "maxHealth":40,
+                "special": 30, "type":["MORTEN"], "id": 20,
+                "growth": "m_slow","catchRate": 255, "yield": 60,
+                "nextForm": {"level": 18, "id": 21}},
+                {"name":"Kattebebs",
+                "attack":95, "defence":115, "speed": 35, "maxHealth":55,
+                "special": 45, "type":["MORTEN"], "id": 21,
+                "growth": "m_slow","catchRate": 120, "yield": 137,
+                "nextForm": {"level": 31, "id": 22}},
+                {"name":"Mormisser",
+                "attack":120, "defence":130, "speed": 45, "maxHealth":80,
+                "special": 55, "type":["MORTEN"], "id": 22,
+                "growth": "m_slow","catchRate": 45, "yield": 223},
+                {"name":"Klamydia-Mikkel",
+                "attack":85, "defence":55, "speed": 90, "maxHealth":50,
+                "special": 65, "type":["MIKKEL"], "id": 23,
+                "growth": "m_fast","catchRate": 190, "yield": 82,
+                "nextForm": {"level": 30, "id": 24}},
+                {"name":"Stress-Mikkel",
+                "attack":100, "defence":70, "speed": 105, "maxHealth":65,
+                "special": 80, "type":["MIKKEL"], "id": 24,
+                "growth": "m_fast","catchRate": 60, "yield": 175}
                 ],
     "learnset":
                 [
@@ -90,6 +148,120 @@
                     {"id": 1, "level": 1}
                 ]},
                 {"id":11, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":12, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":13, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":14, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":15, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":16, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":17, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":18, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":19, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":20, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":21, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":22, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":23, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":24, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":25, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":26, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":27, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":28, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":29, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":30, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":31, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":32, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":33, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":34, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":35, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":36, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":37, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":38, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":39, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":40, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":41, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":42, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":43, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":44, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":45, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":46, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":47, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":48, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":49, "moves": [
                     {"id": 1, "level": 1}
                 ]}
                 ]

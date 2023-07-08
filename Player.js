@@ -14,65 +14,49 @@ class Player extends Creature {
     }
 
     draw(x, y) {
-        if (this.model == 0) {
-            push()
-            fill(255, 255, 0);
-            noStroke();
-            ellipseMode(CORNER);
-            circle(4 * TILE_WIDTH, 4 * TILE_HEIGHT, TILE_WIDTH);
-            stroke(255, 0, 0);
-            strokeWeight(2);
-            line(
-                4 * TILE_WIDTH + 0.5 * TILE_WIDTH,
-                4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT,
-                4 * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.direction[0] * TILE_WIDTH * 0.5),
-                4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.direction[1] * TILE_HEIGHT * 0.5));
-            pop();
-        } else {
-            let flipped = false;
-            let model = this.model[1];
-            switch (this.direction) {
-                case DIRECTION.NORTH:
-                    if (this.moving) {
-                        model = this.model[0];
-                    } else {
-                        model = this.model[1];
-                    }
-                    break;
-                case DIRECTION.EAST:
-                    if (this.moving) {
-                        model = this.model[2];
-                    } else {
-                        model = this.model[3];
-                    }
-                    break;
-                case DIRECTION.SOUTH:
-                    if (this.moving) {
-                        model = this.model[4];
-                    } else {
-                        model = this.model[5];
-                    }
-                    break;
-                case DIRECTION.WEST:
-                    flipped = true;
-                    if (this.moving) {
-                        model = this.model[2];
-                    } else {
-                        model = this.model[3];
-                    }
-                    break;
-                default:
-                    break;
-            }
-            push();
-            if (flipped) {
-                scale(-1, 1);
-                image(model, -5 * TILE_WIDTH, 4 * TILE_HEIGHT);
-            } else {
-                image(model, 4 * TILE_WIDTH, 4 * TILE_HEIGHT);
-            }
-            pop();
+        let flipped = false;
+        let model = this.model[1];
+        switch (this.direction) {
+            case DIRECTION.NORTH:
+                if (this.moving) {
+                    model = this.model[6 + walkNumber];
+                } else {
+                    model = this.model[8];
+                }
+                break;
+            case DIRECTION.EAST:
+                if (this.moving) {
+                    model = this.model[3 + walkNumber];
+                } else {
+                    model = this.model[5];
+                }
+                break;
+            case DIRECTION.SOUTH:
+                if (this.moving) {
+                    model = this.model[0 + walkNumber];
+                } else {
+                    model = this.model[2];
+                }
+                break;
+            case DIRECTION.WEST:
+                flipped = true;
+                if (this.moving) {
+                    model = this.model[3 + walkNumber];
+                } else {
+                    model = this.model[5];
+                }
+                break;
+            default:
+                break;
         }
+        push();
+        if (flipped) {
+            scale(-1, 1);
+            image(model, -5 * TILE_WIDTH, 4 * TILE_HEIGHT);
+        } else {
+            image(model, 4 * TILE_WIDTH, 4 * TILE_HEIGHT);
+        }
+        pop();
     }
 
     async update() {

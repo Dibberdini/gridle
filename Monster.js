@@ -8,8 +8,7 @@ class Monster {
         this.special = monsterPrototype.special;
         this.maxHealth = monsterPrototype.maxHealth;
 
-        let modelName = monsterPrototype.id.toString().padStart(3, 0);
-        this.model = globalSpriteList.monsters[`${modelName}`];
+        this.model = monsterPrototype.id.toString().padStart(3, 0);
 
         this.type = monsterPrototype.type;
         this.catchRate = monsterPrototype.catchRate;
@@ -74,15 +73,7 @@ class Monster {
     }
 
     drawModel(x, y) {
-        if (this.model != 0) {
-            image(this.model, x, y);
-        } else {
-            push();
-            fill(0, 250, 0);
-            noStroke();
-            rect(x, y, 120, 120);
-            pop();
-        }
+        image(globalSpriteList.monsters[`${this.model}`], x, y);
     }
 
     async drawStats(x, y, fullStats) {

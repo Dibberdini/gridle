@@ -35,6 +35,7 @@ function preload() {
 }
 
 function setup() {
+  walkNumber = 0;
   let zone;
   player = { step: [0, 0] };
   index = 0;
@@ -53,10 +54,9 @@ function setup() {
   settings = {};
 
   //Mobile settings
-  sizeControl = createSlider(50, 100, 100);
-  sizeControl.size(300);
-  sizeControl.changed(resize);
-  sizeControl.addClass("mobile");
+  if (windowWidth < 600) {
+    resize();
+  }
 
   debug = false;
 }
@@ -76,6 +76,12 @@ function draw() {
           entity.work();
         }
       });
+    }
+    if (tick % 5 == 0) {
+      walkNumber++;
+      if (walkNumber > 2) {
+        walkNumber = 0;
+      }
     }
 
     //Draw the world
@@ -464,8 +470,7 @@ function loadSave() {
 }
 
 function resize() {
-  let scale = sizeControl.value();
-  let w = Math.round(600 * (scale / 100));
-  let h = Math.round(540 * (scale / 100));
+  w = windowWidth;
+  h = w * 0.9;
   document.body.getElementsByTagName("canvas")[0].style.cssText = `width: ${w}px; height: ${h}px`;
 }

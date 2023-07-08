@@ -11,7 +11,7 @@ class TitleMenu {
         textAlign(CENTER, CENTER);
 
         image(titleCard, 120, 100);
-        text("Continue", width / 2, 400);
+        text(`Continue`, width / 2, 400);
         text("New Game", width / 2 + 4, 450);
 
         let x = 0;

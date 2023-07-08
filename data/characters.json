@@ -4,7 +4,7 @@
             "name": "Jesse",
             "id": 1,
             "role": "citizen",
-            "model": "hjarvard",
+            "model": "generic1",
             "dialogues": {
                 "0": [
                     {"type": "statement","line": "Hello! Welcome to the world of gridle.","gain": 20}
@@ -25,7 +25,7 @@
             "name": "James",
             "id": 2,
             "role": "citizen",
-            "model": "hjarvard",
+            "model": "generic2",
             "dialogues": {
                 "0": [
                     {"type": "statement","line": "Hi! I don't believe we've met.","gain": 10}

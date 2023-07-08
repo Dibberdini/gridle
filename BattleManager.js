@@ -54,6 +54,10 @@ class BattleManager {
         this.playerTurn = true;
         await AnimationManager.beginBattle();
         state = STATE.BATTLE;
+        this.draw();
+        if (this.activeEnemy.owner == "wild") {
+            await dialogue.load([{ type: "timed", line: `A wild ${this.activeEnemy.name} appears!`, time: 1000 }]);
+        }
     }
 
     draw() {
@@ -381,7 +385,7 @@ class BattleManager {
             while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length || monster.outstandingHealing > 0) {
                 await sleep(10);
             }
-            await sleep(400)
+            await sleep(800)
             if (move.missed) {
                 await dialogue.load([{ type: "timed", line: `${monster.name} missed!` }]);
             } else if (move.effectiveness && move.effectiveness == 0) {
