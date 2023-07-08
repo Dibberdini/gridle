@@ -294,7 +294,7 @@ class Monster {
         }
         await dialogue.load([{ type: "timed", line: `${this.name} rose to level ${this.level}`, time: 700 }]);
 
-        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
+        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.id == this.prototype.id).moves;
         for (let i = 0; i < monsterMoveList.length; i++) {
             if (monsterMoveList[i].level == this.level) {
                 await this.learnMove(monsterMoveList[i].id);

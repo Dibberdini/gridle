@@ -9,10 +9,10 @@ class BattleManager {
             ["Flee", 520, 520]
         ];
         this.fightSelections = [
-            ["Scramble", 50, 470],
-            ["Scramble", 200, 470],
-            ["Scramble", 50, 520],
-            ["Scramble", 200, 520]
+            ["Scramble", 50, 450],
+            ["Scramble", 200, 450],
+            ["Scramble", 50, 500],
+            ["Scramble", 200, 500]
         ]
         this.selector = 0;
         this.fight = false;
@@ -102,14 +102,18 @@ class BattleManager {
 
         //If fight has been selected draw the attack-moves
         if (this.fight) {
+            textSize(18);
             for (let i = 0; i < this.selections.length; i++) {
                 if (this.activeMonster.moveSet[i]) {
                     text(
                         this.activeMonster.moveSet[i].name,
                         this.fightSelections[i][1],
-                        this.fightSelections[i][2]);
+                        this.fightSelections[i][2],
+                        150,
+                        80);
                 }
             }
+            textSize(22);
             let selectedMove = this.activeMonster.moveSet[this.selector]
             fill(180);
             rect(width - 240, height - 140, 238.5, 138.5);

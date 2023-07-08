@@ -4,16 +4,39 @@ class Creature extends Entity {
         this.direction = DIRECTION;
         this.step = [0, 0];
         this.autonomous = true;
-
+        this.moving = false;
+        this.stopping = true;
         if (model != 0) {
-            this.model = [];
-            this.model.push(loadImage(`./sprites/models/${this.model}_b.png`));
-            this.model.push(loadImage(`./sprites/models/${this.model}_b.gif`));
-            this.model.push(loadImage(`./sprites/models/${this.model}_f.png`));
-            this.model.push(loadImage(`./sprites/models/${this.model}_f.gif`));
-            this.model.push(loadImage(`./sprites/models/${this.model}_s.png`));
-            this.model.push(loadImage(`./sprites/models/${this.model}_s.gif`));
+            this.model = 0;
+            this.loadNewModel(model);
         }
+    }
+
+    async loadNewModel(model) {
+        let newModel = [];
+        loadImage(`./data/sprites/models/${model}_b.gif`, (img) => {
+            newModel[0] = img;
+        });
+        loadImage(`./data/sprites/models/${model}_b.png`, (img) => {
+            newModel[1] = img;
+        });
+        loadImage(`./data/sprites/models/${model}_s.gif`, (img) => {
+            newModel[2] = img;
+        });
+        loadImage(`./data/sprites/models/${model}_s.png`, (img) => {
+            newModel[3] = img;
+        });
+        loadImage(`./data/sprites/models/${model}_f.gif`, (img) => {
+            newModel[4] = img;
+        });
+        loadImage(`./data/sprites/models/${model}_f.png`, (img) => {
+            newModel[5] = img;
+        });
+
+        while (newModel.length < 6) {
+            await sleep(20);
+        }
+        this.model = newModel;
     }
 
     draw(x, y) {
@@ -34,6 +57,50 @@ class Creature extends Entity {
                 newX * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.direction[0] * TILE_WIDTH * 0.5),
                 newY * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.direction[1] * TILE_HEIGHT * 0.5));
             pop();
+        } else {
+            let flipped = false;
+            let model = this.model[1];
+            switch (this.direction.toString()) {
+                case DIRECTION.NORTH.toString():
+                    if (this.moving) {
+                        model = this.model[0];
+                    } else {
+                        model = this.model[1];
+                    }
+                    break;
+                case DIRECTION.EAST.toString():
+                    if (this.moving) {
+                        model = this.model[2];
+                    } else {
+                        model = this.model[3];
+                    }
+                    break;
+                case DIRECTION.SOUTH.toString():
+                    if (this.moving) {
+                        model = this.model[4];
+                    } else {
+                        model = this.model[5];
+                    }
+                    break;
+                case DIRECTION.WEST.toString():
+                    flipped = true;
+                    if (this.moving) {
+                        model = this.model[2];
+                    } else {
+                        model = this.model[3];
+                    }
+                    break;
+                default:
+                    break;
+            }
+            push();
+            if (flipped) {
+                scale(-1, 1);
+                image(model, -(newX + 1) * TILE_WIDTH, newY * TILE_HEIGHT);
+            } else {
+                image(model, newX * TILE_WIDTH, newY * TILE_HEIGHT);
+            }
+            pop();
         }
     }
 
@@ -53,6 +120,7 @@ class Creature extends Entity {
                 newTile.setClear(false);
 
                 //Move smoothly to new tile over 15 frames (tickrate)
+                this.moving = true;
                 this.step = DIRECTION
 
                 this.tile.setClear(true);
@@ -71,6 +139,9 @@ class Creature extends Entity {
             this.x = Math.round(this.x);
             this.y = Math.round(this.y);
             this.step = [0, 0];
+            if (this.stopping) {
+                this.moving = false;
+            }
             return "arrived"
         }
     }

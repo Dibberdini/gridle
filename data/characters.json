@@ -4,6 +4,7 @@
             "name": "Jesse",
             "id": 1,
             "role": "citizen",
+            "model": "hjarvard",
             "dialogues": {
                 "0": [
                     {"type": "statement","line": "Hello! Welcome to the world of gridle.","gain": 20}
@@ -24,6 +25,7 @@
             "name": "James",
             "id": 2,
             "role": "citizen",
+            "model": "hjarvard",
             "dialogues": {
                 "0": [
                     {"type": "statement","line": "Hi! I don't believe we've met.","gain": 10}
@@ -41,6 +43,7 @@
             "name": "Joy",
             "id": 3,
             "role": "healer",
+            "model": "isak",
             "dialogues": {
                 "0": [
                     {"type": "statement","line": "Hello! I can heal your monsters.","gain": 100}

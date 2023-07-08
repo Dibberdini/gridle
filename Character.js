@@ -1,8 +1,7 @@
 class Character extends Creature {
     constructor(x, y, DIRECTION, id, pathing, tiles) {
         let prototype = globalCharacterList.all_characters.find(character => character.id == id);
-        super(x, y, DIRECTION, 0, tiles);
-        this.model = 0;
+        super(x, y, DIRECTION, prototype.model, tiles);
         this.name = prototype.name;
         this.dialogues = prototype.dialogues;
         this.questLevel = 0;
@@ -31,6 +30,7 @@ class Character extends Creature {
     async interact(origin) {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.direction = newDir;
+        draw();
         super.draw(player.x, player.y);
         let currentDialogue = this.dialogues[`${this.questLevel}`];
         if (currentDialogue) {

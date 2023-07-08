@@ -18,6 +18,7 @@ function preload() {
 
 function setup() {
   let zone;
+  player = { step: [0, 0] };
   index = 0;
   textFont(myFont);
   createCanvas(600, 540);
@@ -95,28 +96,62 @@ function draw() {
 function getInput() {
   if (keyIsDown(KEYS.UP)) {
     if (player.direction == DIRECTION.NORTH) {
+      player.stopping = false;
       player.move(DIRECTION.NORTH);
     } else {
       player.setDirection(DIRECTION.NORTH);
     }
   } else if (keyIsDown(KEYS.RIGHT)) {
     if (player.direction == DIRECTION.EAST) {
+      player.stopping = false;
       player.move(DIRECTION.EAST);
     } else {
       player.setDirection(DIRECTION.EAST);
     }
   } else if (keyIsDown(KEYS.DOWN)) {
     if (player.direction == DIRECTION.SOUTH) {
+      player.stopping = false;
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
     }
   } else if (keyIsDown(KEYS.LEFT)) {
     if (player.direction == DIRECTION.WEST) {
+      player.stopping = false;
       player.move(DIRECTION.WEST);
     } else {
       player.setDirection(DIRECTION.WEST);
     }
+  }
+}
+function keyReleased() {
+  switch (keyCode) {
+    case KEYS.UP:
+      player.stopping = true;
+      if (player.step[0] == 0 && player.step[1] == 0) {
+        player.moving = false;
+      }
+      break;
+    case KEYS.RIGHT:
+      player.stopping = true;
+      if (player.step[0] == 0 && player.step[1] == 0) {
+        player.moving = false;
+      }
+      break;
+    case KEYS.DOWN:
+      player.stopping = true;
+      if (player.step[0] == 0 && player.step[1] == 0) {
+        player.moving = false;
+      }
+      break;
+    case KEYS.LEFT:
+      player.stopping = true;
+      if (player.step[0] == 0 && player.step[1] == 0) {
+        player.moving = false;
+      }
+      break;
+    default:
+      break;
   }
 }
 
@@ -340,7 +375,7 @@ function downloadSave() {
 function newWorld() {
   zone = defaultZone
   grid.loadZone(zone);
-  player = new Player(8, 5, DIRECTION.SOUTH, 0, grid.tiles);
+  player = new Player(8, 5, DIRECTION.SOUTH, "player", grid.tiles);
   entities.push(player);
   settings = { textSpeed: TEXT_SPEED.NORMAL };
 
@@ -364,7 +399,7 @@ function loadSave() {
   zone = savedZone;
   grid.loadZone(zone);
 
-  player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, 0, grid.tiles);
+  player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, "player", grid.tiles);
   player.id = worldData.player.id;
   player.money = worldData.player.money;
   player.inventory = worldData.player.inventory;

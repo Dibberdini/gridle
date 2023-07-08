@@ -29,24 +29,37 @@ class Player extends Creature {
                 4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.direction[1] * TILE_HEIGHT * 0.5));
             pop();
         } else {
-            let moving = false;
             let flipped = false;
-            if (this.step[0] != 0 || this.step[1] != 0) {
-                moving = true;
-            }
-            let model = this.model[0];
+            let model = this.model[1];
             switch (this.direction) {
                 case DIRECTION.NORTH:
-                    moving ? model = this.model[0] : this.model[1];
+                    if (this.moving) {
+                        model = this.model[0];
+                    } else {
+                        model = this.model[1];
+                    }
                     break;
                 case DIRECTION.EAST:
-                    moving ? model = this.model[2] : this.model[3];
+                    if (this.moving) {
+                        model = this.model[2];
+                    } else {
+                        model = this.model[3];
+                    }
                     break;
                 case DIRECTION.SOUTH:
-                    moving ? model = this.model[4] : this.model[5];
+                    if (this.moving) {
+                        model = this.model[4];
+                    } else {
+                        model = this.model[5];
+                    }
                     break;
                 case DIRECTION.WEST:
-                    moving ? model = this.model[2] : this.model[3];
+                    flipped = true;
+                    if (this.moving) {
+                        model = this.model[2];
+                    } else {
+                        model = this.model[3];
+                    }
                     break;
                 default:
                     break;
@@ -54,15 +67,17 @@ class Player extends Creature {
             push();
             if (flipped) {
                 scale(-1, 1);
+                image(model, -5 * TILE_WIDTH, 4 * TILE_HEIGHT);
+            } else {
+                image(model, 4 * TILE_WIDTH, 4 * TILE_HEIGHT);
             }
-            image(model, 4 * TILE_WIDTH, 4 * TILE_HEIGHT);
             pop();
         }
     }
 
     async update() {
         if (super.update() == "arrived") {
-            if (this.stopping()) {
+            if (this.stopping) {
                 this.checkDirectionChange();
             }
             if (this.tile.type == TileType.GRASS && this.monsters.length > 0) {
@@ -80,19 +95,6 @@ class Player extends Creature {
             }
             return "arrived";
         }
-    }
-
-    stopping() {
-        if (this.direction == DIRECTION.NORTH && keyIsDown(KEYS.UP)) {
-            return false;
-        } else if (this.direction == DIRECTION.EAST && keyIsDown(KEYS.RIGHT)) {
-            return false;
-        } else if (this.direction == DIRECTION.SOUTH && keyIsDown(KEYS.DOWN)) {
-            return false;
-        } else if (this.direction == DIRECTION.WEST && keyIsDown(KEYS.LEFT)) {
-            return false;
-        }
-        return true;
     }
 
     checkDirectionChange() {
