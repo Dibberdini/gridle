@@ -5,20 +5,14 @@ class Item extends Entity {
         this.type = type;
         this.owner = owner;
         this.name = Item.getItemInfo(type).name;
+        this.model = globalSpriteList.models.underberg;
     }
 
     draw(x, y) {
         let newX = this.x + 4 - x;
         let newY = this.y + 4 - y;
 
-        if (this.model == 0) {
-            push()
-            fill(0, 0, 255);
-            noStroke();
-            ellipseMode(CENTER);
-            circle(newX * TILE_WIDTH + 0.5 * TILE_WIDTH, newY * TILE_HEIGHT + 0.5 * TILE_HEIGHT, TILE_WIDTH * 0.7);
-            pop();
-        }
+        image(this.model, newX * TILE_WIDTH, newY * TILE_HEIGHT);
     }
 
     interact(newOwner) {
