@@ -91,10 +91,17 @@ const GROWTH_RATES = {
 }
 
 const TYPES = {
-    normal: {},
-    fire: { water: 0.5, grass: 2 },
-    water: { fire: 2, grass: 0.5 },
-    grass: { fire: 0.5, water: 2 }
+    NORMAL: {},
+    ADAM: { ADAM: 2, FELIX: 2, HEIBING: 0.5, MIKKEL: 0.5, MORTEN: 2, DIBBERN: 2 },
+    ALEX: { OLAF: 2, JOAKIM: 0.5, HEIBING: 2, DAREIOS: 0.5, MIKKEL: 2, ALEX: 0.5, MORTEN: 0, DIBBERN: 0.5 },
+    BING: { ADAM: 0.5, FELIX: 0.5, JOAKIM: 2, HEIBING: 2, DAREIOS: 0.5, ALEX: 0.5, MORTEN: 2 },
+    DAREIOS: { OLAF: 0.5, JOAKIM: 0.5, HEIBING: 2, DAREIOS: 0.5, MIKKEL: 2, ALEX: 2, DIBBERN: 0.5 },
+    DIBBERN: { OLAF: 2, ADAM: 0.5, JOAKIM: 0.5, HEIBING: 2, MIKKEL: 2, ALEX: 0.5, MORTEN: 0.5, DIBBERN: 2 },
+    FELIX: { ADAM: 2, FELIX: 0.5, JOAKIM: 2, HEIBING: 0.5, DAREIOS: 2, MORTEN: 0.5, DIBBERN: 0.5 },
+    JOAKIM: { OLAF: 2, FELIX: 2, JOAKIM: 0.5, HEIBING: 0.5, MIKKEL: 2, ALEX: 0.5, MORTEN: 0 },
+    MIKKEL: { OLAF: 0.5, ADAM: 2, JOAKIM: 0, DAREIOS: 2, MIKKEL: 2, ALEX: 0.5, MORTEN: 0.5 },
+    MORTEN: { OLAF: 0.5, ADAM: 2, FELIX: 0.5, JOAKIM: 0, MIKKEL: 0.5, MORTEN: 2, DIBBERN: 2 },
+    OLAF: { OLAF: 0.5, FELIX: 0.5, JOAKIM: 2, MIKKEL: 2, ALEX: 2, DIBBERN: 0.5 }
 }
 
 const SPRITES = [

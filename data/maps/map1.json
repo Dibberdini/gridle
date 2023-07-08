@@ -27,7 +27,7 @@
             ],
         "monsters":
             [
-                3
+                10
             ],
         "items":
             [
@@ -38,7 +38,7 @@
             [
                 
             ],
-        "zone_strength": {"min": 3, "max": 5},
+        "zone_strength": {"min": 3, "max": 4},
         "warp": {"8":
                 {"4": {"map": "map2.json", "pos": [2, 6]}}
             },

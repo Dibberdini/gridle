@@ -53,7 +53,7 @@ class Monster {
         this.calculateStats();
         this.requiredEXP = this.calculateRequiredEXP();
         //Give the monster attack-moves
-        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
+        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.id == this.prototype.id).moves;
         monsterMoveList = monsterMoveList.map((x) => x);
         while (monsterMoveList.length > 0 && this.moveSet.length < 4) {
             let highestMove = monsterMoveList.pop();
@@ -77,7 +77,7 @@ class Monster {
     }
 
     drawModel(x, y) {
-        if (this.model instanceof Image) {
+        if (this.model != 0) {
             image(this.model, x, y);
         } else {
             push();

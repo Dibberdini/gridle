@@ -1,33 +1,95 @@
 {
     "monsters": 
                 [
-                {"name":"Booper",
+                {"name":"Arto-Adam",
                 "attack":48, "defence":65, "speed": 43, "maxHealth":44,
-                "special": 50, "model":0, "type":["water"], "id": 1,
+                "special": 50, "model":"001.png", "type":["ADAM"], "id": 1,
                 "growth": "m_slow","catchRate": 45, "yield": 63,
-                "nextForm": {"level": 15, "id": 2}},
-                {"name": "Dooper",
-                "attack":59, "defence": 80, "speed": 58, "maxHealth":59,
-                "special": 65, "model": 0, "type":["water"], "id": 2,
-                "growth": "m_slow","catchRate": 45, "yield": 142},
-                {"name":"Screpper",
+                "nextForm": {"level": 16, "id": 2}},
+                {"name": "Adam uden skæg",
+                "attack":63, "defence": 80, "speed": 58, "maxHealth":59,
+                "special": 65, "model": "002.png", "type":["ADAM"], "id": 2,
+                "growth": "m_slow","catchRate": 45, "yield": 142,
+                "nextForm": {"level": 36, "id": 3}},
+                {"name":"Adam med skæg",
+                "attack":79, "defence":100, "speed": 78, "maxHealth":79,
+                "special": 85,"model":"003.png", "type":["ADAM"], "id": 3,
+                "growth": "m_slow", "catchRate": 45, "yield": 239},
+                {"name":"Skolefoto-Bing",
+                "attack":49, "defence":49, "speed": 45, "maxHealth":45,
+                "special": 65, "model":"004.png", "type":["HEIBING"], "id": 4,
+                "growth": "m_slow","catchRate": 45, "yield": 6364,
+                "nextForm": {"level": 16, "id": 5}},
+                {"name":"Bing med Bil",
+                "attack":62, "defence":63, "speed": 60, "maxHealth":60,
+                "special": 80, "model":"005.png", "type":["HEIBING"], "id": 5,
+                "growth": "m_slow","catchRate": 45, "yield": 142,
+                "nextForm": {"level": 32, "id": 6}},
+                {"name":"Bing med baby",
+                "attack":82, "defence":83, "speed": 80, "maxHealth":80,
+                "special": 100, "model":"006.png", "type":["HEIBING"], "id": 6,
+                "growth": "m_slow","catchRate": 45, "yield": 236},
+                {"name":"Støvsuger-Mikkel",
+                "attack":52, "defence":43, "speed": 65, "maxHealth":39,
+                "special": 60, "model":"007.png", "type":["MIKKEL"], "id": 7,
+                "growth": "m_slow","catchRate": 45, "yield": 62,
+                "nextForm": {"level": 16, "id": 8}},
+                {"name":"Ski-Mikkel",
+                "attack":64, "defence":58, "speed": 80, "maxHealth":58,
+                "special": 65, "model":"008.png", "type":["MIKKEL"], "id": 8,
+                "growth": "m_slow","catchRate": 45, "yield": 142,
+                "nextForm": {"level": 36, "id": 9}},
+                {"name":"Mikkel med hund",
+                "attack":84, "defence":78, "speed": 100, "maxHealth":78,
+                "special": 85, "model":"009.png", "type":["MIKKEL"], "id": 9,
+                "growth": "m_slow","catchRate": 45, "yield": 267},
+                {"name":"Morten uden DP",
                 "attack":56, "defence":35, "speed": 72, "maxHealth":30,
-                "special": 25,"model":0, "type":["fire"], "id": 3,
-                "growth": "m_fast", "catchRate": 255, "yield": 51}
+                "special": 25, "model":"010.png", "type":["MORTEN"], "id": 10,
+                "growth": "m_fast","catchRate": 255, "yield": 51,
+                "nextForm": {"level": 20, "id": 11}},
+                {"name":"Morten med DP",
+                "attack":81, "defence":60, "speed": 97, "maxHealth":55,
+                "special": 50, "model":"011.png", "type":["MORTEN"], "id": 11,
+                "growth": "m_fast","catchRate": 127, "yield": 145}
                 ],
     "learnset":
                 [
-                {"name":"Booper", "moves": [
+                {"id":1, "moves": [
                     {"id": 1, "level": 1},
                     {"id": 2, "level": 7},
                     {"id": 3, "level": 14}
                 ]},
-                {"name":"Dooper", "moves": [
+                {"id":2, "moves": [
                     {"id": 1, "level": 1},
                     {"id": 2, "level": 7},
                     {"id": 3, "level": 14}
                 ]},
-                {"name":"Screpper", "moves": [
+                {"id":3, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":4, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":5, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":6, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":7, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":8, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":9, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":10, "moves": [
+                    {"id": 1, "level": 1}
+                ]},
+                {"id":11, "moves": [
                     {"id": 1, "level": 1}
                 ]}
                 ]
