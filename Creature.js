@@ -4,6 +4,16 @@ class Creature extends Entity {
         this.direction = DIRECTION;
         this.step = [0, 0];
         this.autonomous = true;
+
+        if (model != 0) {
+            this.model = [];
+            this.model.push(loadImage(`./sprites/models/${this.model}_b.png`));
+            this.model.push(loadImage(`./sprites/models/${this.model}_b.gif`));
+            this.model.push(loadImage(`./sprites/models/${this.model}_f.png`));
+            this.model.push(loadImage(`./sprites/models/${this.model}_f.gif`));
+            this.model.push(loadImage(`./sprites/models/${this.model}_s.png`));
+            this.model.push(loadImage(`./sprites/models/${this.model}_s.gif`));
+        }
     }
 
     draw(x, y) {

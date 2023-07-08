@@ -28,6 +28,35 @@ class Player extends Creature {
                 4 * TILE_WIDTH + 0.5 * TILE_WIDTH + (this.direction[0] * TILE_WIDTH * 0.5),
                 4 * TILE_HEIGHT + 0.5 * TILE_HEIGHT + (this.direction[1] * TILE_HEIGHT * 0.5));
             pop();
+        } else {
+            let moving = false;
+            let flipped = false;
+            if (this.step[0] != 0 || this.step[1] != 0) {
+                moving = true;
+            }
+            let model = this.model[0];
+            switch (this.direction) {
+                case DIRECTION.NORTH:
+                    moving ? model = this.model[0] : this.model[1];
+                    break;
+                case DIRECTION.EAST:
+                    moving ? model = this.model[2] : this.model[3];
+                    break;
+                case DIRECTION.SOUTH:
+                    moving ? model = this.model[4] : this.model[5];
+                    break;
+                case DIRECTION.WEST:
+                    moving ? model = this.model[2] : this.model[3];
+                    break;
+                default:
+                    break;
+            }
+            push();
+            if (flipped) {
+                scale(-1, 1);
+            }
+            image(model, 4 * TILE_WIDTH, 4 * TILE_HEIGHT);
+            pop();
         }
     }
 

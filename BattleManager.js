@@ -270,10 +270,8 @@ class BattleManager {
                 if (monster.checkLevelUp()) {
                     await monster.levelUp();
                 }
-
             }
         }
-
     }
 
     async calculateEnemyMove() {
