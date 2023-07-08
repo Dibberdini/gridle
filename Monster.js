@@ -8,12 +8,9 @@ class Monster {
         this.special = monsterPrototype.special;
         this.maxHealth = monsterPrototype.maxHealth;
 
-        this.model;
-        if (monsterPrototype.model != 0) {
-            this.model = loadImage(`./data/sprites/battle/${monsterPrototype.model}`);
-        } else {
-            this.model = 0;
-        }
+        let modelName = monsterPrototype.id.toString().padStart(3, 0);
+        this.model = globalSpriteList.monsters[`${modelName}`];
+
         this.type = monsterPrototype.type;
         this.catchRate = monsterPrototype.catchRate;
         this.moveSet = [];

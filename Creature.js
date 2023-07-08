@@ -12,30 +12,16 @@ class Creature extends Entity {
         }
     }
 
-    async loadNewModel(model) {
+    loadNewModel(model) {
         let newModel = [];
-        loadImage(`./data/sprites/models/${model}_b.gif`, (img) => {
-            newModel[0] = img;
-        });
-        loadImage(`./data/sprites/models/${model}_b.png`, (img) => {
-            newModel[1] = img;
-        });
-        loadImage(`./data/sprites/models/${model}_s.gif`, (img) => {
-            newModel[2] = img;
-        });
-        loadImage(`./data/sprites/models/${model}_s.png`, (img) => {
-            newModel[3] = img;
-        });
-        loadImage(`./data/sprites/models/${model}_f.gif`, (img) => {
-            newModel[4] = img;
-        });
-        loadImage(`./data/sprites/models/${model}_f.png`, (img) => {
-            newModel[5] = img;
-        });
 
-        while (newModel.length < 6) {
-            await sleep(20);
-        }
+        newModel[0] = globalSpriteList.models[`${model}_b`];
+        newModel[1] = globalSpriteList.models[`${model}_b`];
+        newModel[2] = globalSpriteList.models[`${model}_s`];
+        newModel[3] = globalSpriteList.models[`${model}_s`];
+        newModel[4] = globalSpriteList.models[`${model}_f`];
+        newModel[5] = globalSpriteList.models[`${model}_f`];
+
         this.model = newModel;
     }
 

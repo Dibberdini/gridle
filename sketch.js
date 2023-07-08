@@ -7,10 +7,28 @@ function preload() {
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
   globalCharacterList = loadJSON("./data/characters.json");
-  globalSpriteList = [];
-  SPRITES.forEach(spritePath => {
-    loadImage("./data/sprites/" + spritePath, sprite => { globalSpriteList.push({ name: spritePath[0], img: sprite }) });
+
+  globalSpriteList = { tiles: {}, models: {}, monsters: {} };
+  SPRITES.tiles.forEach(spritePath => {
+    let spriteName = spritePath.split(".")[0];
+    loadImage("./data/sprites/" + spritePath, sprite => {
+      globalSpriteList.tiles[`${spriteName}`] = sprite
+    });
   });
+  SPRITES.models.forEach(spritePath => {
+    let spriteName = spritePath.split(".")[0];
+    loadImage("./data/sprites/models/" + spritePath, sprite => {
+      globalSpriteList.models[`${spriteName}`] = sprite
+    });
+  });
+  SPRITES.monsters.forEach(spritePath => {
+    let spriteName = spritePath.split(".")[0];
+    loadImage("./data/sprites/battle/" + spritePath, sprite => {
+      globalSpriteList.monsters[`${spriteName}`] = sprite
+    });
+  });
+
+
   myFont = loadFont("./data/Minecraftia-Regular.ttf");
   worldData = { characters: {}, pickedItems: {}, player: {} };
   titleCard = loadImage("./data/sprites/title/1.png");

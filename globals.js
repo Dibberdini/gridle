@@ -106,15 +106,15 @@ const TYPES = {
 
 const SPRITES = {
     models: [
-        'hjarvard_b.gif', 'hjarvard_b.png',
-        'hjarvard_f.gif', 'hjarvard_f.png',
-        'hjarvard_s.gif', 'hjarvard_s.png',
-        'isak_b.gif', 'isak_b.png',
-        'isak_f.gif', 'isak_f.png',
-        'isak_s.gif', 'isak_s.png',
-        'player_b.gif', 'player_b.png',
-        'player_f.gif', 'player_f.png',
-        'player_s.gif', 'player_s.png'
+        'hjarvard_b.png',
+        'hjarvard_f.png',
+        'hjarvard_s.png',
+        'isak_b.png',
+        'isak_f.png',
+        'isak_s.png',
+        'player_b.png',
+        'player_f.png',
+        'player_s.png'
     ],
     monsters: [
         '001.png', '002.png', '003.png', '004.png',

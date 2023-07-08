@@ -46,6 +46,6 @@ class Tile {
     }
 
     setModel(modelName) {
-        this.model = globalSpriteList.find(sprite => sprite.name == modelName).img;
+        this.model = globalSpriteList.tiles[modelName];
     }
 }
