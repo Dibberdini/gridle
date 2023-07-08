@@ -320,41 +320,7 @@ class BattleManager {
         //For each monster in turnOrder perform their loaded moves, if they're alive.
         for (let i = 0; i < turnOrder.length; i++) {
             let monster = turnOrder[i];
-            if (monster.loadedMove && !monster.dead && monster.cooldown == 0) {
-                let move = monster.attackMove(monster.loadedMove, monster.loadedTarget);
-
-                //Setup message to display while move is carried out.
-                let message = monster.name + " used " + monster.loadedMove.name + "!";
-                if (monster.owner != player.id) {
-                    message = "Enemy " + message;
-                }
-                dialogue.load([{ type: "battle", line: message }]);
-
-                //Wait until animation is finished.
-                while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length || monster.outstandingHealing > 0) {
-                    await sleep(10);
-                }
-                await sleep(400)
-                if (move.missed) {
-                    await dialogue.load([{ type: "timed", line: `${monster.name} missed!` }]);
-                } else if (move.effectiveness && move.effectiveness == 0) {
-                    await dialogue.load([{ type: "timed", line: "It has no effect...", time: 800 }]);
-                } else {
-                    if (move.crit) {
-                        await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
-                    }
-                    if (move.effectiveness) {
-                        if (move.effectiveness == 0.5) {
-                            await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 800 }]);
-                        } else if (move.effectiveness == 2) {
-                            await dialogue.load([{ type: "timed", line: "It's super effective!", time: 800 }]);
-                        }
-                    }
-                }
-            } else if (monster.cooldown > 0) {
-                await dialogue.load([{ type: "timed", line: `${monster.name} is recovering from ${monster.loadedMove.name}`, time: 800 }]);
-                monster.cooldown--;
-            }
+            await this.monsterMove(monster);
         }
 
         //If player's monster died -
@@ -384,6 +350,66 @@ class BattleManager {
             this.activeMonster.loadedMove = null;
             this.activeMonster.loadedTarget = null;
             this.playerTurn = true;
+        }
+    }
+
+    async monsterMove(monster) {
+        let statusEffect = monster.statusEffect();
+        if (statusEffect.paralyzed) {
+            await dialogue.load([{ type: "statement", line: `${monster.name} is fully paralyzed!` }]);
+            return;
+        }
+        if (statusEffect.asleep) {
+            await dialogue.load([{ type: "statement", line: `${monster.name} is fast asleep.` }]);
+            return;
+        } else if (statusEffect.awake) {
+            await dialogue.load([{ type: "statement", line: `${monster.name} woke up!` }]);
+        }
+        if (monster.loadedMove && !monster.dead && monster.cooldown == 0) {
+            let move = monster.attackMove(monster.loadedMove, monster.loadedTarget);
+
+            //Setup message to display while move is carried out.
+            let message = monster.name + " used " + monster.loadedMove.name + "!";
+            if (monster.owner != player.id) {
+                message = "Enemy " + message;
+            }
+            dialogue.load([{ type: "battle", line: message }]);
+
+            //Wait until animation is finished.
+            while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length || monster.outstandingHealing > 0) {
+                await sleep(10);
+            }
+            await sleep(400)
+            if (move.missed) {
+                await dialogue.load([{ type: "timed", line: `${monster.name} missed!` }]);
+            } else if (move.effectiveness && move.effectiveness == 0) {
+                await dialogue.load([{ type: "timed", line: "It has no effect...", time: 800 }]);
+            } else {
+                if (move.crit) {
+                    await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
+                }
+                if (move.effectiveness) {
+                    if (move.effectiveness == 0.5) {
+                        await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 800 }]);
+                    } else if (move.effectiveness == 2) {
+                        await dialogue.load([{ type: "timed", line: "It's super effective!", time: 800 }]);
+                    }
+                }
+            }
+        } else if (monster.cooldown > 0) {
+            await dialogue.load([{ type: "timed", line: `${monster.name} is recovering from ${monster.loadedMove.name}`, time: 800 }]);
+            monster.cooldown--;
+        }
+        if (statusEffect.poisoned) {
+            Math.ceil(monster.takeDamage(monster.maxHealth / 16));
+            await dialogue.load([{ type: "battle", line: `${monster.name} is poisoned` }])
+            //Wait until animation is finished.
+            while (monster.loadedTarget.outstandingDamage > 0 || dialogue.step < dialogue.currentLine.line.length || monster.outstandingHealing > 0) {
+                await sleep(5);
+            }
+        } else if (statusEffect.unpoisoned) {
+            monster.setStatus(STATUSES.NONE);
+            await dialogue.load([{ type: "statement", line: `${monster.name} is no longer poisoned!` }]);
         }
     }
 

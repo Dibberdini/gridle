@@ -8,7 +8,12 @@ class Monster {
         this.special = monsterPrototype.special;
         this.maxHealth = monsterPrototype.maxHealth;
 
-        this.model = monsterPrototype.model;
+        this.model;
+        if (monsterPrototype.model != 0) {
+            this.model = loadImage(`./data/sprites/battle/${monsterPrototype.model}`);
+        } else {
+            this.model = 0;
+        }
         this.type = monsterPrototype.type;
         this.catchRate = monsterPrototype.catchRate;
         this.moveSet = [];
@@ -72,7 +77,9 @@ class Monster {
     }
 
     drawModel(x, y) {
-        if (this.model == 0) {
+        if (this.model instanceof Image) {
+            image(this.model, x, y);
+        } else {
             push();
             fill(0, 250, 0);
             noStroke();
@@ -91,6 +98,9 @@ class Monster {
 
         //Draw Level
         text("Lvl: " + this.level, x + 20, y + 25);
+        if (this.status != STATUSES.NONE) {
+            text(this.status.toUpperCase(), x + 40, y + 25);
+        }
 
         //Update HP
         if (this.outstandingDamage > 0) {
@@ -211,12 +221,45 @@ class Monster {
     setStatus(status) {
         switch (status) {
             case STATUSES.PARALYZED:
-                return;
-            case STATUSES.
-                default:
+                this.speed *= 0.25;
+                break;
+            case STATUSES.NONE:
+                if (this.status == STATUSES.PARALYZED) {
+                    this.speed *= 4;
+                }
+                break;
+            default:
                 break;
         }
         this.status = status;
+    }
+
+    statusEffect() {
+        let effect = {};
+        switch (this.status) {
+            case STATUSES.PARALYZED:
+                if (Math.random() < 0.25) {
+                    effect.paralyzed = true;
+                }
+                break;
+            case STATUSES.POISONED:
+                if (Math.random() < 0.2) {
+                    effect.unpoisoned = true;
+                } else {
+                    effect.poisoned = true;
+                }
+                break;
+            case STATUSES.ASLEEP:
+                if (Math.random() < 0.2) {
+                    effect.awake = true;
+                } else {
+                    effect.asleep = true;
+                }
+                break;
+            default:
+                break;
+        }
+        return effect;
     }
 
     increaseHealth(healAmount) {
