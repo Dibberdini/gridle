@@ -57,7 +57,38 @@ function setup() {
   if (windowWidth < 600) {
     resize();
   }
+  buttons = []
+  let buttonUp = createButton("↑");
+  buttonUp.mousePressed(buttonInputUp);
+  buttons.push(buttonUp);
+  let buttonRight = createButton("→");
+  buttonRight.mousePressed(buttonInputRight);
+  buttons.push(buttonRight);
+  let buttonDown = createButton("↓");
+  buttonDown.mousePressed(buttonInputDown);
+  buttons.push(buttonDown);
+  let buttonLeft = createButton("←");
+  buttonLeft.mousePressed(buttonInputLeft);
+  buttons.push(buttonLeft);
+  let buttonA = createButton("A");
+  buttonA.mousePressed(buttonInputA);
+  buttons.push(buttonA);
+  let buttonB = createButton("B");
+  buttonB.mousePressed(buttonInputB);
+  buttons.push(buttonB);
+  let buttonStart = createButton("START");
+  buttonStart.mousePressed(buttonInputStart);
+  buttons.push(buttonStart);
 
+  buttons.forEach(button => {
+    button.addClass("mobile");
+    button.size(50, 50);
+  });
+
+  buttonDown = { UP: false, RIGHT: false, DOWN: false, LEFT: false };
+
+
+  //Debug enable
   debug = false;
 }
 
@@ -473,4 +504,39 @@ function resize() {
   w = windowWidth;
   h = w * 0.9;
   document.body.getElementsByTagName("canvas")[0].style.cssText = `width: ${w}px; height: ${h}px`;
+}
+
+function buttonInputA() {
+  keyCode = KEYS.A_KEY;
+  keyPressed();
+}
+
+function buttonInputB() {
+  keyCode = KEYS.B_KEY;
+  keyPressed();
+}
+
+function buttonInputUp() {
+  keyCode = KEYS.UP;
+  keyPressed();
+}
+
+function buttonInputRight() {
+  keyCode = KEYS.RIGHT;
+  keyPressed();
+}
+
+function buttonInputDown() {
+  keyCode = KEYS.DOWN;
+  keyPressed();
+}
+
+function buttonInputLeft() {
+  keyCode = KEYS.LEFT;
+  keyPressed();
+}
+
+function buttonInputStart() {
+  keyCode = KEYS.START;
+  keyPressed();
 }

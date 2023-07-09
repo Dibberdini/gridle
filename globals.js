@@ -152,7 +152,7 @@ const SPRITES = {
         'G.png', 'H.png', 'I.png',
         'J.png', 'K.png', 'L.png',
         'M.png', 'N.png', 'O.png',
-        'P.png', 'Q.png', 'V.png',
+        'P.png', 'Q.png', 'V.gif',
         'W.png'
     ]
 }
