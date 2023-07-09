@@ -89,10 +89,10 @@ class AnimationManager {
         AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
         await dialogue.load([{ type: "timed", line: `What? ${monsterName} is evolving!`, time: 1000 }]);
         let animationDelta = animationFrame;
-        while (animationFrame < animationDelta + frameRate() * duration) {
+        while (animationFrame < animationDelta + fps * duration) {
             if ((animationDelta - animationFrame) % 2 == 0) {
                 background(255);
-                let mapped = map(Math.random(), 0, 1, 0, frameRate() * duration);
+                let mapped = map(Math.random(), 0, 1, 0, fps * duration);
                 if (mapped > -(animationDelta - animationFrame)) {
                     AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
                 } else {

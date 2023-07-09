@@ -43,8 +43,9 @@ function setup() {
   createCanvas(600, 540);
   dialogue = new DialogManager();
   entities = [];
+  fps = 60;
+  frameRate(fps);
   grid = new Grid();
-  frameRate(60);
   tick = 0;
   tickRate = 15;
   state = STATE.TITLE;
@@ -110,7 +111,7 @@ function draw() {
     }
     if (tick % 5 == 0) {
       walkNumber++;
-      if (walkNumber > 2) {
+      if (walkNumber > 3) {
         walkNumber = 0;
       }
     }
@@ -323,11 +324,11 @@ function togglePause() {
 function drawDebugInfo() {
   push();
   // Draw FPS (rounded to 2 decimal places) at the bottom left of the screen
-  let fps = frameRate();
+  let currentFPS = 1000/deltaTime;
   fill(255);
   stroke(0);
   textSize(12);
-  text("FPS: " + fps.toFixed(2), 10, height);
+  text("FPS: " + currentFPS.toFixed(2), 10, height);
 
   //Draw player pos
   if (state == STATE.WORLD && player.tile) {

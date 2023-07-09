@@ -1,34 +1,30 @@
 class Grid {
     constructor() {
-        this.w = 0;
-        this.h = 0;
     }
 
     loadZone(zone) {
-        this.w = 0;
-        this.h = 0;
         this.tiles = create2dArray(zone.h, zone.w);;
 
-        for (let i = 0; i < zone.h; i++) {
-            for (let j = 0; j < zone.w; j++) {
-                let tile = new Tile(j, i)
-                let index = i * zone.w + j;
+        for (let i = 0; i < zone.w; i++) {
+            for (let j = 0; j < zone.h; j++) {
+                let tile = new Tile(i, j)
+                let layout = zone.layout[i][j];
 
                 //Set Tile Type
-                if (zone.layout[index][0] == "g") {
+                if (layout[0] == "g") {
                     tile.setType(TileType.GRASS);
-                } else if (zone.layout[index][0] == "w") {
+                } else if (layout[0] == "w") {
                     tile.setType(TileType.WALL);
-                } else if (zone.layout[index][0] == "t") {
+                } else if (layout[0] == "t") {
                     tile.setType(TileType.TELEPORT);
                 }
 
                 //Set Tile Sprite
-                if (zone.layout[index][1]) {
-                    tile.setModel(zone.layout[index][1]);
+                if (layout[1]) {
+                    tile.setModel(zone.layout[i][j][1]);
                 }
 
-                this.tiles[j][i] = tile;
+                this.tiles[i][j] = tile;
             }
         }
 

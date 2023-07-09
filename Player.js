@@ -19,21 +19,33 @@ class Player extends Creature {
         switch (this.direction) {
             case DIRECTION.NORTH:
                 if (this.moving) {
-                    model = this.model[6 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[8]
+                    } else {
+                        model = this.model[6 + walkNumber];
+                    }
                 } else {
                     model = this.model[8];
                 }
                 break;
             case DIRECTION.EAST:
                 if (this.moving) {
-                    model = this.model[3 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[5]
+                    } else {
+                        model = this.model[3 + walkNumber];
+                    }
                 } else {
                     model = this.model[5];
                 }
                 break;
             case DIRECTION.SOUTH:
                 if (this.moving) {
-                    model = this.model[0 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[2]
+                    } else {
+                        model = this.model[0 + walkNumber];
+                    }
                 } else {
                     model = this.model[2];
                 }
@@ -41,7 +53,11 @@ class Player extends Creature {
             case DIRECTION.WEST:
                 flipped = true;
                 if (this.moving) {
-                    model = this.model[3 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[5]
+                    } else {
+                        model = this.model[3 + walkNumber];
+                    }
                 } else {
                     model = this.model[5];
                 }

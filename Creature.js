@@ -31,21 +31,33 @@ class Creature extends Entity {
         switch (this.direction.toString()) {
             case DIRECTION.NORTH.toString():
                 if (this.moving) {
-                    model = this.model[6 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[8]
+                    } else {
+                        model = this.model[6 + walkNumber];
+                    }
                 } else {
                     model = this.model[8];
                 }
                 break;
             case DIRECTION.EAST.toString():
                 if (this.moving) {
-                    model = this.model[3 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[5]
+                    } else {
+                        model = this.model[3 + walkNumber];
+                    }
                 } else {
                     model = this.model[5];
                 }
                 break;
             case DIRECTION.SOUTH.toString():
                 if (this.moving) {
-                    model = this.model[0 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[2]
+                    } else {
+                        model = this.model[0 + walkNumber];
+                    }
                 } else {
                     model = this.model[2];
                 }
@@ -53,7 +65,11 @@ class Creature extends Entity {
             case DIRECTION.WEST.toString():
                 flipped = true;
                 if (this.moving) {
-                    model = this.model[3 + walkNumber];
+                    if(walkNumber == 3) {
+                        model = this.model[5]
+                    } else {
+                        model = this.model[3 + walkNumber];
+                    }
                 } else {
                     model = this.model[5];
                 }
