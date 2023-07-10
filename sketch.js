@@ -455,15 +455,6 @@ function newWorld() {
   entities.push(player);
   settings = { textSpeed: TEXT_SPEED.NORMAL };
 
-  //Test parameters
-  let firstmonster = new Monster(globalMonsterList.monsters[0]);
-  firstmonster.setLevel(5);
-  player.addMonster(firstmonster);
-  let t = player.inventory.pop();
-  player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
-  player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
-  player.inventory.push(t);
-
   saveWorld();
 }
 
