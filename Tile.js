@@ -6,6 +6,7 @@ class Tile {
         this.clear = true;
         this.occupant = null;
         this.model = 0;
+        this.blocker == null;
     }
 
     setType(type) {
@@ -20,6 +21,9 @@ class Tile {
         let newY = this.y + 4 - y;
         if (this.model != 0) {
             image(this.model, newX * TILE_WIDTH, newY * TILE_HEIGHT);
+            if(this.blocker) {
+                image(this.blocker, newX * TILE_WIDTH, newY * TILE_HEIGHT);
+            }
         } else {
             push();
             fill(255);
@@ -47,5 +51,9 @@ class Tile {
 
     setModel(modelName) {
         this.model = globalSpriteList.tiles[modelName];
+    }
+
+    setBlockerModel(modelName) {
+        this.blocker = globalSpriteList.blockers[modelName];
     }
 }

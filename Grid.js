@@ -3,7 +3,7 @@ class Grid {
     }
 
     loadZone(zone) {
-        this.tiles = create2dArray(zone.h, zone.w);;
+        this.tiles = create2dArray(zone.w, zone.h);;
 
         for (let i = 0; i < zone.w; i++) {
             for (let j = 0; j < zone.h; j++) {
@@ -21,7 +21,10 @@ class Grid {
 
                 //Set Tile Sprite
                 if (layout[1]) {
-                    tile.setModel(zone.layout[i][j][1]);
+                    tile.setModel(layout[1]);
+                }
+                if(layout[2]) {
+                    tile.setBlockerModel(layout[2])
                 }
 
                 this.tiles[i][j] = tile;

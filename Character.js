@@ -136,7 +136,6 @@ class Character extends Creature {
             }
         }
         let currentDialogue = this.dialogues[`${this.questLevel}`];
-        console.log(currentDialogue);
         await dialogue.speak(currentDialogue, this);
         battle.trainerBattle(this);
     }

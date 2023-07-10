@@ -1,5 +1,5 @@
 function preload() {
-  defaultZone = loadJSON("./data/maps/map1.json");
+  defaultZone = loadJSON("./data/maps/area_0.json");
   savedZone = null;
   if (getItem("save")) {
     savedZone = loadJSON(`./data/maps/${getItem("save").zone}`);
@@ -8,7 +8,7 @@ function preload() {
   globalMoveList = loadJSON("./data/moves.json");
   globalCharacterList = loadJSON("./data/characters.json");
 
-  globalSpriteList = { tiles: {}, models: {}, monsters: {} };
+  globalSpriteList = { tiles: {}, models: {}, monsters: {}, blockers: {} };
   SPRITES.tiles.forEach(spritePath => {
     let spriteName = spritePath.split(".")[0];
     loadImage("./data/sprites/" + spritePath, sprite => {
@@ -25,6 +25,12 @@ function preload() {
     let spriteName = spritePath.split(".")[0];
     loadImage("./data/sprites/battle/" + spritePath, sprite => {
       globalSpriteList.monsters[`${spriteName}`] = sprite
+    });
+  });
+  SPRITES.blockers.forEach(spritePath => {
+    let spriteName = spritePath.split(".")[0];
+    loadImage("./data/sprites/blockers/" + spritePath, sprite => {
+      globalSpriteList.blockers[`${spriteName}`] = sprite
     });
   });
 
@@ -443,9 +449,9 @@ function downloadSave() {
 }
 
 function newWorld() {
-  zone = defaultZone
+  zone = defaultZone;
   grid.loadZone(zone);
-  player = new Player(8, 5, DIRECTION.SOUTH, "player", grid.tiles);
+  player = new Player(0, 0, DIRECTION.SOUTH, "player", grid.tiles);
   entities.push(player);
   settings = { textSpeed: TEXT_SPEED.NORMAL };
 

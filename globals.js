@@ -155,5 +155,8 @@ const SPRITES = {
         'M.png', 'N.png', 'O.png',
         'P.png', 'Q.png', 'V.gif',
         'W.png'
+    ],
+    blockers: [
+        '1.png'
     ]
 }
