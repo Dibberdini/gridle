@@ -100,14 +100,16 @@ function draw() {
     tick++;
     if (tick >= tickRate) {
       tick = 0;
-      getInput();
-
       //Simulate Character entities
       entities.forEach(entity => {
         if (entity instanceof Character) {
           entity.work();
         }
       });
+      //move Player
+      if(state == STATE.WORLD) {
+        getInput();
+      }
     }
     if (tick % 5 == 0) {
       walkNumber++;
@@ -142,6 +144,18 @@ function draw() {
     animationFrame++;
   } else if (state == STATE.TITLE) {
     TitleMenu.draw();
+  } else if (state == STATE.ENCOUNTER) {
+    background(0);
+    tick++;
+    if (tick >= tickRate) {
+      tick = 0;
+    }
+    grid.draw();
+    //Draw each entity
+    entities.forEach(entity => {
+      entity.update();
+      entity.draw(player.x, player.y);
+    });
   }
 
   if (debug) {
@@ -437,11 +451,8 @@ function newWorld() {
 
   //Test parameters
   let firstmonster = new Monster(globalMonsterList.monsters[0]);
-  let secondmonster = new Monster(globalMonsterList.monsters[2]);
   firstmonster.setLevel(5);
-  secondmonster.setLevel(3);
   player.addMonster(firstmonster);
-  player.addMonster(secondmonster);
   let t = player.inventory.pop();
   player.inventory.push({ type: ITEMS.MONSTERBALL, count: 5, name: "Ball" });
   player.inventory.push({ type: ITEMS.POTION, count: 5, name: "Potion" });
@@ -500,6 +511,8 @@ function loadSave() {
   settings = worldData.settings;
   saveWorld();
 }
+
+//Mobile functions
 
 function resize() {
   w = windowWidth;

@@ -69,6 +69,11 @@ class Item extends Entity {
                 menu.menuState = MENU_STATES.MONSTER_MENU;
                 break;
             case "ball_regular":
+                if(battle.activeEnemy.owner != "wild") {
+                    await dialogue.load([{type: "timed", line: "Thief! You can't steal a bojsemon.", time: 1000}]);
+                    battle.selectingItem = false;
+                    return;
+                }
                 battle.selectingItem = false;
                 menu.index = 0;
                 menu.offset = 0;

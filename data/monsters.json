@@ -116,7 +116,7 @@
                 {"id":1, "moves": [
                     {"id": 1, "level": 1},
                     {"id": 2, "level": 7},
-                    {"id": 3, "level": 14}
+                    {"id": 6, "level": 9}
                 ]},
                 {"id":2, "moves": [
                     {"id": 1, "level": 1},

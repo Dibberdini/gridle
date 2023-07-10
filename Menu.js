@@ -526,11 +526,18 @@ class Menu {
                     this.menuState = MENU_STATES.STATS_MENU;
                 } else if (this.index == 1) {
                     if (this.lastState == STATE.BATTLE) {
-                        this.selected = false;
-                        this.index = 0;
-                        battle.draw();
-                        state = this.lastState;
-                        battle.changeMonster(player.monsters[this.lastIndex], false);
+                        if(player.monsters[this.lastIndex] != battle.activeMonster) {
+                            this.selected = false;
+                            this.index = 0;
+                            battle.draw();
+                            state = this.lastState;
+                            battle.changeMonster(player.monsters[this.lastIndex], false);
+                        } else {
+                            this.selected = false;
+                            this.index = 0;
+                            state = this.lastState
+                            await dialogue.load([{type: "timed", line: `${battle.activeMonster.name} is already out!`, time: 800}]);
+                        }
                     } else {
                         this.switching = true;
                         this.selected = false;

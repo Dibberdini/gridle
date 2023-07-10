@@ -23,7 +23,8 @@ const STATE = {
     BATTLE: "battle",
     DIALOGUE: "dialogue",
     ANIMATION: "animation",
-    TITLE: "title"
+    TITLE: "title",
+    ENCOUNTER: "encounter"
 }
 
 const KEYS = {
@@ -49,7 +50,7 @@ const DIALOGUE_TYPE = {
 const CHARACTER_ROLES = {
     CITIZEN: "citizen",
     HEALER: "healer",
-    FIGHTER: "fighter"
+    TRAINER: "trainer"
 }
 
 const MENU_STATES = {

@@ -228,7 +228,8 @@
             [
                 {"x":8, "y":8, "direction":[0, -1], "id": 1, "pathing": "roaming"},
                 {"x":5, "y":4, "direction":[-1, 0], "id": 2, "pathing": "roaming"},
-                {"x":10, "y":4, "direction":[1, 0], "id": 3, "pathing": "static"}
+                {"x":10, "y":4, "direction":[1, 0], "id": 3, "pathing": "static"},
+                {"x": 4, "y": 11, "direction": [1, 0], "id": 4, "pathing": "static"}
             ],
         "monsters":
             [

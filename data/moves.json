@@ -6,7 +6,7 @@
                 {"name": "KLØR BONDE", "type": "MORTEN", "power": 70, "status": "plz", "pp": 15, "id": 3},
                 {"name": "KLAMYDIA", "type": "MIKKEL", "power": 90, "pp": 10, "accuracy": 100, "id": 4},
                 {"name": "LAVE MAD", "type": "JOAKIM", "power": 60, "status": "psn", "pp": 25, "id": 5},
-                {"name": "SE LANG FILM", "type": "ADAM", "power": 65, "pp": 20, "accuracy": 100, "id": 6},
+                {"name": "SE LANG FILM", "type": "ADAM", "power": 45, "pp": 25, "accuracy": 100, "id": 6},
                 {"name": "KOM FOR SENT", "type": "HEIBING", "power": 80, "pp": 15, "accuracy": 100, "id": 7},
                 {"name": "HENTE TING", "type": "MIKKEL", "power": 55, "pp": 30, "cooldown": 2, "accuracy": 100, "id": 8},
                 {"name": "VISE VIDEO PÅ TLF", "type": "DAREIOS", "power": 70, "accuracy": 100, "id": 9},

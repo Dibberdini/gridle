@@ -17,6 +17,16 @@ class Character extends Creature {
         if (worldData.characters[`${this.id}`]) {
             this.questLevel = worldData.characters[`${this.id}`].questLevel;
         }
+        if(this.role == CHARACTER_ROLES.TRAINER) {
+            this.monsters = [];
+            for(let i = 0; i < prototype.monsters.length; i++) {
+                let monsterPrototype = globalMonsterList.monsters.find(monster => monster.id == prototype.monsters[i].id);
+                let monster = new Monster(monsterPrototype);
+                monster.owner = this;
+                monster.setLevel(prototype.monsters[i].level);
+                this.monsters.push(monster);
+            }
+        }
     }
 
     work() {
@@ -24,6 +34,9 @@ class Character extends Creature {
 
         } else if (this.pathing == "roaming") {
             this.moveRandomly();
+        }
+        if(this.role == CHARACTER_ROLES.TRAINER && tick == 0 && this.questLevel == 0) {
+            this.lookAhead();
         }
     }
 
@@ -103,5 +116,28 @@ class Character extends Creature {
             }
             return false;
         }
+    }
+
+    lookAhead() {
+        for(let i = 0; i < 3; i++) {
+            let checkedTile = grid.tiles[this.x + this.direction[0] * (i + 1)][this.y + this.direction[1] * (i + 1)];
+            if(checkedTile.occupant == player && player.step[0] == 0 && player.step[1] == 0) {
+                this.movetoEngage(i)
+            }
+        }
+    }
+
+    async movetoEngage(movesNeeded) {
+        state = STATE.ENCOUNTER;
+        for(let i = 0; i < movesNeeded; i++) {
+            this.move(this.direction);
+            while(this.step[0] != 0 || this.step[1] != 0) {
+                await sleep(5);
+            }
+        }
+        let currentDialogue = this.dialogues[`${this.questLevel}`];
+        console.log(currentDialogue);
+        await dialogue.speak(currentDialogue, this);
+        battle.trainerBattle(this);
     }
 }

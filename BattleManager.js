@@ -20,6 +20,7 @@ class BattleManager {
         this.participatingMonsters = [];
         this.selectingItem = false;
         this.fleeAttempts = 0;
+        this.enemyTrainer = null;
     }
 
     encounter(monsterList, zoneStrength) {
@@ -33,8 +34,9 @@ class BattleManager {
         this.startBattle([monster]);
     }
 
-    trainerBattle(trainerInfo) {
-        this.startBattle(trainerInfo.monsters);
+    trainerBattle(trainer) {
+        this.enemyTrainer = trainer;
+        this.startBattle(trainer.monsters);
     }
 
     async startBattle(monsters) {
@@ -57,6 +59,14 @@ class BattleManager {
         this.draw();
         if (this.activeEnemy.owner == "wild") {
             await dialogue.load([{ type: "timed", line: `A wild ${this.activeEnemy.name} appears!`, time: 1000 }]);
+        } else {
+            push();
+            noStroke();
+            fill(255);
+            rect(0, 0, width, 250);
+            pop();
+            await dialogue.load([{type: "timed", line: `Trainer ${this.enemyTrainer.name} challenges you!`, time: 1000}]);
+            await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}.`, time: 1000}])
         }
     }
 
@@ -99,7 +109,7 @@ class BattleManager {
 
         //Draw selector either at current move or menu choice
         if (this.fight) {
-            this.drawSelector(this.fightSelections[this.selector][1] - 12, this.fightSelections[this.selector][2] - 35);
+            this.drawSelector(this.fightSelections[this.selector][1] - 12, this.fightSelections[this.selector][2] - 28);
         } else {
             this.drawSelector(this.selections[this.selector][1] - 12, this.selections[this.selector][2] - 35)
         }
@@ -237,24 +247,25 @@ class BattleManager {
 
     async rewardEXP() {
         //Calculate won EXP based on slain monster and number of participating monsters
-        let EXPGain = Math.ceil((this.activeEnemy.prototype.yield * this.activeEnemy.level / 7));
+        let EXPGain = (this.activeEnemy.prototype.yield * this.activeEnemy.level / 7);
         let expShare = 0;
         this.participatingMonsters.forEach(monster => {
             if (!monster.dead) {
                 expShare++;
             }
         });
-        EXPGain = Math.ceil(EXPGain / expShare);
+        EXPGain = EXPGain / expShare;
 
         //OPTIONAL: random modifier. Exclude if unbalanced.
         let random = map(Math.random(), 0, 1, 217, 255) / 255;
-        EXPGain = Math.round(random * EXPGain);
+        EXPGain = random * EXPGain;
 
         if (this.activeEnemy.owner != "wild") {
             EXPGain *= 1.5;
         }
 
         //Award EXP to each participating monster
+        EXPGain = Math.ceil(EXPGain);
         for (let i = 0; i < this.participatingMonsters.length; i++) {
             let monster = this.participatingMonsters[i];
             if (!monster.dead) {
@@ -289,10 +300,20 @@ class BattleManager {
             move = (this.activeEnemy.moveSet[Math.floor(Math.random() * this.activeEnemy.moveSet.length)]);
             this.activeEnemy.loadedMove = move;
             this.activeEnemy.loadedTarget = this.activeMonster;
+        } else {
+            //TODO: Implement proper battle-AI
+            move = (this.activeEnemy.moveSet[Math.floor(Math.random() * this.activeEnemy.moveSet.length)]);
+            this.activeEnemy.loadedMove = move;
+            this.activeEnemy.loadedTarget = this.activeMonster;
         }
     }
 
     async flee() {
+        if(this.activeEnemy.owner != "wild") {
+            await dialogue.load([{type:"timed", line: "Cannot run from a trainer battle", time: 800}])
+            this.performTurn();
+            return;
+        }
         if (this.activeMonster.speed > this.activeEnemy.speed) {
             await dialogue.load([{ type: "timed", line: "Got away safely.", time: 800 }]);
             this.fleeAttempts = 0;
@@ -332,24 +353,35 @@ class BattleManager {
         //If player's monster died -
         if (this.activeMonster.dead) {
             await dialogue.load([{ type: "timed", line: `${this.activeMonster.name}` + " fainted!", time: 1000 }])
-            for (let i = 0; i < player.monsters.length; i++) {
-                //- Find the next living monster, otherwise end battle.
-                if (player.monsters[i] && !player.monsters[i].dead) {
-                    await this.changeMonster(player.monsters[i], true);
-                    this.fight = false;
-                    this.selector = 0;
-                    this.playerTurn = true;
-                    break;
-                } else if (i == player.monsters.length - 1) {
-                    await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
-                    this.returnToWorld()
-                    resuscitate();
-                }
+            //- Find the next living monster, otherwise end battle.
+            let nextMonsterIndex = this.hasLivingMonsters(player);
+            if (nextMonsterIndex != -1) {
+                await this.changeMonster(player.monsters[nextMonsterIndex], true);
+                this.fight = false;
+                this.selector = 0;
+                this.playerTurn = true;
+            } else {
+                await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
+                this.returnToWorld()
+                resuscitate();
             }
         } else if (this.activeEnemy.dead) {
             await this.rewardEXP();
             if (this.activeEnemy.owner == "wild") {
                 this.returnToWorld();
+            } else {
+                let nextMonsterIndex = this.hasLivingMonsters(this.enemyTrainer);
+                if(nextMonsterIndex != -1) {
+                    this.activeEnemy = this.enemyTrainer.monsters[nextMonsterIndex];
+                    this.calculateEnemyMove();
+                    await dialogue.load([{type: "timed",line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}`, time: 1000}]);
+                    this.playerTurn = true;
+                    this.fight = false;
+                } else {
+                    await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} was defeated!`, time: 800}])
+                    this.enemyTrainer.questLevel = 100;
+                    this.returnToWorld();
+                }
             }
         } else {
             this.calculateEnemyMove();
@@ -435,5 +467,16 @@ class BattleManager {
         this.activeEnemy.loadedMove = false;
         this.activeEnemy.loadedTarget = false;
         state = STATE.WORLD;
+    }
+
+    hasLivingMonsters(trainer) {
+        for (let i = 0; i < trainer.monsters.length; i++) {
+            //- Find the next living monster, otherwise end battle.
+            if (trainer.monsters[i] && !trainer.monsters[i].dead) {
+                return index
+            } else if (i == trainer.monsters.length - 1) {
+                return -1
+            }
+        }
     }
 }

@@ -51,6 +51,20 @@
                 "100": [
                     {"type": "statement","line": "You're back to full health!"}
                 ]}
+        },
+        {
+            "name": "Gary",
+            "id": 4,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "I'm going to beat you up!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "You beat me up!"}
+                ]},
+            "monsters": [{"id": 10, "level": 3}, {"id": 12, "level": 3}]
         }
     ]
 }
