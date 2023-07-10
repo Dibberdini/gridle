@@ -86,7 +86,7 @@ class AnimationManager {
         push();
         background(255);
         let duration = 8
-        AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
+        AnimationManager.drawMonster(baseMonster.id, width / 2 - 120, height / 2 - 120);
         await dialogue.load([{ type: "timed", line: `What? ${monsterName} is evolving!`, time: 1000 }]);
         let animationDelta = animationFrame;
         while (animationFrame < animationDelta + fps * duration) {
@@ -94,20 +94,20 @@ class AnimationManager {
                 background(255);
                 let mapped = map(Math.random(), 0, 1, 0, fps * duration);
                 if (mapped > -(animationDelta - animationFrame)) {
-                    AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
+                    AnimationManager.drawMonster(baseMonster.id, width / 2 - 120, height / 2 - 120);
                 } else {
-                    AnimationManager.drawMonster(1, width / 2 - 60, height / 2 - 60)
+                    AnimationManager.drawMonster(evolvedMonster.id, width / 2 - 120, height / 2 - 120)
                 }
             }
             if (keyIsDown(KEYS.B_KEY)) {
                 state = lastState;
-                AnimationManager.drawMonster(baseMonster.model, width / 2 - 60, height / 2 - 60);
+                AnimationManager.drawMonster(baseMonster.id, width / 2 - 120, height / 2 - 120);
                 return true;
             }
 
             await sleep(2);
         }
-        AnimationManager.drawMonster(1, width / 2 - 60, height / 2 - 60);
+        AnimationManager.drawMonster(evolvedMonster.id, width / 2 - 120, height / 2 - 120);
         pop();
 
         //Return to previous state
@@ -116,18 +116,15 @@ class AnimationManager {
     }
 
     static drawMonster(model, x, y) {
+        model = model.toString().padStart(3, 0);
         if (model == 0) {
             push();
             fill(0, 250, 0);
             noStroke();
             rect(x, y, 120, 120);
             pop();
-        } else if (model == 1) {
-            push();
-            fill(250, 0, 0);
-            noStroke();
-            rect(x, y, 120, 120);
-            pop();
+        } else {
+            image(globalSpriteList.monsters[`${model}`], x, y, 180, 180);
         }
     }
 }

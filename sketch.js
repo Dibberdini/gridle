@@ -309,7 +309,7 @@ function dialogueInput() {
   }
 }
 
-function titleInput() {
+async function titleInput() {
   switch (keyCode) {
     case KEYS.UP:
       if (index != 0) {
@@ -325,7 +325,7 @@ function titleInput() {
       if (index == 0) {
         TitleMenu.continue();
       } else if (index == 1) {
-        TitleMenu.newGame();
+        await TitleMenu.newGame();
       }
       break;
     default:
@@ -448,13 +448,36 @@ function downloadSave() {
   download(data, 'gridle.json', 'text/plain');
 }
 
-function newWorld() {
+async function newWorld() {
   zone = defaultZone;
   grid.loadZone(zone);
   player = new Player(0, 0, DIRECTION.SOUTH, "player", grid.tiles);
   entities.push(player);
   settings = { textSpeed: TEXT_SPEED.NORMAL };
-
+  background(0);
+  let starter = false;
+  while(!starter) {
+    dialogue.options = ["Arto-Adam", "Skolefoto-Bing", "Støvsuger-Mikkel"];
+    starter = await dialogue.ask("Which bojsemon do you choose as your starter?")
+  }
+  let monster;
+  switch (starter) {
+    case "Arto-Adam":
+      monster = new Monster(globalMonsterList.monsters[0])
+      break;
+    case "Skolefoto-Bing":
+      monster = new Monster(globalMonsterList.monsters[3]);
+      break;
+    case "Støvsuger-Mikkel":
+      monster = new Monster(globalMonsterList.monsters[6]);
+      break;
+    default:
+      break;
+  }
+  monster.setLevel(5);
+  player.addMonster(monster);
+  background(0);
+  await dialogue.load([{type: "statement",line:`You picked ${monster.name}`}]);
   saveWorld();
 }
 

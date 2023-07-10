@@ -73,7 +73,7 @@ class Monster {
     }
 
     drawModel(x, y) {
-        image(globalSpriteList.monsters[`${this.model}`], x, y);
+        image(globalSpriteList.monsters[`${this.model}`], x, y, 180, 180);
     }
 
     async drawStats(x, y, fullStats) {
@@ -316,8 +316,9 @@ class Monster {
         this.species = this.prototype.name;
         this.calculateStats();
         this.requiredEXP = this.calculateRequiredEXP();
+        this.model = this.prototype.id.toString().padStart(3, 0);
 
-        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.name == this.species).moves;
+        var monsterMoveList = globalMonsterList.learnset.find(monsterMoves => monsterMoves.id == this.prototype.id).moves;
         monsterMoveList = monsterMoveList.map((x) => x);
         while (monsterMoveList.length > 0 && this.moveSet.length < 4) {
             let highestMove = monsterMoveList.pop();

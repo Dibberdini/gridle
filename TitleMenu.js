@@ -40,8 +40,8 @@ class TitleMenu {
         }
     }
 
-    static newGame() {
-        newWorld();
+    static async newGame() {
+        await newWorld();
         state = STATE.WORLD
     }
 }
