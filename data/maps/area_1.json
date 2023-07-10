@@ -251,7 +251,9 @@
 		"min": 1,
 		"max": 1
 	},
-	"warp": {},
+	"warp": {"5": {
+				"4": {"map": "area_0.json", "pos": [3, 4]}
+	}},
 	"recover": [],
 	"paths": [],
 	"name": "map.json"
