@@ -5,12 +5,12 @@
                 "attack":48, "defence":65, "speed": 43, "maxHealth":44,
                 "special": 50, "type":["ADAM"], "id": 1,
                 "growth": "m_slow","catchRate": 45, "yield": 63,
-                "nextForm": {"level": 16, "id": 2}},
+                "nextForm": {"level": 13, "id": 2}},
                 {"name": "Adam uden skæg",
                 "attack":63, "defence": 80, "speed": 58, "maxHealth":59,
                 "special": 65, "type":["ADAM"], "id": 2,
                 "growth": "m_slow","catchRate": 45, "yield": 142,
-                "nextForm": {"level": 36, "id": 3}},
+                "nextForm": {"level": 28, "id": 3}},
                 {"name":"Adam med skæg",
                 "attack":79, "defence":100, "speed": 78, "maxHealth":79,
                 "special": 85, "type":["ADAM"], "id": 3,
@@ -19,12 +19,12 @@
                 "attack":49, "defence":49, "speed": 45, "maxHealth":45,
                 "special": 65, "type":["HEIBING"], "id": 4,
                 "growth": "m_slow","catchRate": 45, "yield": 6364,
-                "nextForm": {"level": 16, "id": 5}},
+                "nextForm": {"level": 13, "id": 5}},
                 {"name":"Bing med Bil",
                 "attack":62, "defence":63, "speed": 60, "maxHealth":60,
                 "special": 80, "type":["HEIBING"], "id": 5,
                 "growth": "m_slow","catchRate": 45, "yield": 142,
-                "nextForm": {"level": 32, "id": 6}},
+                "nextForm": {"level": 28, "id": 6}},
                 {"name":"Bing med baby",
                 "attack":82, "defence":83, "speed": 80, "maxHealth":80,
                 "special": 100, "type":["HEIBING"], "id": 6,
@@ -33,12 +33,12 @@
                 "attack":52, "defence":43, "speed": 65, "maxHealth":39,
                 "special": 60, "type":["MIKKEL"], "id": 7,
                 "growth": "m_slow","catchRate": 45, "yield": 62,
-                "nextForm": {"level": 16, "id": 8}},
+                "nextForm": {"level": 13, "id": 8}},
                 {"name":"Ski-Mikkel",
                 "attack":64, "defence":58, "speed": 80, "maxHealth":58,
                 "special": 65, "type":["MIKKEL"], "id": 8,
                 "growth": "m_slow","catchRate": 45, "yield": 142,
-                "nextForm": {"level": 36, "id": 9}},
+                "nextForm": {"level": 28, "id": 9}},
                 {"name":"Mikkel med hund",
                 "attack":84, "defence":78, "speed": 100, "maxHealth":78,
                 "special": 85, "type":["MIKKEL"], "id": 9,
@@ -47,7 +47,7 @@
                 "attack":56, "defence":35, "speed": 72, "maxHealth":30,
                 "special": 25, "type":["MORTEN"], "id": 10,
                 "growth": "m_fast","catchRate": 255, "yield": 51,
-                "nextForm": {"level": 20, "id": 11}},
+                "nextForm": {"level": 16, "id": 11}},
                 {"name":"Morten med DP",
                 "attack":81, "defence":60, "speed": 97, "maxHealth":55,
                 "special": 50, "type":["MORTEN"], "id": 11,
@@ -56,7 +56,7 @@
                 "attack":80, "defence":50, "speed": 25, "maxHealth":80,
                 "special": 40, "type":["JOAKIM"], "id": 12,
                 "growth": "m_fast","catchRate": 190, "yield": 65,
-                "nextForm": {"level": 20, "id": 13}},
+                "nextForm": {"level": 16, "id": 13}},
                 {"name":"Joakim med skæg",
                 "attack":105, "defence":75, "speed": 50, "maxHealth":105,
                 "special": 65, "type":["JOAKIM"], "id": 13,
@@ -78,7 +78,7 @@
                 "attack":85, "defence":95, "speed": 25, "maxHealth":80,
                 "special": 30, "type":["OLAF"], "id": 17,
                 "growth": "slow","catchRate": 120, "yield": 69,
-                "nextForm": {"level": 25, "id": 17}},
+                "nextForm": {"level": 20, "id": 17}},
                 {"name":"Google Olaf",
                 "attack":130, "defence":120, "speed": 40, "maxHealth":105,
                 "special": 45, "type":["OLAF"], "id": 18,
@@ -109,160 +109,492 @@
                 {"name":"Stress-Mikkel",
                 "attack":100, "defence":70, "speed": 105, "maxHealth":65,
                 "special": 80, "type":["MIKKEL"], "id": 24,
-                "growth": "m_fast","catchRate": 60, "yield": 175}
+                "growth": "m_fast","catchRate": 60, "yield": 175},
+                {"name":"Alex i Hedensted High",
+                "attack":30, "defence":35, "speed": 45, "maxHealth":45,
+                "special": 20, "type":["ALEX"], "id": 25,
+                "growth": "m_fast","catchRate": 255, "yield": 39,
+                "nextForm": {"level": 7, "id": 26}},
+                {"name":"Alex i Tvillingernes Jul",
+                "attack":20, "defence":55, "speed": 30, "maxHealth":50,
+                "special": 25, "type":["ALEX"], "id": 26,
+                "growth": "m_fast","catchRate": 120, "yield": 72,
+                "nextForm": {"level": 10, "id": 27}},
+                {"name":"Alex i Vikings",
+                "attack":45, "defence":50, "speed": 70, "maxHealth":60,
+                "special": 80, "type":["ALEX"], "id": 27,
+                "growth": "m_fast","catchRate": 45, "yield": 178}   ,
+                {"name":"Enjoarkin",
+                "attack":85, "defence":80, "speed": 60, "maxHealth":130,
+                "special": 95, "type":["JOAKIM"], "id": 28,
+                "growth": "m_fast","catchRate": 45, "yield": 187},
+                {"name":"Heilbing",
+                "attack":95, "defence":80, "speed": 90, "maxHealth":105,
+                "special": 40, "type":["HEIBING"], "id": 29,
+                "growth": "m_fast","catchRate": 45, "yield": 172},
+                {"name":"Alexander",
+                "attack":45, "defence":40, "speed": 56, "maxHealth":40,
+                "special": 35, "type":["OLAF"], "id": 30,
+                "growth": "m_slow","catchRate": 255, "yield": 50,
+                "nextForm": {"level": 18, "id": 31}},
+                {"name":"Olaf",
+                "attack":60, "defence":55, "speed": 70, "maxHealth":63,
+                "special": 50, "type":["OLAF"], "id": 31,
+                "growth": "m_slow","catchRate": 120, "yield": 122,
+                "nextForm": {"level": 30, "id": 32}},
+                {"name":"Flaf",
+                "attack":80, "defence":75, "speed": 101, "maxHealth":83,
+                "special": 70, "type":["OLAF"], "id": 32,
+                "growth": "m_slow","catchRate": 45, "yield": 216},
+                {"name":"Don med langt hår",
+                "attack":64, "defence":45, "speed": 50, "maxHealth":41,
+                "special": 50, "type":["DAREIOS"], "id": 33,
+                "growth": "slow","catchRate": 45, "yield": 60,
+                "nextForm": {"level": 25, "id": 34}},
+                {"name":"Don med kort hår",
+                "attack":84, "defence":65, "speed": 70, "maxHealth":61,
+                "special": 70, "type":["DAREIOS"], "id": 34,
+                "growth": "slow","catchRate": 45, "yield": 147,
+                "nextForm": {"level": 40, "id": 35}},
+                {"name":"Don med baby",
+                "attack":134, "defence":95, "speed": 80, "maxHealth":91,
+                "special": 100, "type":["DAREIOS"], "id": 35,
+                "growth": "slow","catchRate": 45, "yield": 300},
+                {"name":"Christoffer",
+                "attack":20, "defence":15, "speed": 90, "maxHealth":25,
+                "special": 105, "type":["DIBBERN"], "id": 36,
+                "growth": "m_slow","catchRate": 200, "yield": 62,
+                "nextForm": {"level": 16, "id": 37}},
+                {"name":"Dibbern",
+                "attack":35, "defence":30, "speed": 105, "maxHealth":40,
+                "special": 120, "type":["DIBBERN"], "id": 37,
+                "growth": "m_slow","catchRate": 100, "yield": 140,
+                "nextForm": {"level": 26, "id": 38}},
+                {"name":"Dibfuck",
+                "attack":50, "defence":45, "speed": 120, "maxHealth":55,
+                "special": 135, "type":["DIBBERN"], "id": 38,
+                "growth": "m_slow","catchRate": 50, "yield": 225},
+                {"name":"Kuzz-Felix",
+                "attack":35, "defence":30, "speed": 50, "maxHealth":40,
+                "special": 20, "type":["FELIX"], "id": 39,
+                "growth": "m_fast","catchRate": 255, "yield": 39,
+                "nextForm": {"level": 7, "id": 40}},
+                {"name":"Kenny",
+                "attack":50, "defence":50, "speed": 35, "maxHealth":45,
+                "special": 25, "type":["FELIX"], "id": 40,
+                "growth": "m_fast","catchRate": 120, "yield": 72,
+                "nextForm": {"level": 10, "id": 41}},
+                {"name":"Ronny",
+                "attack":90, "defence":40, "speed": 75, "maxHealth":65,
+                "special": 45, "type":["JOAKIM"], "id": 41,
+                "growth": "m_fast","catchRate": 45, "yield": 178},
+                {"name":"DillerBing",
+                "attack":90, "defence":55, "speed": 60, "maxHealth":52,
+                "special": 65, "type":["HEIBING"], "id": 42,
+                "growth": "m_fast","catchRate": 45, "yield": 132},
+                {"name":"MattresMik",
+                "attack":45, "defence":160, "speed": 70, "maxHealth":35,
+                "special": 30, "type":["MIKKEL"], "id": 43,
+                "growth": "m_fast","catchRate": 45, "yield": 77},
+                {"name":"Kuzzdam",
+                "attack":55, "defence":75, "speed": 30, "maxHealth":90,
+                "special": 60, "type":["ADAM"], "id": 44,
+                "growth": "m_fast","catchRate": 45, "yield": 77},
+                {"name":"Felix før bajer",
+                "attack":60, "defence":30, "speed": 70, "maxHealth":40,
+                "special": 31, "type":["FELIX"], "id": 45,
+                "growth": "m_fast","catchRate": 255, "yield": 52,
+                "nextForm": {"level": 200, "id": 46}},
+                {"name":"Felix efter bajer",
+                "attack":90, "defence":65, "speed": 100, "maxHealth":65,
+                "special": 61, "type":["FELIX"], "id": 46,
+                "growth": "m_fast","catchRate": 90, "yield": 155},
+                {"name":"Don D",
+                "attack":10, "defence":55, "speed": 80, "maxHealth":20,
+                "special": 20, "type":["DAREIOS"], "id": 47,
+                "growth": "slow","catchRate": 255, "yield": 40,
+                "nextForm": {"level": 20, "id": 48}},
+                {"name":"Don Double D",
+                "attack":125, "defence":79, "speed": 81, "maxHealth":95,
+                "special": 100, "type":["DAREIOS"], "id": 48,
+                "growth": "slow","catchRate": 45, "yield": 189},
+                {"name":"Hævnporno-Jokke",
+                "attack":105, "defence":65, "speed": 130, "maxHealth":80,
+                "special": 60, "type":["JOAKIM"], "id": 49,
+                "growth": "slow","catchRate": 45, "yield": 180}   
                 ],
     "learnset":
                 [
                 {"id":1, "moves": [
                     {"id": 1, "level": 1},
-                    {"id": 2, "level": 7},
-                    {"id": 6, "level": 9}
+                    {"id": 6, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 15, "level": 14}                    
                 ]},
                 {"id":2, "moves": [
                     {"id": 1, "level": 1},
-                    {"id": 2, "level": 7},
-                    {"id": 3, "level": 14}
+                    {"id": 6, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 15, "level": 14},
+                    {"id": 35, "level": 20}
                 ]},
                 {"id":3, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 6, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 15, "level": 14},
+                    {"id": 35, "level": 20},
+                    {"id": 53, "level": 30}
                 ]},
                 {"id":4, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 45, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 7, "level": 16}
                 ]},
                 {"id":5, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 45, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 7, "level": 16},
+                    {"id": 22, "level": 20}
                 ]},
                 {"id":6, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 45, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 7, "level": 16},
+                    {"id": 22, "level": 20},
+                    {"id": 42, "level": 30}
                 ]},
                 {"id":7, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 39, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 23, "level": 16}
                 ]},
                 {"id":8, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 39, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 23, "level": 16},
+                    {"id": 8, "level": 18},
+                    {"id": 34, "level": 22}
                 ]},
                 {"id":9, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 39, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 23, "level": 16},
+                    {"id": 8, "level": 18},
+                    {"id": 34, "level": 22},
+                    {"id": 13, "level": 30},
+                    {"id": 37, "level": 38}
                 ]},
                 {"id":10, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 26, "level": 10},
+                    {"id": 27, "level": 20}
                 ]},
                 {"id":11, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 26, "level": 10},
+                    {"id": 27, "level": 20},
+                    {"id": 28, "level": 25},
+                    {"id": 3, "level": 30}
                 ]},
                 {"id":12, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 50, "level": 8},
+                    {"id": 5, "level": 12}
                 ]},
                 {"id":13, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 50, "level": 8},
+                    {"id": 5, "level": 12},
+                    {"id": 16, "level": 20},
+                    {"id": 40, "level": 24}
                 ]},
                 {"id":14, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 47, "level": 13},
+                    {"id": 41, "level": 20},
+                    {"id": 48, "level": 28}
                 ]},
                 {"id":15, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 20, "level": 8},
+                    {"id": 2, "level": 12},
+                    {"id": 21, "level": 16}
                 ]},
                 {"id":16, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 20, "level": 8},
+                    {"id": 2, "level": 12},
+                    {"id": 21, "level": 16},
+                    {"id": 19, "level": 21},
+                    {"id": 38, "level": 28},
+                    {"id": 18, "level": 35}
                 ]},
                 {"id":17, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 33, "level": 7},
+                    {"id": 2, "level": 10},
+                    {"id": 29, "level": 16}
                 ]},
                 {"id":18, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 33, "level": 7},
+                    {"id": 2, "level": 10},
+                    {"id": 29, "level": 16},
+                    {"id": 32, "level": 22}
                 ]},
                 {"id":19, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 45, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 7, "level": 16},
+                    {"id": 22, "level": 20},
+                    {"id": 42, "level": 30}
                 ]},
                 {"id":20, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 26, "level": 10},
+                    {"id": 27, "level": 20},
+                    {"id": 28, "level": 25},
+                    {"id": 3, "level": 30}
                 ]},
                 {"id":21, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 26, "level": 10},
+                    {"id": 27, "level": 20},
+                    {"id": 28, "level": 25},
+                    {"id": 3, "level": 30}
                 ]},
                 {"id":22, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 2, "level": 7},
+                    {"id": 26, "level": 10},
+                    {"id": 27, "level": 20},
+                    {"id": 28, "level": 25},
+                    {"id": 3, "level": 30},
+                    {"id": 25, "level": 33}
                 ]},
                 {"id":23, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 39, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 23, "level": 16},
+                    {"id": 8, "level": 18},
+                    {"id": 34, "level": 22}
                 ]},
                 {"id":24, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 39, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 23, "level": 16},
+                    {"id": 8, "level": 18},
+                    {"id": 34, "level": 22},
+                    {"id": 37, "level": 35}
                 ]},
                 {"id":25, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 20, "level": 8},
+                    {"id": 43, "level": 9},
+                    {"id": 21, "level": 16},
+                    {"id": 19, "level": 21},
+                    {"id": 38, "level": 28},
+                    {"id": 18, "level": 35}
                 ]},
                 {"id":26, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 20, "level": 8},
+                    {"id": 43, "level": 9},
+                    {"id": 21, "level": 16},
+                    {"id": 19, "level": 21},
+                    {"id": 38, "level": 28},
+                    {"id": 18, "level": 35}
                 ]},
                 {"id":27, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 20, "level": 8},
+                    {"id": 43, "level": 9},
+                    {"id": 21, "level": 16},
+                    {"id": 19, "level": 21},
+                    {"id": 38, "level": 28},
+                    {"id": 18, "level": 35}
                 ]},
                 {"id":28, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 50, "level": 8},
+                    {"id": 5, "level": 12},
+                    {"id": 51, "level": 16},
+                    {"id": 16, "level": 20},
+                    {"id": 40, "level": 24}
                 ]},
                 {"id":29, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 45, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 7, "level": 16},
+                    {"id": 22, "level": 20},
+                    {"id": 42, "level": 30}
                 ]},
                 {"id":30, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 33, "level": 7},
+                    {"id": 2, "level": 10},
+                    {"id": 29, "level": 16},
+                    {"id": 32, "level": 22}
                 ]},
                 {"id":31, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 33, "level": 7},
+                    {"id": 2, "level": 10},
+                    {"id": 29, "level": 16},
+                    {"id": 32, "level": 22}
                 ]},
                 {"id":32, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 33, "level": 7},
+                    {"id": 2, "level": 10},
+                    {"id": 29, "level": 16},
+                    {"id": 32, "level": 22}
                 ]},
                 {"id":33, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 10, "level": 8},
+                    {"id": 9, "level": 11},
+                    {"id": 2, "level": 14},
+                    {"id": 12, "level": 18},
+                    {"id": 11, "level": 23},
+                    {"id": 30, "level": 29}
                 ]},
                 {"id":34, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 10, "level": 8},
+                    {"id": 9, "level": 11},
+                    {"id": 2, "level": 14},
+                    {"id": 12, "level": 18},
+                    {"id": 11, "level": 23},
+                    {"id": 30, "level": 29}
                 ]},
                 {"id":35, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 10, "level": 8},
+                    {"id": 9, "level": 11},
+                    {"id": 2, "level": 14},
+                    {"id": 12, "level": 18},
+                    {"id": 11, "level": 23},
+                    {"id": 30, "level": 29}
                 ]},
                 {"id":36, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 49, "level": 7},
+                    {"id": 2, "level": 12},
+                    {"id": 14, "level": 16},
+                    {"id": 36, "level": 20},
+                    {"id": 24, "level": 30}
                 ]},
                 {"id":37, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 49, "level": 7},
+                    {"id": 2, "level": 12},
+                    {"id": 14, "level": 16},
+                    {"id": 36, "level": 20},
+                    {"id": 24, "level": 30}
                 ]},
                 {"id":38, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 49, "level": 7},
+                    {"id": 2, "level": 12},
+                    {"id": 14, "level": 16},
+                    {"id": 36, "level": 20},
+                    {"id": 24, "level": 30}
                 ]},
                 {"id":39, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 47, "level": 13},
+                    {"id": 41, "level": 20},
+                    {"id": 48, "level": 28}
                 ]},
                 {"id":40, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 47, "level": 13},
+                    {"id": 41, "level": 20},
+                    {"id": 48, "level": 28}
                 ]},
                 {"id":41, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 50, "level": 11},
+                    {"id": 40, "level": 14},
+                    {"id": 51, "level": 17}
                 ]},
                 {"id":42, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 45, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 7, "level": 16},
+                    {"id": 22, "level": 20},
+                    {"id": 42, "level": 30}
                 ]},
                 {"id":43, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 39, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 23, "level": 16},
+                    {"id": 8, "level": 18},
+                    {"id": 34, "level": 22},
+                    {"id": 13, "level": 30},
+                    {"id": 37, "level": 38}
                 ]},
                 {"id":44, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 6, "level": 7},
+                    {"id": 2, "level": 11},
+                    {"id": 15, "level": 14},
+                    {"id": 35, "level": 20},
+                    {"id": 53, "level": 30}
                 ]},
                 {"id":45, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 47, "level": 13},
+                    {"id": 41, "level": 20},
+                    {"id": 48, "level": 28}
                 ]},
                 {"id":46, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 47, "level": 13},
+                    {"id": 41, "level": 20},
+                    {"id": 48, "level": 28}
                 ]},
                 {"id":47, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 31, "level": 1},
+                    {"id": 1, "level": 15}
                 ]},
                 {"id":48, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 11, "level": 20},
+                    {"id": 10, "level": 21},
+                    {"id": 9, "level": 22},
+                    {"id": 12, "level": 23}
                 ]},
                 {"id":49, "moves": [
-                    {"id": 1, "level": 1}
+                    {"id": 1, "level": 1},
+                    {"id": 46, "level": 9},
+                    {"id": 50, "level": 11},
+                    {"id": 40, "level": 14},
+                    {"id": 51, "level": 17}
                 ]}
                 ]
 }
