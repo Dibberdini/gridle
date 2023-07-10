@@ -17,9 +17,9 @@ class Character extends Creature {
         if (worldData.characters[`${this.id}`]) {
             this.questLevel = worldData.characters[`${this.id}`].questLevel;
         }
-        if(this.role == CHARACTER_ROLES.TRAINER) {
+        if (this.role == CHARACTER_ROLES.TRAINER) {
             this.monsters = [];
-            for(let i = 0; i < prototype.monsters.length; i++) {
+            for (let i = 0; i < prototype.monsters.length; i++) {
                 let monsterPrototype = globalMonsterList.monsters.find(monster => monster.id == prototype.monsters[i].id);
                 let monster = new Monster(monsterPrototype);
                 monster.owner = this;
@@ -35,7 +35,7 @@ class Character extends Creature {
         } else if (this.pathing == "roaming") {
             this.moveRandomly();
         }
-        if(this.role == CHARACTER_ROLES.TRAINER && tick == 0 && this.questLevel == 0) {
+        if (this.role == CHARACTER_ROLES.TRAINER && tick == 0 && this.questLevel == 0) {
             this.lookAhead();
         }
     }
@@ -43,6 +43,9 @@ class Character extends Creature {
     async interact(origin) {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.direction = newDir;
+        if (this.role == CHARACTER_ROLES.TRAINER) {
+            return;
+        }
         draw();
         super.draw(player.x, player.y);
         let currentDialogue = this.dialogues[`${this.questLevel}`];
@@ -119,9 +122,9 @@ class Character extends Creature {
     }
 
     lookAhead() {
-        for(let i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             let checkedTile = grid.tiles[this.x + this.direction[0] * (i + 1)][this.y + this.direction[1] * (i + 1)];
-            if(checkedTile.occupant == player && player.step[0] == 0 && player.step[1] == 0) {
+            if (checkedTile.occupant == player && player.step[0] == 0 && player.step[1] == 0) {
                 this.movetoEngage(i)
             }
         }
@@ -129,9 +132,9 @@ class Character extends Creature {
 
     async movetoEngage(movesNeeded) {
         state = STATE.ENCOUNTER;
-        for(let i = 0; i < movesNeeded; i++) {
+        for (let i = 0; i < movesNeeded; i++) {
             this.move(this.direction);
-            while(this.step[0] != 0 || this.step[1] != 0) {
+            while (this.step[0] != 0 || this.step[1] != 0) {
                 await sleep(5);
             }
         }

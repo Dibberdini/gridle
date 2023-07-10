@@ -7,18 +7,10 @@
             "model": "generic1",
             "dialogues": {
                 "0": [
-                    {"type": "statement","line": "Hello! Welcome to the world of gridle.","gain": 20}
-                ],
-                "20": [
-                    {"type": "statement", "line": "Could you show me a Screpper?", "checkMonster": {"species": "Screpper", "gain": 25}}
-                ],
-                "25": [
-                    {"type": "statement", "line": "Wow! That's a Screpper!", "gain": 100}
+                    {"type": "statement","line": "Åh nej! Et jordskælv har ramt KUA!","gain": 100}
                 ],
                 "100": [
-                    {"type": "statement","line": "Boy, I hope they add in more features soon."},
-                    {"type": "statement","line": "I hear they just added multiple lines!"},
-                    {"type": "statment", "line": "I'm super excited about that..."}
+                    {"type": "statement","line": "Kan du hjælpe med at finde en vej til Artilleri-café?"}
                 ]}
         },
         {
@@ -28,15 +20,11 @@
             "model": "generic2",
             "dialogues": {
                 "0": [
-                    {"type": "statement","line": "Hi! I don't believe we've met.","gain": 10}
-                ],
-                "10": [
-                    {"type": "question","line": "Are you feeling well?"},
-                    {"type": "reply_yes","line": "That's good!","gain": 100},
-                    {"type": "reply_no","line": "Oh no!"}
+                    {"type": "statement","line": "Pas på med at gå i det høje græs,"},
+                    {"type": "statement","line": "Bojsemoner gemmer sig tit der!", "gain": 100}
                 ],
                 "100": [
-                    {"type": "statement","line": "Hi again! Good to see you."}
+                    {"type": "statement","line": "Husk! MORTEN-typer er svage mod ADAM-typer."}
                 ]}
         },
         {
@@ -46,23 +34,23 @@
             "model": "isak",
             "dialogues": {
                 "0": [
-                    {"type": "statement","line": "Hello! I can heal your monsters.","gain": 100}
+                    {"type": "statement","line": "Hej, jeg kan helbrede dine bojsemon1","gain": 100}
                 ],
                 "100": [
-                    {"type": "statement","line": "You're back to full health!"}
+                    {"type": "statement","line": "Dine bojsemons er helbredt!"}
                 ]}
         },
         {
-            "name": "Gary",
+            "name": "Fyr fra kommit",
             "id": 4,
             "role": "trainer",
             "model": "hjarvard",
             "dialogues": {
                 "0": [
-                    {"type": "statement","line": "I'm going to beat you up!"}
+                    {"type": "statement","line": "Jeg knepper din far!"}
                 ],
                 "100": [
-                    {"type": "statement","line": "You beat me up!"}
+                    {"type": "statement","line": "Du kneppede min far!"}
                 ]},
             "monsters": [{"id": 10, "level": 3}, {"id": 12, "level": 3}]
         }

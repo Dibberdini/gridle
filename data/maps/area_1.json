@@ -1,9 +1,13 @@
 {
 	"w": 15,
 	"h": 18,
-	"characters": [],
+	"characters": [
+		{"x": 6, "y": 5, "id": 1, "direction": [0,1]}
+	],
 	"monsters": [],
-	"items": [],
+	"items": [
+		{"x": 0, "y": 11, "id": 1, "type": "potion"}
+	],
 	"entities": [],
 	"zone_strength": {
 		"min": 1,

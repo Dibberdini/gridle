@@ -96,7 +96,7 @@ function setup() {
 
 
   //Debug enable
-  debug = false;
+  debug = true;
 }
 
 function draw() {
@@ -113,7 +113,7 @@ function draw() {
         }
       });
       //move Player
-      if(state == STATE.WORLD) {
+      if (state == STATE.WORLD) {
         getInput();
       }
     }
@@ -344,7 +344,7 @@ function togglePause() {
 function drawDebugInfo() {
   push();
   // Draw FPS (rounded to 2 decimal places) at the bottom left of the screen
-  let currentFPS = 1000/deltaTime;
+  let currentFPS = 1000 / deltaTime;
   fill(255);
   stroke(0);
   textSize(12);
@@ -456,7 +456,7 @@ async function newWorld() {
   settings = { textSpeed: TEXT_SPEED.NORMAL };
   background(0);
   let starter = false;
-  while(!starter) {
+  while (!starter) {
     dialogue.options = ["Arto-Adam", "Skolefoto-Bing", "Støvsuger-Mikkel"];
     starter = await dialogue.ask("Which bojsemon do you choose as your starter?")
   }
@@ -477,7 +477,7 @@ async function newWorld() {
   monster.setLevel(5);
   player.addMonster(monster);
   background(0);
-  await dialogue.load([{type: "statement",line:`You picked ${monster.name}`}]);
+  await dialogue.load([{ type: "statement", line: `You picked ${monster.name}` }]);
   saveWorld();
 }
 

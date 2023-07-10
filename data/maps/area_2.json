@@ -1,12 +1,18 @@
 {
 	"w": 26,
 	"h": 33,
-	"characters": [],
+	"characters": [
+		{"x": 9, "y": 9, "id": 2, "direction": [0,1]},
+		{"x": 9, "y": 19, "id": 4, "direction": [0,1]}
+
+	],
 	"monsters": [
 		10,
 		15
 	],
-	"items": [],
+	"items": [
+		{"x": 13, "y": 11, "id": 2, "type": "potion"}
+	],
 	"entities": [],
 	"zone_strength": {
 		"min": 3,
@@ -67,7 +73,7 @@
 			}
 		}
 	},
-	"recover": [],
+	"recover": [8,12],
 	"paths": [],
 	"name": "area_2.json",
 	"layout": [
