@@ -178,6 +178,11 @@ class BattleManager {
                 this.performTurn();
             } else {
                 await dialogue.load([{ type: "timed", line: "No more PP!", time: 800 }]);
+                if(this.hasNoMoves(this.activeMonster)) {
+                    //TODO: Load a default move
+                    this.fleeAttempts = 0;
+                    this.performTurn();
+                }
             }
         } else if (this.selectingItem) {
             if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
@@ -207,6 +212,15 @@ class BattleManager {
                 this.flee();
             }
         }
+    }
+
+    hasNoMoves(monster) {
+        for(let i = 0; i < monster.moveSet.length; i++) {
+            if(monster.moveSet[i].pp > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     inputB() {
