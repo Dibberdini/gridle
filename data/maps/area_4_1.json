@@ -1,22 +1,26 @@
 {
-	"w": 5,
+	"w": 7,
 	"h": 4,
 	"characters": [
-		{"x": 2, "y": 0, "id": 3, "direction": [0,1]}
+		{"x": 2, "y": 1, "id": 3,"direction": [0, 1]}
 	],
 	"monsters": [],
 	"items": [],
-	"entities": [],
+	"entities": [
+		{"type": "PC", "x": 6, "y": 0}
+	],
 	"zone_strength": {
 		"min": 1,
 		"max": 1
 	},
-	"warp": {"2": {
-				"3": {"map": "area_2.json", "pos": [11,25], "move": [0,1]}
-	}},
+	"warp": {
+		"3": {
+			"3": {"map": "area_4.json", "pos": [20,5], "move": [0,1]}
+		}
+	},
 	"recover": [],
 	"paths": [],
-	"name": "area_2_1.json",
+	"name": "area_4_1.json",
 	"layout": [
 		[
 			"eF",
@@ -34,7 +38,19 @@
 			"eF",
 			"eF",
 			"eF",
+			"eF"
+		],
+		[
+			"eF",
+			"eF",
+			"eF",
 			"tQ"
+		],
+		[
+			"eF",
+			"eF",
+			"eF",
+			"eF"
 		],
 		[
 			"eF",

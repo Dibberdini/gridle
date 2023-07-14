@@ -389,8 +389,10 @@ function resuscitate() {
   player.x = zone.recover[0];
   player.y = zone.recover[1];
   player.tile.clear = true;
+  player.tile.occupant = null;
   player.tile = grid.tiles[zone.recover[0]][zone.recover[1]];
   player.tile.clear = false;
+  player.tile.occupant = player;
 
   //Heal all monsters
   player.healAllMonsters();

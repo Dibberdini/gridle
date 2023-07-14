@@ -43,7 +43,7 @@ class Character extends Creature {
     async interact(origin) {
         let newDir = [origin.x - this.x, origin.y - this.y]
         this.direction = newDir;
-        if (this.role == CHARACTER_ROLES.TRAINER) {
+        if (this.role == CHARACTER_ROLES.TRAINER && this.questLevel == 0) {
             return;
         }
         draw();
@@ -141,5 +141,16 @@ class Character extends Creature {
         let currentDialogue = this.dialogues[`${this.questLevel}`];
         await dialogue.speak(currentDialogue, this);
         battle.trainerBattle(this);
+    }
+
+    healAllMonsters() {
+        this.monsters.forEach(monster => {
+            monster.health = monster.maxHealth;
+            monster.status = STATUSES.NONE;
+            monster.dead = false;
+            monster.moveSet.forEach(move => {
+                move.pp = move.maxPP;
+            });
+        });
     }
 }

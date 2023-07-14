@@ -63,7 +63,8 @@ class BattleManager {
             push();
             noStroke();
             fill(255);
-            rect(0, 0, width, 250);
+            rect(0, 0, width, 220);
+            rect(300, 0, width-300, 280);
             pop();
             await dialogue.load([{type: "timed", line: `Trainer ${this.enemyTrainer.name} challenges you!`, time: 1000}]);
             await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}.`, time: 1000}])
@@ -376,6 +377,10 @@ class BattleManager {
                 this.playerTurn = true;
             } else {
                 await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
+                if(this.activeEnemy.owner != "wild") {
+                    this.enemyTrainer.healAllMonsters();
+                    this.enemyTrainer.resetPos();
+                }
                 this.returnToWorld()
                 resuscitate();
             }
@@ -486,10 +491,10 @@ class BattleManager {
     hasLivingMonsters(trainer) {
         for (let i = 0; i < trainer.monsters.length; i++) {
             //- Find the next living monster, otherwise end battle.
-            if (trainer.monsters[i] && !trainer.monsters[i].dead) {
-                return index
+            if (trainer.monsters[i] && trainer.monsters[i].dead == false) {
+                return i;
             } else if (i == trainer.monsters.length - 1) {
-                return -1
+                return -1;
             }
         }
     }

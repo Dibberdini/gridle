@@ -136,4 +136,15 @@ class Creature extends Entity {
     interact() {
 
     }
+
+    resetPos() {
+        let originalPos = zone.characters.find(char => char.id == this.id);
+        this.x = originalPos.x;
+        this.y = originalPos.y;
+        this.tile.clear = true;
+        this.tile.occupant = null;
+        this.tile = grid.tiles[this.x][this.y];
+        this.tile.clear = false;
+        this.tile.occupant = this;
+    }
 }

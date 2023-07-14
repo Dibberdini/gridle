@@ -67,7 +67,7 @@ class Monster {
             this.drawModel(400, 60);
             await this.drawStats(70, 60, false);
         } else {
-            this.drawModel(100, 280);
+            this.drawModel(50, 220);
             await this.drawStats(380, 320, true);
         }
     }
