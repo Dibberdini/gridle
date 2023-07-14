@@ -107,7 +107,7 @@ const TYPES = {
 
 const SOUND_FILES = {
     battle: [
-        "battle1.mp3"
+        "battle1.mp3", "battle2.mp3"
     ],
     overworld: "fireball.mp3",
     indoors: "saymyname.mp3",

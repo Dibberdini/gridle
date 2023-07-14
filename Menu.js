@@ -148,6 +148,9 @@ class Menu {
             text("Lvl: " + monster.level, 400, (i * lineHeight) + padding)
             text(monster.health + "/" + monster.maxHealth, 400, (i * lineHeight) + padding * 2);
             text("HP: ", inset + 5, (i * lineHeight) + padding * 2);
+            if(monster.status != STATUSES.NONE) {
+                text(monster.status.toUpperCase(), 490,(i * lineHeight) + padding * 2);
+            }
 
             //Health bar
             if (monster.outstandingHealing > 0) {

@@ -52,7 +52,8 @@ function preload() {
 
 function setup() {
   audio = sounds. overworld;
-  audio.setVolume(0.5);
+  volume = 0.5;
+  audio.setVolume(volume);
   walkNumber = 0;
   let zone;
   player = { step: [0, 0] };
@@ -504,6 +505,9 @@ async function newWorld() {
   player.addMonster(monster);
   background(0);
   await dialogue.load([{ type: "statement", line: `You picked ${monster.name}` }]);
+  for(let i = 0; i < 10; i++) {
+    player.addItem({type: "ball_regular", name: "Ball"});
+  }
   saveWorld();
   playSound(sounds.overworld);
 }
@@ -557,14 +561,18 @@ function loadSave() {
   entities.push(player);
   settings = worldData.settings;
   saveWorld();
-  playSound(sounds.overworld);
+  if(isIndoors()) {
+    playSound(sounds.indoors);
+  } else {
+    playSound(sounds.overworld);
+  }
 }
 
 function playSound(sound) {
   if(sound == "battle") {
     return;
   }
-  if(audio.file == sounds.encounter.file || audio.file == sounds.battle[0].file) {
+  if(audio.file == sounds.encounter.file || sounds.battle.includes(audio.file)) {
     audio.stop();
   } else {
     audio.pause();
@@ -575,15 +583,17 @@ function playSound(sound) {
   } else {
     audio.setLoop(true);
   }
+  audio.setVolume(volume);
   audio.play();
 }
 
 function toggleAudioVolume() {
-  if(audio.setVolume().value == 0.5) {
-    audio.setVolume(0);
+  if(volume == 0.5) {
+    volume = 0;
   } else {
-    audio.setVolume(0.5);
+    volume = 0.5;
   }
+  audio.setVolume(volume);
 }
 
 function isIndoors() {

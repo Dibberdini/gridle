@@ -87,7 +87,9 @@ class Monster {
         //Draw Level
         text("Lvl: " + this.level, x + 20, y + 25);
         if (this.status != STATUSES.NONE) {
-            text(this.status.toUpperCase(), x + 40, y + 25);
+            textSize(18);
+            text(this.status.toUpperCase(), x + 120, y + 25);
+            textSize(24);
         }
 
         this.updateHP();
@@ -184,12 +186,15 @@ class Monster {
         let random = map(Math.random(), 0, 1, 217, 255) / 255;
         damage = Math.round(damage * random);
 
-        let accuracy = move.accuracy * this.accuracy * target.evasion;
+        let accuracy = move.accuracy * this.accuracy / target.evasion;
         constrain(accuracy, 0, 255);
-        let randomA = Math.round(Math.random() * 255);
-        let randomS = Math.round(Math.random() * 255);
+        let randomA = Math.round(Math.random() * 100);
+        let randomS = Math.round(Math.random() * 150);
         if (damage == 0 && effectiveness != 0) {
-            randomS = 0;
+            randomS -= 60;
+            if(randomS > accuracy) {
+                moveInfo.missed = true;
+            }
         }
 
         if (randomA < accuracy) {
@@ -199,6 +204,7 @@ class Monster {
                     this.heal(this.maxHealth / 2);
                 } else if (randomS < accuracy) {
                     target.setStatus(move.status);
+                    moveInfo.status = move.status;
                 }
             }
             if (move.cooldown) {
