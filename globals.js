@@ -138,7 +138,7 @@ const SPRITES = {
         'isak_f.png', 'isak_s.png', 'player_0.png', 'player_1.png',
         'player_2.png', 'player_3.png', 'player_4.png', 'player_5.png',
         'player_6.png', 'player_7.png', 'player_8.png', 'player_b.png',
-        'player_f.png', 'player_s.png', 'underberg.png'
+        'player_f.png', 'player_s.png', 'underberg.png', 'computer.gif'
     ],
     monsters: [
         '001.png', '002.png', '003.png', '004.png',

@@ -134,7 +134,7 @@ class Menu {
     drawMonsterMenu() {
         background(230);
         let padding = 30
-        let lineHeight = 60;
+        let lineHeight = 70;
         let inset = 80;
         let inset2 = 125;
         let healthLength = 200;
@@ -164,12 +164,12 @@ class Menu {
 
             fill(255, 0, 0);
             let percentageHealth = monster.health / monster.maxHealth * healthLength
-            rect(inset2, (i * lineHeight) + padding * 1.5, percentageHealth, 20);
+            rect(inset2, (i * lineHeight) + padding, percentageHealth, 20);
             stroke(0);
             strokeWeight(2);
-            line(inset2, (i * lineHeight) + padding * 1.5 + 5, inset2, (i * lineHeight) + padding * 1.5 + 20);
-            line(inset + 45, (i * lineHeight) + padding * 1.5 + 20, inset2 + healthLength, (i * lineHeight) + padding * 1.5 + 20);
-            line(inset2 + healthLength, (i * lineHeight) + padding * 1.5 + 20, inset2 + healthLength, (i * lineHeight) + padding * 1.5 + 5);
+            line(inset2, (i * lineHeight) + padding + 5, inset2, (i * lineHeight) + padding + 20);
+            line(inset + 45, (i * lineHeight) + padding + 20, inset2 + healthLength, (i * lineHeight) + padding + 20);
+            line(inset2 + healthLength, (i * lineHeight) + padding + 20, inset2 + healthLength, (i * lineHeight) + padding + 5);
         }
         //If selected draw monster options
         if (this.selected) {
@@ -317,6 +317,9 @@ class Menu {
             if (this.index == this.offset - 1) {
                 this.offset--;
             }
+        } else if(this.menuState == MENU_STATES.STATS_MENU && this.lastIndex != 0) {
+            this.lastIndex--;
+            this.loadedMonster=player.monsters[this.lastIndex];
         }
     }
 
@@ -354,6 +357,9 @@ class Menu {
             } else if (!this.withdrawing && !this.depositing && this.index < 2) {
                 this.index++;
             }
+        } else if(this.menuState == MENU_STATES.STATS_MENU && this.lastIndex != player.monsters.length -1) {
+            this.lastIndex++;
+            this.loadedMonster = player.monsters[this.lastIndex];
         }
     }
 

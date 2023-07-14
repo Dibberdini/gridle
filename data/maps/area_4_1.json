@@ -7,7 +7,7 @@
 	"monsters": [],
 	"items": [],
 	"entities": [
-		{"type": "PC", "x": 6, "y": 0}
+		{"type": "PC", "x": 6, "y": 0, "model": "computer"}
 	],
 	"zone_strength": {
 		"min": 1,
