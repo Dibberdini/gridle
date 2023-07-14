@@ -55,6 +55,7 @@ class BattleManager {
         this.calculateEnemyMove();
         this.playerTurn = true;
         await AnimationManager.beginBattle();
+        playSound(sounds.battle[Math.floor(Math.random() * sounds.battle.length)]);
         state = STATE.BATTLE;
         this.draw();
         if (this.activeEnemy.owner == "wild") {
@@ -189,6 +190,7 @@ class BattleManager {
             if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
                 await menu.inputA();
                 await menu.inputA();
+                menu.menuState = MENU_STATES.MAIN_MENU;
                 //Check that item didn't kill or catch enemy.
                 if (this.activeEnemy.dead == false && this.activeEnemy.owner != player.id) {
                     this.performTurn();
@@ -396,6 +398,7 @@ class BattleManager {
                     await dialogue.load([{type: "timed",line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}`, time: 1000}]);
                     this.playerTurn = true;
                     this.fight = false;
+                    this.selector = 0;
                 } else {
                     await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} was defeated!`, time: 800}])
                     this.enemyTrainer.questLevel = 100;
@@ -485,6 +488,14 @@ class BattleManager {
         this.activeMonster.loadedTarget = null;
         this.activeEnemy.loadedMove = false;
         this.activeEnemy.loadedTarget = false;
+        this.selector = 0;
+        let sound;
+        if(isIndoors()) {
+            sound = sounds.indoors;
+        } else {
+            sound = sounds.overworld;
+        }
+        playSound(sound);
         state = STATE.WORLD;
     }
 

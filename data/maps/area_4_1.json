@@ -15,7 +15,7 @@
 	},
 	"warp": {
 		"3": {
-			"3": {"map": "area_4.json", "pos": [20,5], "move": [0,1]}
+			"3": {"map": "area_4.json", "pos": [20,4], "move": [0,1]}
 		}
 	},
 	"recover": [],

@@ -34,6 +34,16 @@ function preload() {
     });
   });
 
+  sounds = {battle: []};
+  SOUND_FILES.battle.forEach(battleTrack => {
+    loadSound("./data/audio/" + battleTrack, loadedTrack => {
+      sounds.battle.push(loadedTrack);
+    })
+  });
+  sounds.overworld = loadSound("./data/audio/" + SOUND_FILES.overworld);
+  sounds.indoors = loadSound("./data/audio/" + SOUND_FILES.indoors);
+  sounds.encounter = loadSound("./data/audio/" + SOUND_FILES.encounter);
+
 
   myFont = loadFont("./data/Minecraftia-Regular.ttf");
   worldData = { characters: {}, pickedItems: {}, player: {} };
@@ -41,6 +51,8 @@ function preload() {
 }
 
 function setup() {
+  audio = sounds. overworld;
+  audio.setVolume(0.5);
   walkNumber = 0;
   let zone;
   player = { step: [0, 0] };
@@ -232,6 +244,10 @@ function keyReleased() {
 }
 
 function keyPressed() {
+  if(keyCode == KEYS.SELECT) {
+    toggleAudioVolume();
+    return;
+  }
   switch (state) {
     case STATE.WORLD:
       worldInput();
@@ -367,6 +383,7 @@ function sleep(millisecondsDuration) {
 }
 
 function warp(warpInfo) {
+  let wasIndoors = isIndoors();
   saveWorld();
   entities = [player];
   loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
@@ -381,6 +398,13 @@ function warp(warpInfo) {
     if (warpInfo.move) {
       player.setDirection(warpInfo.move);
       player.move(warpInfo.move);
+    }
+    if(wasIndoors != isIndoors()) {
+      if(isIndoors()) {
+        playSound(sounds.indoors);
+      } else {
+        playSound(sounds.overworld);
+      }
     }
   })
 }
@@ -481,6 +505,7 @@ async function newWorld() {
   background(0);
   await dialogue.load([{ type: "statement", line: `You picked ${monster.name}` }]);
   saveWorld();
+  playSound(sounds.overworld);
 }
 
 function loadSave() {
@@ -532,6 +557,44 @@ function loadSave() {
   entities.push(player);
   settings = worldData.settings;
   saveWorld();
+  playSound(sounds.overworld);
+}
+
+function playSound(sound) {
+  if(sound == "battle") {
+    return;
+  }
+  if(audio.file == sounds.encounter.file || audio.file == sounds.battle[0].file) {
+    audio.stop();
+  } else {
+    audio.pause();
+  }
+  audio = sound;
+  if(sound.file == sounds.battle.file) {
+    audio.setLoop(false);
+  } else {
+    audio.setLoop(true);
+  }
+  audio.play();
+}
+
+function toggleAudioVolume() {
+  if(audio.setVolume().value == 0.5) {
+    audio.setVolume(0);
+  } else {
+    audio.setVolume(0.5);
+  }
+}
+
+function isIndoors() {
+  let indoorZones = ["area_2_1.json", "area_2_2.json", "area_3.json", "area_4_1.json"];
+
+  for(let i = 0; i < indoorZones.length; i++) {
+    if(zone.name == indoorZones[i]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 //Mobile functions

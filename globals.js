@@ -105,6 +105,15 @@ const TYPES = {
     OLAF: { OLAF: 0.5, FELIX: 0.5, JOAKIM: 2, MIKKEL: 2, ALEX: 2, DIBBERN: 0.5 }
 }
 
+const SOUND_FILES = {
+    battle: [
+        "battle1.mp3"
+    ],
+    overworld: "fireball.mp3",
+    indoors: "saymyname.mp3",
+    encounter: "pokebattle.mp3"
+}
+
 const SPRITES = {
     models: [
         'birger_0.png', 'birger_1.png', 'birger_2.png', 'birger_3.png',

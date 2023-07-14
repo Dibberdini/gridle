@@ -90,21 +90,7 @@ class Monster {
             text(this.status.toUpperCase(), x + 40, y + 25);
         }
 
-        //Update HP
-        if (this.outstandingDamage > 0) {
-            this.health--;
-            this.outstandingDamage--;
-
-            if (this.health <= 0) {
-                this.health = 0;
-                this.cooldown = 0;
-                this.dead = true;
-            }
-
-            if (this.outstandingDamage <= 0) {
-                this.outstandingDamage = 0;
-            }
-        }
+        this.updateHP();
 
         //Draw HP
         text("HP: ", x + 10, y + 50);
@@ -134,17 +120,47 @@ class Monster {
         line(x, y + 60, x + 130, y + 60);
         triangle(x + 130, y + 55, x + 140, y + 60, x + 130, y + 65);
 
-        //Update XP
-        if (this.outstandingEXP > 0) {
-            this.experience++;
-            this.outstandingEXP--;
-        }
+        this.updateEXP();
 
         pop();
     }
 
     addName(name) {
         this.name = name;
+    }
+
+    updateHP() {
+        if (this.outstandingDamage > 0) {
+            let delta = 1;
+            if(this.outstandingDamage > 30) {
+                delta += Math.floor(this.outstandingDamage / 30);
+            }
+            this.health -= delta;
+            this.outstandingDamage -= delta;
+
+            if (this.health <= 0) {
+                this.health = 0;
+                this.cooldown = 0;
+                this.dead = true;
+            }
+
+            if (this.outstandingDamage <= 0) {
+                this.outstandingDamage = 0;
+            }
+        }
+    }
+
+    updateEXP() {
+        if (this.outstandingEXP > 0) {
+            let delta = 1;
+
+            if(this.outstandingEXP > 30) {
+                delta += Math.floor(this.outstandingEXP / 30);
+            }
+
+            this.experience += delta;
+            this.outstandingEXP -= delta;
+        }
     }
 
     attackMove(move, target) {
