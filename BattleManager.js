@@ -499,6 +499,8 @@ class BattleManager {
         } else {
             sound = sounds.overworld;
         }
+        player.step = [0,0];
+        player.moving = false;
         playSound(sound);
         state = STATE.WORLD;
     }

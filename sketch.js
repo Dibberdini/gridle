@@ -633,7 +633,7 @@ function playSound(sound) {
   if(sound == "battle") {
     return;
   }
-  if(audio.file == sounds.encounter.file || sounds.battle.includes(audio.file)) {
+  if(audio.file == sounds.encounter.file || isBattlesound()) {
     audio.stop();
   } else {
     audio.pause();
@@ -646,6 +646,15 @@ function playSound(sound) {
   }
   audio.setVolume(volume);
   audio.play();
+}
+
+function isBattlesound() {
+  for(let i = 0; i < sounds.battle.length; i++) {
+    if(sounds.battle[i].file == audio.file) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function toggleAudioVolume() {
