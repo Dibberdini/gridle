@@ -88,6 +88,9 @@ class Player extends Creature {
                     }
                     battle.encounter(monsterList, zone.zone_strength);
                     this.step = [0, 0];
+                    if(this.stopping) {
+                        this.moving = false;
+                    }
                 }
             } else if (this.tile.type == TileType.TELEPORT) {
                 let warpInfo = zone.warp[`${this.tile.x}`][`${this.tile.y}`];
@@ -98,13 +101,13 @@ class Player extends Creature {
     }
 
     checkDirectionChange() {
-        if (keyIsDown(KEYS.UP) && this.direction != DIRECTION.NORTH) {
+        if ((keyIsDown(KEYS.UP) || currentlyHeldButton == KEYS.UP) && this.direction != DIRECTION.NORTH) {
             this.setDirection(DIRECTION.NORTH);
-        } else if (keyIsDown(KEYS.RIGHT) && this.direction != DIRECTION.EAST) {
+        } else if ((keyIsDown(KEYS.RIGHT) || currentlyHeldButton == KEYS.RIGHT) && this.direction != DIRECTION.EAST) {
             this.setDirection(DIRECTION.EAST);
-        } else if (keyIsDown(KEYS.DOWN) && this.direction != DIRECTION.SOUTH) {
+        } else if ((keyIsDown(KEYS.DOWN) || currentlyHeldButton == KEYS.DOWN) && this.direction != DIRECTION.SOUTH) {
             this.setDirection(DIRECTION.SOUTH);
-        } else if (keyIsDown(KEYS.LEFT) && this.direction != DIRECTION.WEST) {
+        } else if ((keyIsDown(KEYS.LEFT) || currentlyHeldButton == KEYS.LEFT) && this.direction != DIRECTION.WEST) {
             this.setDirection(DIRECTION.WEST);
         }
     }

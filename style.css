@@ -16,6 +16,29 @@ div.content {
 
 .mobile {
   display: none;
+  width: 30px;
+}
+
+.input {
+  max-width: 600px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.arrows {
+  max-width: 30vW;
+  float: left;
+}
+
+.divider {
+  min-width: 10vW;
+  float: left;
+}
+
+.choice {
+  max-width: 30vW;
+  float: right;
+  min-height: 125px;
 }
 
 /* Use a media query to add a breakpoint at 800px: */

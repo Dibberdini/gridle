@@ -91,6 +91,7 @@ class Creature extends Entity {
         if (this.step[0] != 0 || this.step[1] != 0) {
             return;
         }
+        this.stopping = false;
         let newX = this.tile.x + DIRECTION[0];
         let newY = this.tile.y + DIRECTION[1];
 

@@ -30,6 +30,10 @@ class TitleMenu {
         }
         triangle(x, y, x + 10, y + 10, x, y + 20);
 
+        if(buttonIsDown) {
+            text(currentlyHeldButton, width/2, height/2);
+        }
+
         pop();
     }
 

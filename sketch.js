@@ -72,40 +72,101 @@ function setup() {
   battle = new BattleManager();
   animationFrame = 0;
   settings = {};
+  loadingMap = false;
 
   //Mobile settings
+  buttonIsDown = false;
   if (windowWidth < 600) {
     resize();
   }
   buttons = []
+  currentlyHeldButton = "none";
+  buttons.push(createDiv());
   let buttonUp = createButton("↑");
   buttonUp.mousePressed(buttonInputUp);
+  buttonUp.key = KEYS.UP;
+  buttonUp.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.UP};
+  buttonUp.elt.ontouchend = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttonUp.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.UP};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
   buttons.push(buttonUp);
-  let buttonRight = createButton("→");
-  buttonRight.mousePressed(buttonInputRight);
-  buttons.push(buttonRight);
-  let buttonDown = createButton("↓");
-  buttonDown.mousePressed(buttonInputDown);
-  buttons.push(buttonDown);
+  buttons.push(createDiv());
   let buttonLeft = createButton("←");
   buttonLeft.mousePressed(buttonInputLeft);
+  buttonLeft.key = KEYS.LEFT;
+  buttonLeft.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.LEFT};
+  buttonLeft.elt.ontouchend = function(event) {keyCode = KEYS.LEFT; keyReleased()};
+  buttonLeft.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.LEFT};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
   buttons.push(buttonLeft);
+  let buttonDown = createButton("↓");
+  buttonDown.mousePressed(buttonInputDown);
+  buttonDown.key = KEYS.DOWN;
+  buttonDown.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.DOWN};
+  buttonDown.elt.ontouchend = function(event) {keyCode = KEYS.DOWN; keyReleased()};
+  buttonDown.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.DOWN};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttons.push(buttonDown);
+  let buttonRight = createButton("→");
+  buttonRight.mousePressed(buttonInputRight);
+  buttonRight.key = KEYS.RIGHT;
+  buttonRight.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.RIGHT};
+  buttonRight.elt.ontouchend = function(event) {keyCode = KEYS.RIGHT; keyReleased()};
+  buttonRight.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.RIGHT};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttons.push(buttonRight);
+
+  let inputDiv = createDiv();
+  inputDiv.addClass("input");
+
+  let arrowDiv = createDiv();
+  arrowDiv.addClass("arrows");
+  arrowDiv.parent(inputDiv);
+  buttons.forEach(button => {
+    button.parent(arrowDiv);
+  });
+
+  let dividerDiv = createDiv();
+  dividerDiv.addClass("divider");
+  dividerDiv.parent(inputDiv);
+
+  let choiceDiv = createDiv();
+  choiceDiv.addClass("choice");
+  choiceDiv.parent(inputDiv);
+
   let buttonA = createButton("A");
   buttonA.mousePressed(buttonInputA);
+  buttonA.key = KEYS.A_KEY;
   buttons.push(buttonA);
+  buttonA.parent(choiceDiv);
+  let fakebutton1 = createDiv();
+  buttons.push(fakebutton1);
+  fakebutton1.parent(choiceDiv)
   let buttonB = createButton("B");
   buttonB.mousePressed(buttonInputB);
+  buttonB.key = KEYS.B_KEY;
   buttons.push(buttonB);
-  let buttonStart = createButton("START");
+  buttonB.parent(choiceDiv);
+  
+  let buttonStart = createButton("STRT");
   buttonStart.mousePressed(buttonInputStart);
+  buttonStart.key = KEYS.START;
   buttons.push(buttonStart);
+  buttonStart.parent(choiceDiv);
+  let fakebutton2 = createDiv();
+  buttons.push(fakebutton2);
+  fakebutton2.parent(choiceDiv)
+  let buttonSelect = createButton("SEL");
+  buttonSelect.mousePressed(buttonInputSelect);
+  buttonSelect.key = KEYS.SELECT;
+  buttons.push(buttonSelect);
+  buttonSelect.parent(choiceDiv);
 
   buttons.forEach(button => {
     button.addClass("mobile");
-    button.size(50, 50);
+    w = windowWidth * 0.1;
+    button.size(w,w)
   });
-
-  buttonDown = { UP: false, RIGHT: false, DOWN: false, LEFT: false };
 
 
   //Debug enable
@@ -126,7 +187,7 @@ function draw() {
         }
       });
       //move Player
-      if (state == STATE.WORLD) {
+      if (state == STATE.WORLD || !loadingMap) {
         getInput();
       }
     }
@@ -183,34 +244,32 @@ function draw() {
 }
 
 function getInput() {
-  if (keyIsDown(KEYS.UP)) {
+  if (keyIsDown(KEYS.UP) || currentlyHeldButton == KEYS.UP) {
     if (player.direction == DIRECTION.NORTH) {
-      player.stopping = false;
       player.move(DIRECTION.NORTH);
     } else {
       player.setDirection(DIRECTION.NORTH);
     }
-  } else if (keyIsDown(KEYS.RIGHT)) {
+  } else if (keyIsDown(KEYS.RIGHT) || currentlyHeldButton == KEYS.RIGHT) {
     if (player.direction == DIRECTION.EAST) {
-      player.stopping = false;
       player.move(DIRECTION.EAST);
     } else {
       player.setDirection(DIRECTION.EAST);
     }
-  } else if (keyIsDown(KEYS.DOWN)) {
+  } else if (keyIsDown(KEYS.DOWN) || currentlyHeldButton == KEYS.DOWN) {
     if (player.direction == DIRECTION.SOUTH) {
-      player.stopping = false;
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
     }
-  } else if (keyIsDown(KEYS.LEFT)) {
+  } else if (keyIsDown(KEYS.LEFT) || currentlyHeldButton == KEYS.LEFT) {
     if (player.direction == DIRECTION.WEST) {
-      player.stopping = false;
       player.move(DIRECTION.WEST);
     } else {
       player.setDirection(DIRECTION.WEST);
     }
+  } else {
+    player.moving = false;
   }
 }
 function keyReleased() {
@@ -387,6 +446,7 @@ function warp(warpInfo) {
   let wasIndoors = isIndoors();
   saveWorld();
   entities = [player];
+  loadingMap = true;
   loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
     player.tile.clear = true;
     zone = newZone;
@@ -407,6 +467,7 @@ function warp(warpInfo) {
         playSound(sounds.overworld);
       }
     }
+    loadingMap = false;
   })
 }
 
@@ -615,16 +676,6 @@ function resize() {
   document.body.getElementsByTagName("canvas")[0].style.cssText = `width: ${w}px; height: ${h}px`;
 }
 
-function buttonInputA() {
-  keyCode = KEYS.A_KEY;
-  keyPressed();
-}
-
-function buttonInputB() {
-  keyCode = KEYS.B_KEY;
-  keyPressed();
-}
-
 function buttonInputUp() {
   keyCode = KEYS.UP;
   keyPressed();
@@ -645,7 +696,57 @@ function buttonInputLeft() {
   keyPressed();
 }
 
+function buttonInputA() {
+  keyCode = KEYS.A_KEY;
+  keyPressed();
+}
+
+function buttonInputB() {
+  keyCode = KEYS.B_KEY;
+  keyPressed();
+}
+
 function buttonInputStart() {
   keyCode = KEYS.START;
   keyPressed();
+}
+
+function buttonInputSelect() {
+  keyCode = KEYS.SELECT;
+  keyPressed();
+}
+
+function touchStarted() {
+  buttonIsDown = true;
+}
+
+function touchEnded() {
+  buttonIsDown = false;
+  currentlyHeldButton = "none";
+}
+
+function getCurrentButton() {
+  for(let i = 0; i < buttons.length; i++) {
+    if(buttons[i]._events.mousedown) {
+      if(
+        mouseX > buttons[i].position().x &&
+        mouseX < buttons[i].position().x + buttons[i].width &&
+        mouseY > buttons[i].position().y &&
+        mouseY < buttons[i].position().y + buttons[i].height) {
+          return buttons[i];
+      }
+    }
+  }
+  return null;
+}
+
+function buttonIsHeld(buttonToCheck) {
+  if(getCurrentButton() == null) {
+    return false;
+  }
+  let currentButton = getCurrentButton().key;
+  if(buttonToCheck = currentButton) {
+    return true;
+  }
+  return false;
 }
