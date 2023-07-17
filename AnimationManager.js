@@ -52,6 +52,7 @@ class AnimationManager {
     }
 
     static async beginBattle() {
+        playSound(sounds.encounter);
         //Setup animation variables
         animationFrame = 0;
         let lastState = state;

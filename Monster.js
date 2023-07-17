@@ -67,7 +67,7 @@ class Monster {
             this.drawModel(400, 60);
             await this.drawStats(70, 60, false);
         } else {
-            this.drawModel(100, 280);
+            this.drawModel(50, 220);
             await this.drawStats(380, 320, true);
         }
     }
@@ -87,24 +87,12 @@ class Monster {
         //Draw Level
         text("Lvl: " + this.level, x + 20, y + 25);
         if (this.status != STATUSES.NONE) {
-            text(this.status.toUpperCase(), x + 40, y + 25);
+            textSize(18);
+            text(this.status.toUpperCase(), x + 120, y + 25);
+            textSize(24);
         }
 
-        //Update HP
-        if (this.outstandingDamage > 0) {
-            this.health--;
-            this.outstandingDamage--;
-
-            if (this.health <= 0) {
-                this.health = 0;
-                this.cooldown = 0;
-                this.dead = true;
-            }
-
-            if (this.outstandingDamage <= 0) {
-                this.outstandingDamage = 0;
-            }
-        }
+        this.updateHP();
 
         //Draw HP
         text("HP: ", x + 10, y + 50);
@@ -134,17 +122,47 @@ class Monster {
         line(x, y + 60, x + 130, y + 60);
         triangle(x + 130, y + 55, x + 140, y + 60, x + 130, y + 65);
 
-        //Update XP
-        if (this.outstandingEXP > 0) {
-            this.experience++;
-            this.outstandingEXP--;
-        }
+        this.updateEXP();
 
         pop();
     }
 
     addName(name) {
         this.name = name;
+    }
+
+    updateHP() {
+        if (this.outstandingDamage > 0) {
+            let delta = 1;
+            if(this.outstandingDamage > 30) {
+                delta += Math.floor(this.outstandingDamage / 30);
+            }
+            this.health -= delta;
+            this.outstandingDamage -= delta;
+
+            if (this.health <= 0) {
+                this.health = 0;
+                this.cooldown = 0;
+                this.dead = true;
+            }
+
+            if (this.outstandingDamage <= 0) {
+                this.outstandingDamage = 0;
+            }
+        }
+    }
+
+    updateEXP() {
+        if (this.outstandingEXP > 0) {
+            let delta = 1;
+
+            if(this.outstandingEXP > 30) {
+                delta += Math.floor(this.outstandingEXP / 30);
+            }
+
+            this.experience += delta;
+            this.outstandingEXP -= delta;
+        }
     }
 
     attackMove(move, target) {
@@ -168,12 +186,15 @@ class Monster {
         let random = map(Math.random(), 0, 1, 217, 255) / 255;
         damage = Math.round(damage * random);
 
-        let accuracy = move.accuracy * this.accuracy * target.evasion;
+        let accuracy = move.accuracy * this.accuracy / target.evasion;
         constrain(accuracy, 0, 255);
-        let randomA = Math.round(Math.random() * 255);
-        let randomS = Math.round(Math.random() * 255);
+        let randomA = Math.round(Math.random() * 100);
+        let randomS = Math.round(Math.random() * 150);
         if (damage == 0 && effectiveness != 0) {
-            randomS = 0;
+            randomS -= 60;
+            if(randomS > accuracy) {
+                moveInfo.missed = true;
+            }
         }
 
         if (randomA < accuracy) {
@@ -183,6 +204,7 @@ class Monster {
                     this.heal(this.maxHealth / 2);
                 } else if (randomS < accuracy) {
                     target.setStatus(move.status);
+                    moveInfo.status = move.status;
                 }
             }
             if (move.cooldown) {

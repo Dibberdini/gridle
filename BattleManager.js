@@ -55,18 +55,20 @@ class BattleManager {
         this.calculateEnemyMove();
         this.playerTurn = true;
         await AnimationManager.beginBattle();
+        playSound(sounds.battle[Math.floor(Math.random() * sounds.battle.length)]);
         state = STATE.BATTLE;
         this.draw();
         if (this.activeEnemy.owner == "wild") {
-            await dialogue.load([{ type: "timed", line: `A wild ${this.activeEnemy.name} appears!`, time: 1000 }]);
+            await dialogue.load([{ type: "statement", line: `A wild ${this.activeEnemy.name} appears!`, time: 1000 }]);
         } else {
             push();
             noStroke();
             fill(255);
-            rect(0, 0, width, 250);
+            rect(0, 0, width, 220);
+            rect(300, 0, width-300, 280);
             pop();
-            await dialogue.load([{type: "timed", line: `Trainer ${this.enemyTrainer.name} challenges you!`, time: 1000}]);
-            await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}.`, time: 1000}])
+            await dialogue.load([{type: "statement", line: `Trainer ${this.enemyTrainer.name} challenges you!`, time: 1000}]);
+            await dialogue.load([{type: "statement", line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}.`, time: 1000}])
         }
     }
 
@@ -177,7 +179,7 @@ class BattleManager {
                 move.pp--;
                 this.performTurn();
             } else {
-                await dialogue.load([{ type: "timed", line: "No more PP!", time: 800 }]);
+                await dialogue.load([{ type: "timed", line: "No more PP!", time: 1000 }]);
                 if(this.hasNoMoves(this.activeMonster)) {
                     //TODO: Load a default move
                     this.fleeAttempts = 0;
@@ -188,12 +190,14 @@ class BattleManager {
             if (Item.getItemInfo(player.inventory[menu.index + menu.offset].type).hasBattleUse) {
                 await menu.inputA();
                 await menu.inputA();
+                this.activeMonster.loadedMove = null;
+                this.activeMonster.loadedTarget = null;
                 //Check that item didn't kill or catch enemy.
                 if (this.activeEnemy.dead == false && this.activeEnemy.owner != player.id) {
                     this.performTurn();
                 }
             } else {
-                await dialogue.load([{ type: "timed", line: "You can't use that here!", time: 800 }]);
+                await dialogue.load([{ type: "timed", line: "You can't use that here!", time: 1000 }]);
             }
         } else if (this.playerTurn) {
             if (this.selector == 0) {
@@ -324,12 +328,12 @@ class BattleManager {
 
     async flee() {
         if(this.activeEnemy.owner != "wild") {
-            await dialogue.load([{type:"timed", line: "Cannot run from a trainer battle", time: 800}])
+            await dialogue.load([{type:"timed", line: "Cannot run from a trainer battle", time: 1000}])
             this.performTurn();
             return;
         }
         if (this.activeMonster.speed > this.activeEnemy.speed) {
-            await dialogue.load([{ type: "timed", line: "Got away safely.", time: 800 }]);
+            await dialogue.load([{ type: "timed", line: "Got away safely.", time: 1000 }]);
             this.fleeAttempts = 0;
             this.returnToWorld();
             return;
@@ -337,10 +341,10 @@ class BattleManager {
 
         let odds = (this.activeMonster.speed * 32) / ((this.activeEnemy.speed / 4) % 256) + 30 * this.fleeAttempts;
         if (odds > 255 || odds > (Math.random() * 255)) {
-            await dialogue.load([{ type: "timed", line: "Escape attempt failed!", time: 800 }]);
+            await dialogue.load([{ type: "timed", line: "Escape attempt failed!", time: 1000 }]);
             this.performTurn();
         } else {
-            await dialogue.load([{ type: "timed", line: "Got away safely.", time: 800 }]);
+            await dialogue.load([{ type: "timed", line: "Got away safely.", time: 1000 }]);
             this.fleeAttempts = 0;
             this.returnToWorld();
         }
@@ -376,6 +380,10 @@ class BattleManager {
                 this.playerTurn = true;
             } else {
                 await dialogue.load([{ type: "timed", line: "You've run out of monsters!", time: 1000 }]);
+                if(this.activeEnemy.owner != "wild") {
+                    this.enemyTrainer.healAllMonsters();
+                    this.enemyTrainer.resetPos();
+                }
                 this.returnToWorld()
                 resuscitate();
             }
@@ -391,8 +399,9 @@ class BattleManager {
                     await dialogue.load([{type: "timed",line: `${this.enemyTrainer.name} sent out ${this.activeEnemy.name}`, time: 1000}]);
                     this.playerTurn = true;
                     this.fight = false;
+                    this.selector = 0;
                 } else {
-                    await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} was defeated!`, time: 800}])
+                    await dialogue.load([{type: "timed", line: `${this.enemyTrainer.name} was defeated!`, time: 1000}])
                     this.enemyTrainer.questLevel = 100;
                     this.returnToWorld();
                 }
@@ -433,23 +442,26 @@ class BattleManager {
             }
             await sleep(800)
             if (move.missed) {
-                await dialogue.load([{ type: "timed", line: `${monster.name} missed!` }]);
+                await dialogue.load([{ type: "timed", line: `${monster.name} missed!`, time: 1000}]);
             } else if (move.effectiveness && move.effectiveness == 0) {
-                await dialogue.load([{ type: "timed", line: "It has no effect...", time: 800 }]);
+                await dialogue.load([{ type: "timed", line: "It has no effect...", time: 1000 }]);
             } else {
                 if (move.crit) {
-                    await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 800 }]);
+                    await dialogue.load([{ type: "timed", line: "It's a critical hit!", time: 1000 }]);
                 }
                 if (move.effectiveness) {
                     if (move.effectiveness == 0.5) {
-                        await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 800 }]);
+                        await dialogue.load([{ type: "timed", line: "It's not very effective...", time: 1000 }]);
                     } else if (move.effectiveness == 2) {
-                        await dialogue.load([{ type: "timed", line: "It's super effective!", time: 800 }]);
+                        await dialogue.load([{ type: "timed", line: "It's super effective!", time: 1000 }]);
                     }
+                }
+                if(move.status) {
+                    await dialogue.load([{type: "timed", line: `${monster.loadedTarget.name} was inflicted with ${move.status.toUpperCase()}`, time: 1000}])
                 }
             }
         } else if (monster.cooldown > 0) {
-            await dialogue.load([{ type: "timed", line: `${monster.name} is recovering from ${monster.loadedMove.name}`, time: 800 }]);
+            await dialogue.load([{ type: "timed", line: `${monster.name} is recovering from ${monster.loadedMove.name}`, time: 1000 }]);
             monster.cooldown--;
         }
         if (statusEffect.poisoned) {
@@ -480,16 +492,26 @@ class BattleManager {
         this.activeMonster.loadedTarget = null;
         this.activeEnemy.loadedMove = false;
         this.activeEnemy.loadedTarget = false;
+        this.selector = 0;
+        let sound;
+        if(isIndoors()) {
+            sound = sounds.indoors;
+        } else {
+            sound = sounds.overworld;
+        }
+        player.step = [0,0];
+        player.moving = false;
+        playSound(sound);
         state = STATE.WORLD;
     }
 
     hasLivingMonsters(trainer) {
         for (let i = 0; i < trainer.monsters.length; i++) {
             //- Find the next living monster, otherwise end battle.
-            if (trainer.monsters[i] && !trainer.monsters[i].dead) {
-                return index
+            if (trainer.monsters[i] && trainer.monsters[i].dead == false) {
+                return i;
             } else if (i == trainer.monsters.length - 1) {
-                return -1
+                return -1;
             }
         }
     }

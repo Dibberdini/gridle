@@ -204,7 +204,7 @@
                 "attack":60, "defence":30, "speed": 70, "maxHealth":40,
                 "special": 31, "type":["FELIX"], "id": 45,
                 "growth": "m_fast","catchRate": 255, "yield": 52,
-                "nextForm": {"level": 200, "id": 46}},
+                "nextForm": {"level": 20, "id": 46}},
                 {"name":"Felix efter bajer",
                 "attack":90, "defence":65, "speed": 100, "maxHealth":65,
                 "special": 61, "type":["FELIX"], "id": 46,

@@ -95,7 +95,7 @@ const TYPES = {
     NORMAL: {},
     ADAM: { ADAM: 2, FELIX: 2, HEIBING: 0.5, MIKKEL: 0.5, MORTEN: 2, DIBBERN: 2 },
     ALEX: { OLAF: 2, JOAKIM: 0.5, HEIBING: 2, DAREIOS: 0.5, MIKKEL: 2, ALEX: 0.5, MORTEN: 0, DIBBERN: 0.5 },
-    BING: { ADAM: 0.5, FELIX: 0.5, JOAKIM: 2, HEIBING: 2, DAREIOS: 0.5, ALEX: 0.5, MORTEN: 2 },
+    HEIBING: { ADAM: 0.5, FELIX: 0.5, JOAKIM: 2, HEIBING: 2, DAREIOS: 0.5, ALEX: 0.5, MORTEN: 2 },
     DAREIOS: { OLAF: 0.5, JOAKIM: 0.5, HEIBING: 2, DAREIOS: 0.5, MIKKEL: 2, ALEX: 2, DIBBERN: 0.5 },
     DIBBERN: { OLAF: 2, ADAM: 0.5, JOAKIM: 0.5, HEIBING: 2, MIKKEL: 2, ALEX: 0.5, MORTEN: 0.5, DIBBERN: 2 },
     FELIX: { ADAM: 2, FELIX: 0.5, JOAKIM: 2, HEIBING: 0.5, DAREIOS: 2, MORTEN: 0.5, DIBBERN: 0.5 },
@@ -103,6 +103,15 @@ const TYPES = {
     MIKKEL: { OLAF: 0.5, ADAM: 2, JOAKIM: 0, DAREIOS: 2, MIKKEL: 2, ALEX: 0.5, MORTEN: 0.5 },
     MORTEN: { OLAF: 0.5, ADAM: 2, FELIX: 0.5, JOAKIM: 0, MIKKEL: 0.5, MORTEN: 2, DIBBERN: 2 },
     OLAF: { OLAF: 0.5, FELIX: 0.5, JOAKIM: 2, MIKKEL: 2, ALEX: 2, DIBBERN: 0.5 }
+}
+
+const SOUND_FILES = {
+    battle: [
+        "battle1.mp3", "battle2.mp3"
+    ],
+    overworld: "fireball.mp3",
+    indoors: "saymyname.mp3",
+    encounter: "pokebattle.mp3"
 }
 
 const SPRITES = {
@@ -129,7 +138,7 @@ const SPRITES = {
         'isak_f.png', 'isak_s.png', 'player_0.png', 'player_1.png',
         'player_2.png', 'player_3.png', 'player_4.png', 'player_5.png',
         'player_6.png', 'player_7.png', 'player_8.png', 'player_b.png',
-        'player_f.png', 'player_s.png', 'underberg.png'
+        'player_f.png', 'player_s.png', 'underberg.png', 'computer.gif'
     ],
     monsters: [
         '001.png', '002.png', '003.png', '004.png',
@@ -141,9 +150,10 @@ const SPRITES = {
         '025.png', '026.png', '027.png', '028.png',
         '029.png', '030.png', '031.png', '032.png',
         '033.png', '034.png', '035.png', '036.png',
-        '037.png', '038.png', '039.png', '041.png',
-        '042.png', '043.png', '044.png', '045.png',
-        '046.png', '047.png', '048.png', '049.png'
+        '037.png', '038.png', '039.png', '040.png',
+        '041.png', '042.png', '043.png', '044.png',
+        '045.png', '046.png', '047.png', '048.png',
+        '049.png'
     ],
     tiles: [
         '0.png', '1.png', '2.png',

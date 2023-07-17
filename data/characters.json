@@ -34,7 +34,7 @@
             "model": "isak",
             "dialogues": {
                 "0": [
-                    {"type": "statement","line": "Hej, jeg kan helbrede dine bojsemon1","gain": 100}
+                    {"type": "statement","line": "Hej, jeg kan helbrede dine bojsemon.","gain": 100}
                 ],
                 "100": [
                     {"type": "statement","line": "Dine bojsemons er helbredt!"}
@@ -47,12 +47,191 @@
             "model": "hjarvard",
             "dialogues": {
                 "0": [
+                    {"type": "statement","line": "Legen slutter her!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Legen er slut..."}
+                ]},
+            "monsters": [{"id": 10, "level": 3}]
+        },
+        {
+            "name": "Fuld makker",
+            "id": 5,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
                     {"type": "statement","line": "Jeg knepper din far!"}
                 ],
                 "100": [
                     {"type": "statement","line": "Du kneppede min far!"}
                 ]},
-            "monsters": [{"id": 10, "level": 3}]
+            "monsters": [{"id": 39, "level": 4}, {"id": 31, "level": 5}]
+        },
+        {
+            "name": "Træls Filosofi-type",
+            "id": 6,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Hvordan ved vi, hvad der er virkelighed?"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Jeg har dialog, derfor er jeg."},
+                    {"type": "statement", "line": "Det er et citat af Socrates."}
+                ]},
+            "monsters": [{"id": 26, "level": 5}, {"id": 27, "level": 7}]
+        },
+        {
+            "name": "Sneaky type",
+            "id": 7,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Du troede nok, du kunne undgå mig,"},
+                    {"type": "statement", "line": "men mine machinations detectede dig!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Mine machinations er blevet slået."}
+                ]},
+            "monsters": [{"id": 40, "level": 8}]
+        },
+        {
+            "name": "Bojs-aspirant",
+            "id": 8,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Du har ikke en chance mod mine Don-mons!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Mine Don-mons er donejohn!"}
+                ]},
+            "monsters": [{"id": 33, "level": 5}, {"id": 47, "level": 7}]
+        },
+        {
+            "name": "Frustreret Fyr",
+            "id": 9,
+            "role": "citizen",
+            "model": "generic1",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Det er en blindgyde!"}
+                ]}
+        },
+        {
+            "name": "Bekymret Fyr",
+            "id": 10,
+            "role": "citizen",
+            "model": "generic1",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Åh nej!"},
+                    {"type": "statement","line": "KUA-kanalen har oversvømmet området"}
+                ]}
+        },
+        {
+            "name": "Ninja",
+            "id": 11,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Total Destruction!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Jeg blev totally destroyed"}
+                ]},
+            "monsters": [{"id": 27, "level": 10}, {"id": 41, "level": 12}]
+        },
+        {
+            "name": "Sulten makker",
+            "id": 12,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Av av av!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Jeg har lige spist en meget varm kartoffelburger."}
+                ]},
+            "monsters": [{"id": 2, "level": 13}]
+        },
+        {
+            "name": "Smurt fyr",
+            "id": 13,
+            "role": "citizen",
+            "model": "generic2",
+            "dialogues": {
+                "0": [
+                    {"type": "question","line": "Kender du forskellen mellem schmear og schmeary?"},
+                    {"type": "reply_yes", "line": "Okay. Smurt.", "gain": 45},
+                    {"type": "reply_no", "line": "Øv. Det gør jeg heller ikke", "gain": 20}
+                ],
+                "20": [
+                    {"type": "statement", "line": "Jeg ville ønske, der var et sted at lære det."}
+                ],
+                "45": [
+                    {"type": "statement", "line": "Schmear eller schmeary? That is the question."}
+                ]}
+        },
+        {
+            "name": "Snedig makker",
+            "id": 14,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Jeg har ventet på dig!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Det var uventet."}
+                ]},
+            "monsters": [{"id": 36, "level": 13}, {"id": 37, "level": 16}]
+        },
+        {
+            "name": "Tålmodig makker",
+            "id": 15,
+            "role": "citizen",
+            "model": "generic1",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Her kommer du desværre ikke forbi."},
+                    {"type": "statement", "line": "Der er ikke mere spil klar."}
+                ]}
+        },
+        {
+            "name": "Stærk Fyr",
+            "id": 16,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Held og lykke med at vinde"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Nej, nej, nej, nej!"},
+                    {"type": "statement", "line": "Jeg havde 5 bojsemoner mand!"}
+                ]},
+            "monsters": [{"id": 47, "level": 16}, {"id": 49, "level": 20}, {"id": 48, "level": 22}, {"id": 45, "level": 18}, {"id": 46, "level": 22}]
+        },
+        {
+            "name": "Nysgerrig Makker",
+            "id": 17,
+            "role": "citizen",
+            "model": "generic1",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Jeg gad vide, hvad der er derinde."},
+                    {"type": "statement", "line": "Jeg prøver at samle mod til at gå ind.", "gain": 100}
+                ],
+                "100": [
+                    {"type": "statement","line": "Lige 5 minutter til..."}
+                ]}
         }
     ]
 }

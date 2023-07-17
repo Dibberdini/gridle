@@ -33,6 +33,8 @@ class Entity {
             ellipseMode(CORNER);
             circle(newX * TILE_WIDTH, newY * TILE_HEIGHT, TILE_WIDTH);
             pop();
+        } else {
+            image(globalSpriteList.models[`${this.model}`], newX * TILE_WIDTH, newY * TILE_HEIGHT);
         }
     }
 }

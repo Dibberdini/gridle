@@ -34,6 +34,16 @@ function preload() {
     });
   });
 
+  sounds = {battle: []};
+  SOUND_FILES.battle.forEach(battleTrack => {
+    loadSound("./data/audio/" + battleTrack, loadedTrack => {
+      sounds.battle.push(loadedTrack);
+    })
+  });
+  sounds.overworld = loadSound("./data/audio/" + SOUND_FILES.overworld);
+  sounds.indoors = loadSound("./data/audio/" + SOUND_FILES.indoors);
+  sounds.encounter = loadSound("./data/audio/" + SOUND_FILES.encounter);
+
 
   myFont = loadFont("./data/Minecraftia-Regular.ttf");
   worldData = { characters: {}, pickedItems: {}, player: {} };
@@ -41,6 +51,9 @@ function preload() {
 }
 
 function setup() {
+  audio = sounds. overworld;
+  volume = 0.5;
+  audio.setVolume(volume);
   walkNumber = 0;
   let zone;
   player = { step: [0, 0] };
@@ -59,40 +72,101 @@ function setup() {
   battle = new BattleManager();
   animationFrame = 0;
   settings = {};
+  loadingMap = false;
 
   //Mobile settings
+  buttonIsDown = false;
   if (windowWidth < 600) {
     resize();
   }
   buttons = []
+  currentlyHeldButton = "none";
+  buttons.push(createDiv());
   let buttonUp = createButton("↑");
   buttonUp.mousePressed(buttonInputUp);
+  buttonUp.key = KEYS.UP;
+  buttonUp.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.UP};
+  buttonUp.elt.ontouchend = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttonUp.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.UP};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
   buttons.push(buttonUp);
-  let buttonRight = createButton("→");
-  buttonRight.mousePressed(buttonInputRight);
-  buttons.push(buttonRight);
-  let buttonDown = createButton("↓");
-  buttonDown.mousePressed(buttonInputDown);
-  buttons.push(buttonDown);
+  buttons.push(createDiv());
   let buttonLeft = createButton("←");
   buttonLeft.mousePressed(buttonInputLeft);
+  buttonLeft.key = KEYS.LEFT;
+  buttonLeft.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.LEFT};
+  buttonLeft.elt.ontouchend = function(event) {keyCode = KEYS.LEFT; keyReleased()};
+  buttonLeft.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.LEFT};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
   buttons.push(buttonLeft);
+  let buttonDown = createButton("↓");
+  buttonDown.mousePressed(buttonInputDown);
+  buttonDown.key = KEYS.DOWN;
+  buttonDown.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.DOWN};
+  buttonDown.elt.ontouchend = function(event) {keyCode = KEYS.DOWN; keyReleased()};
+  buttonDown.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.DOWN};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttons.push(buttonDown);
+  let buttonRight = createButton("→");
+  buttonRight.mousePressed(buttonInputRight);
+  buttonRight.key = KEYS.RIGHT;
+  buttonRight.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.RIGHT};
+  buttonRight.elt.ontouchend = function(event) {keyCode = KEYS.RIGHT; keyReleased()};
+  buttonRight.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.RIGHT};
+  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttons.push(buttonRight);
+
+  let inputDiv = createDiv();
+  inputDiv.addClass("input");
+
+  let arrowDiv = createDiv();
+  arrowDiv.addClass("arrows");
+  arrowDiv.parent(inputDiv);
+  buttons.forEach(button => {
+    button.parent(arrowDiv);
+  });
+
+  let dividerDiv = createDiv();
+  dividerDiv.addClass("divider");
+  dividerDiv.parent(inputDiv);
+
+  let choiceDiv = createDiv();
+  choiceDiv.addClass("choice");
+  choiceDiv.parent(inputDiv);
+
   let buttonA = createButton("A");
   buttonA.mousePressed(buttonInputA);
+  buttonA.key = KEYS.A_KEY;
   buttons.push(buttonA);
+  buttonA.parent(choiceDiv);
+  let fakebutton1 = createDiv();
+  buttons.push(fakebutton1);
+  fakebutton1.parent(choiceDiv)
   let buttonB = createButton("B");
   buttonB.mousePressed(buttonInputB);
+  buttonB.key = KEYS.B_KEY;
   buttons.push(buttonB);
-  let buttonStart = createButton("START");
+  buttonB.parent(choiceDiv);
+  
+  let buttonStart = createButton("STRT");
   buttonStart.mousePressed(buttonInputStart);
+  buttonStart.key = KEYS.START;
   buttons.push(buttonStart);
+  buttonStart.parent(choiceDiv);
+  let fakebutton2 = createDiv();
+  buttons.push(fakebutton2);
+  fakebutton2.parent(choiceDiv)
+  let buttonSelect = createButton("SEL");
+  buttonSelect.mousePressed(buttonInputSelect);
+  buttonSelect.key = KEYS.SELECT;
+  buttons.push(buttonSelect);
+  buttonSelect.parent(choiceDiv);
 
   buttons.forEach(button => {
     button.addClass("mobile");
-    button.size(50, 50);
+    w = windowWidth * 0.1;
+    button.size(w,w)
   });
-
-  buttonDown = { UP: false, RIGHT: false, DOWN: false, LEFT: false };
 
 
   //Debug enable
@@ -113,7 +187,7 @@ function draw() {
         }
       });
       //move Player
-      if (state == STATE.WORLD) {
+      if (state == STATE.WORLD || !loadingMap) {
         getInput();
       }
     }
@@ -170,34 +244,32 @@ function draw() {
 }
 
 function getInput() {
-  if (keyIsDown(KEYS.UP)) {
+  if (keyIsDown(KEYS.UP) || currentlyHeldButton == KEYS.UP) {
     if (player.direction == DIRECTION.NORTH) {
-      player.stopping = false;
       player.move(DIRECTION.NORTH);
     } else {
       player.setDirection(DIRECTION.NORTH);
     }
-  } else if (keyIsDown(KEYS.RIGHT)) {
+  } else if (keyIsDown(KEYS.RIGHT) || currentlyHeldButton == KEYS.RIGHT) {
     if (player.direction == DIRECTION.EAST) {
-      player.stopping = false;
       player.move(DIRECTION.EAST);
     } else {
       player.setDirection(DIRECTION.EAST);
     }
-  } else if (keyIsDown(KEYS.DOWN)) {
+  } else if (keyIsDown(KEYS.DOWN) || currentlyHeldButton == KEYS.DOWN) {
     if (player.direction == DIRECTION.SOUTH) {
-      player.stopping = false;
       player.move(DIRECTION.SOUTH);
     } else {
       player.setDirection(DIRECTION.SOUTH);
     }
-  } else if (keyIsDown(KEYS.LEFT)) {
+  } else if (keyIsDown(KEYS.LEFT) || currentlyHeldButton == KEYS.LEFT) {
     if (player.direction == DIRECTION.WEST) {
-      player.stopping = false;
       player.move(DIRECTION.WEST);
     } else {
       player.setDirection(DIRECTION.WEST);
     }
+  } else {
+    player.moving = false;
   }
 }
 function keyReleased() {
@@ -232,6 +304,10 @@ function keyReleased() {
 }
 
 function keyPressed() {
+  if(keyCode == KEYS.SELECT) {
+    toggleAudioVolume();
+    return;
+  }
   switch (state) {
     case STATE.WORLD:
       worldInput();
@@ -367,8 +443,10 @@ function sleep(millisecondsDuration) {
 }
 
 function warp(warpInfo) {
+  let wasIndoors = isIndoors();
   saveWorld();
   entities = [player];
+  loadingMap = true;
   loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
     player.tile.clear = true;
     zone = newZone;
@@ -382,6 +460,14 @@ function warp(warpInfo) {
       player.setDirection(warpInfo.move);
       player.move(warpInfo.move);
     }
+    if(wasIndoors != isIndoors()) {
+      if(isIndoors()) {
+        playSound(sounds.indoors);
+      } else {
+        playSound(sounds.overworld);
+      }
+    }
+    loadingMap = false;
   })
 }
 
@@ -389,8 +475,10 @@ function resuscitate() {
   player.x = zone.recover[0];
   player.y = zone.recover[1];
   player.tile.clear = true;
+  player.tile.occupant = null;
   player.tile = grid.tiles[zone.recover[0]][zone.recover[1]];
   player.tile.clear = false;
+  player.tile.occupant = player;
 
   //Heal all monsters
   player.healAllMonsters();
@@ -478,7 +566,11 @@ async function newWorld() {
   player.addMonster(monster);
   background(0);
   await dialogue.load([{ type: "statement", line: `You picked ${monster.name}` }]);
+  for(let i = 0; i < 10; i++) {
+    player.addItem({type: "ball_regular", name: "Ball"});
+  }
   saveWorld();
+  playSound(sounds.overworld);
 }
 
 function loadSave() {
@@ -530,6 +622,59 @@ function loadSave() {
   entities.push(player);
   settings = worldData.settings;
   saveWorld();
+  if(isIndoors()) {
+    playSound(sounds.indoors);
+  } else {
+    playSound(sounds.overworld);
+  }
+}
+
+function playSound(sound) {
+  if(sound == "battle") {
+    return;
+  }
+  if(audio.file == sounds.encounter.file || isBattlesound()) {
+    audio.stop();
+  } else {
+    audio.pause();
+  }
+  audio = sound;
+  if(sound.file == sounds.battle.file) {
+    audio.setLoop(false);
+  } else {
+    audio.setLoop(true);
+  }
+  audio.setVolume(volume);
+  audio.play();
+}
+
+function isBattlesound() {
+  for(let i = 0; i < sounds.battle.length; i++) {
+    if(sounds.battle[i].file == audio.file) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function toggleAudioVolume() {
+  if(volume == 0.5) {
+    volume = 0;
+  } else {
+    volume = 0.5;
+  }
+  audio.setVolume(volume);
+}
+
+function isIndoors() {
+  let indoorZones = ["area_2_1.json", "area_2_2.json", "area_3.json", "area_4_1.json"];
+
+  for(let i = 0; i < indoorZones.length; i++) {
+    if(zone.name == indoorZones[i]) {
+      return true;
+    }
+  }
+  return false;
 }
 
 //Mobile functions
@@ -538,16 +683,6 @@ function resize() {
   w = windowWidth;
   h = w * 0.9;
   document.body.getElementsByTagName("canvas")[0].style.cssText = `width: ${w}px; height: ${h}px`;
-}
-
-function buttonInputA() {
-  keyCode = KEYS.A_KEY;
-  keyPressed();
-}
-
-function buttonInputB() {
-  keyCode = KEYS.B_KEY;
-  keyPressed();
 }
 
 function buttonInputUp() {
@@ -570,7 +705,57 @@ function buttonInputLeft() {
   keyPressed();
 }
 
+function buttonInputA() {
+  keyCode = KEYS.A_KEY;
+  keyPressed();
+}
+
+function buttonInputB() {
+  keyCode = KEYS.B_KEY;
+  keyPressed();
+}
+
 function buttonInputStart() {
   keyCode = KEYS.START;
   keyPressed();
+}
+
+function buttonInputSelect() {
+  keyCode = KEYS.SELECT;
+  keyPressed();
+}
+
+function touchStarted() {
+  buttonIsDown = true;
+}
+
+function touchEnded() {
+  buttonIsDown = false;
+  currentlyHeldButton = "none";
+}
+
+function getCurrentButton() {
+  for(let i = 0; i < buttons.length; i++) {
+    if(buttons[i]._events.mousedown) {
+      if(
+        mouseX > buttons[i].position().x &&
+        mouseX < buttons[i].position().x + buttons[i].width &&
+        mouseY > buttons[i].position().y &&
+        mouseY < buttons[i].position().y + buttons[i].height) {
+          return buttons[i];
+      }
+    }
+  }
+  return null;
+}
+
+function buttonIsHeld(buttonToCheck) {
+  if(getCurrentButton() == null) {
+    return false;
+  }
+  let currentButton = getCurrentButton().key;
+  if(buttonToCheck = currentButton) {
+    return true;
+  }
+  return false;
 }
