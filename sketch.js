@@ -34,7 +34,7 @@ function preload() {
     });
   });
 
-  sounds = {battle: []};
+  sounds = { battle: [] };
   SOUND_FILES.battle.forEach(battleTrack => {
     loadSound("./data/audio/" + battleTrack, loadedTrack => {
       sounds.battle.push(loadedTrack);
@@ -51,7 +51,7 @@ function preload() {
 }
 
 function setup() {
-  audio = sounds. overworld;
+  audio = sounds.overworld;
   volume = 0.5;
   audio.setVolume(volume);
   walkNumber = 0;
@@ -85,35 +85,35 @@ function setup() {
   let buttonUp = createButton("↑");
   buttonUp.mousePressed(buttonInputUp);
   buttonUp.key = KEYS.UP;
-  buttonUp.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.UP};
-  buttonUp.elt.ontouchend = function(event) {keyCode = KEYS.UP; keyReleased()};
-  buttonUp.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.UP};
-  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttonUp.elt.ontouchstart = function (event) { currentlyHeldButton = KEYS.UP };
+  buttonUp.elt.ontouchend = function (event) { keyCode = KEYS.UP; keyReleased() };
+  buttonUp.elt.onmousedown = function (event) { currentlyHeldButton = KEYS.UP };
+  buttonUp.elt.onmouseup = function (event) { keyCode = KEYS.UP; keyReleased() };
   buttons.push(buttonUp);
   buttons.push(createDiv());
   let buttonLeft = createButton("←");
   buttonLeft.mousePressed(buttonInputLeft);
   buttonLeft.key = KEYS.LEFT;
-  buttonLeft.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.LEFT};
-  buttonLeft.elt.ontouchend = function(event) {keyCode = KEYS.LEFT; keyReleased()};
-  buttonLeft.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.LEFT};
-  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttonLeft.elt.ontouchstart = function (event) { currentlyHeldButton = KEYS.LEFT };
+  buttonLeft.elt.ontouchend = function (event) { keyCode = KEYS.LEFT; keyReleased() };
+  buttonLeft.elt.onmousedown = function (event) { currentlyHeldButton = KEYS.LEFT };
+  buttonUp.elt.onmouseup = function (event) { keyCode = KEYS.UP; keyReleased() };
   buttons.push(buttonLeft);
   let buttonDown = createButton("↓");
   buttonDown.mousePressed(buttonInputDown);
   buttonDown.key = KEYS.DOWN;
-  buttonDown.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.DOWN};
-  buttonDown.elt.ontouchend = function(event) {keyCode = KEYS.DOWN; keyReleased()};
-  buttonDown.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.DOWN};
-  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttonDown.elt.ontouchstart = function (event) { currentlyHeldButton = KEYS.DOWN };
+  buttonDown.elt.ontouchend = function (event) { keyCode = KEYS.DOWN; keyReleased() };
+  buttonDown.elt.onmousedown = function (event) { currentlyHeldButton = KEYS.DOWN };
+  buttonUp.elt.onmouseup = function (event) { keyCode = KEYS.UP; keyReleased() };
   buttons.push(buttonDown);
   let buttonRight = createButton("→");
   buttonRight.mousePressed(buttonInputRight);
   buttonRight.key = KEYS.RIGHT;
-  buttonRight.elt.ontouchstart = function(event) {currentlyHeldButton = KEYS.RIGHT};
-  buttonRight.elt.ontouchend = function(event) {keyCode = KEYS.RIGHT; keyReleased()};
-  buttonRight.elt.onmousedown = function(event) {currentlyHeldButton = KEYS.RIGHT};
-  buttonUp.elt.onmouseup = function(event) {keyCode = KEYS.UP; keyReleased()};
+  buttonRight.elt.ontouchstart = function (event) { currentlyHeldButton = KEYS.RIGHT };
+  buttonRight.elt.ontouchend = function (event) { keyCode = KEYS.RIGHT; keyReleased() };
+  buttonRight.elt.onmousedown = function (event) { currentlyHeldButton = KEYS.RIGHT };
+  buttonUp.elt.onmouseup = function (event) { keyCode = KEYS.UP; keyReleased() };
   buttons.push(buttonRight);
 
   let inputDiv = createDiv();
@@ -147,7 +147,7 @@ function setup() {
   buttonB.key = KEYS.B_KEY;
   buttons.push(buttonB);
   buttonB.parent(choiceDiv);
-  
+
   let buttonStart = createButton("STRT");
   buttonStart.mousePressed(buttonInputStart);
   buttonStart.key = KEYS.START;
@@ -165,7 +165,7 @@ function setup() {
   buttons.forEach(button => {
     button.addClass("mobile");
     w = windowWidth * 0.1;
-    button.size(w,w)
+    button.size(w, w)
   });
 
 
@@ -186,6 +186,7 @@ function draw() {
           entity.work();
         }
       });
+
       //move Player
       if (state == STATE.WORLD || !loadingMap) {
         getInput();
@@ -304,7 +305,7 @@ function keyReleased() {
 }
 
 function keyPressed() {
-  if(keyCode == KEYS.SELECT) {
+  if (keyCode == KEYS.SELECT) {
     toggleAudioVolume();
     return;
   }
@@ -460,8 +461,8 @@ function warp(warpInfo) {
       player.setDirection(warpInfo.move);
       player.move(warpInfo.move);
     }
-    if(wasIndoors != isIndoors()) {
-      if(isIndoors()) {
+    if (wasIndoors != isIndoors()) {
+      if (isIndoors()) {
         playSound(sounds.indoors);
       } else {
         playSound(sounds.overworld);
@@ -566,8 +567,8 @@ async function newWorld() {
   player.addMonster(monster);
   background(0);
   await dialogue.load([{ type: "statement", line: `You picked ${monster.name}` }]);
-  for(let i = 0; i < 10; i++) {
-    player.addItem({type: "ball_regular", name: "Ball"});
+  for (let i = 0; i < 10; i++) {
+    player.addItem({ type: "ball_regular", name: "Ball" });
   }
   saveWorld();
   playSound(sounds.overworld);
@@ -622,7 +623,7 @@ function loadSave() {
   entities.push(player);
   settings = worldData.settings;
   saveWorld();
-  if(isIndoors()) {
+  if (isIndoors()) {
     playSound(sounds.indoors);
   } else {
     playSound(sounds.overworld);
@@ -630,16 +631,16 @@ function loadSave() {
 }
 
 function playSound(sound) {
-  if(sound == "battle") {
+  if (sound == "battle") {
     return;
   }
-  if(audio.file == sounds.encounter.file || isBattlesound()) {
+  if (audio.file == sounds.encounter.file || isBattlesound()) {
     audio.stop();
   } else {
     audio.pause();
   }
   audio = sound;
-  if(sound.file == sounds.battle.file) {
+  if (sound.file == sounds.battle.file) {
     audio.setLoop(false);
   } else {
     audio.setLoop(true);
@@ -649,8 +650,8 @@ function playSound(sound) {
 }
 
 function isBattlesound() {
-  for(let i = 0; i < sounds.battle.length; i++) {
-    if(sounds.battle[i].file == audio.file) {
+  for (let i = 0; i < sounds.battle.length; i++) {
+    if (sounds.battle[i].file == audio.file) {
       return true;
     }
   }
@@ -658,7 +659,7 @@ function isBattlesound() {
 }
 
 function toggleAudioVolume() {
-  if(volume == 0.5) {
+  if (volume == 0.5) {
     volume = 0;
   } else {
     volume = 0.5;
@@ -669,8 +670,8 @@ function toggleAudioVolume() {
 function isIndoors() {
   let indoorZones = ["area_2_1.json", "area_2_2.json", "area_3.json", "area_4_1.json"];
 
-  for(let i = 0; i < indoorZones.length; i++) {
-    if(zone.name == indoorZones[i]) {
+  for (let i = 0; i < indoorZones.length; i++) {
+    if (zone.name == indoorZones[i]) {
       return true;
     }
   }
@@ -735,14 +736,14 @@ function touchEnded() {
 }
 
 function getCurrentButton() {
-  for(let i = 0; i < buttons.length; i++) {
-    if(buttons[i]._events.mousedown) {
-      if(
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i]._events.mousedown) {
+      if (
         mouseX > buttons[i].position().x &&
         mouseX < buttons[i].position().x + buttons[i].width &&
         mouseY > buttons[i].position().y &&
         mouseY < buttons[i].position().y + buttons[i].height) {
-          return buttons[i];
+        return buttons[i];
       }
     }
   }
@@ -750,11 +751,11 @@ function getCurrentButton() {
 }
 
 function buttonIsHeld(buttonToCheck) {
-  if(getCurrentButton() == null) {
+  if (getCurrentButton() == null) {
     return false;
   }
   let currentButton = getCurrentButton().key;
-  if(buttonToCheck = currentButton) {
+  if (buttonToCheck = currentButton) {
     return true;
   }
   return false;
