@@ -1,0 +1,389 @@
+{
+	"w": 15,
+	"h": 15,
+	"characters": [
+		{"id": 18, "x": 13, "y": 0, "direction": [-1,0]},
+		{"id": 19, "x": 5, "y": 1, "direction": [-1,0]},
+		{"id": 20, "x": 9, "y": 11, "direction": [0,-1]},
+		{"id": 21, "x": 3, "y": 9, "direction": [-1,0]}
+	],
+	"monsters": [],
+	"items": [
+		{
+			"x": 4,
+			"y": 8,
+			"type": "ball_regular",
+			"id": 19
+		},
+		{
+			"x": 5,
+			"y": 8,
+			"type": "ball_regular",
+			"id": 20
+		},
+		{
+			"x": 6,
+			"y": 8,
+			"type": "ball_regular",
+			"id": 21
+		},
+		{
+			"x": 7,
+			"y": 8,
+			"type": "ball_regular",
+			"id": 22
+		},
+		{
+			"x": 8,
+			"y": 8,
+			"type": "ball_regular",
+			"id": 23
+		},
+		{
+			"x": 8,
+			"y": 7,
+			"type": "ball_regular",
+			"id": 24
+		},
+		{
+			"x": 8,
+			"y": 6,
+			"type": "ball_regular",
+			"id": 25
+		},
+		{
+			"x": 8,
+			"y": 5,
+			"type": "ball_regular",
+			"id": 26
+		},
+		{
+			"x": 8,
+			"y": 4,
+			"type": "ball_regular",
+			"id": 27
+		},
+		{
+			"x": 7,
+			"y": 4,
+			"type": "ball_regular",
+			"id": 28
+		},
+		{
+			"x": 6,
+			"y": 4,
+			"type": "ball_regular",
+			"id": 29
+		},
+		{
+			"x": 5,
+			"y": 4,
+			"type": "ball_regular",
+			"id": 30
+		},
+		{
+			"x": 4,
+			"y": 4,
+			"type": "ball_regular",
+			"id": 31
+		},
+		{
+			"x": 4,
+			"y": 5,
+			"type": "ball_regular",
+			"id": 32
+		},
+		{
+			"x": 4,
+			"y": 6,
+			"type": "ball_regular",
+			"id": 33
+		},
+		{
+			"x": 4,
+			"y": 7,
+			"type": "ball_regular",
+			"id": 34
+		}
+	],
+	"entities": [],
+	"zone_strength": {
+		"min": 18,
+		"max": 23
+	},
+	"warp": {
+		"6": {
+			"14": {
+				"map": "area_4.json",
+				"pos": [
+					39,
+					32
+				],
+				"move": [
+					0,
+					1
+				]
+			}
+		}
+	},
+	"recover": [],
+	"paths": [],
+	"name": "area_4_2.json",
+	"layout": [
+		[
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"eF",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"e8",
+			"e8",
+			"e8",
+			"e8",
+			"e8",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"e8",
+			"wV",
+			"wV",
+			"wV",
+			"e8",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"e8",
+			"wV",
+			"e8",
+			"wV",
+			"e8",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"tQ"
+		],
+		[
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"e8",
+			"wV",
+			"wV",
+			"wV",
+			"e8",
+			"wF1",
+			"wF1",
+			"wF1",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"e8",
+			"e8",
+			"e8",
+			"e8",
+			"e8",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"eF",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"eF",
+			"eF",
+			"wF1",
+			"wF1",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"wF1",
+			"eF",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"eF",
+			"eF",
+			"eF"
+		],
+		[
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"wF1",
+			"eF",
+			"eF",
+			"eF",
+			"eF",
+			"eF"
+		],
+		[
+			"eF",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"wF1",
+			"eF",
+			"eF",
+			"eF"
+		]
+	]
+}

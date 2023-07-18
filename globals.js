@@ -115,7 +115,7 @@ const SOUND_FILES = {
 }
 
 const MAPS = [
-    "area_0.json", "area_1.json", "area_2.json", "area_2_1.json", "area_2_2.json", "area_3.json", "area_4.json", "area_4_1.json",
+    "area_0.json", "area_1.json", "area_2.json", "area_2_1.json", "area_2_2.json", "area_3.json", "area_4.json", "area_4_1.json", "area_4_2.json"
 ]
 
 const SPRITES = {

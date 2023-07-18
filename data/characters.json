@@ -232,6 +232,62 @@
                 "100": [
                     {"type": "statement","line": "Lige 5 minutter til..."}
                 ]}
+        },
+        {
+            "name": "Hurtig Fyr",
+            "id": 18,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Mor, du ser lækker ud!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Lad nu vær mand!"}
+                ]},
+            "monsters": [{"id": 40, "level": 16}, {"id": 41, "level": 20}, {"id": 22, "level": 18}]
+        },
+        {
+            "name": "Mujaffa",
+            "id": 19,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Hey smukke pige!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Jeg havde ikke noget gummi..."}
+                ]},
+            "monsters": [{"id": 44, "level": 18}, {"id": 44, "level": 20}, {"id": 44, "level": 22}]
+        },
+        {
+            "name": "Skør katte-dame",
+            "id": 20,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "AAHRHAJA!"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Jeg er allergisk."}
+                ]},
+            "monsters": [{"id": 21, "level": 20}, {"id": 21, "level": 21}, {"id": 21, "level": 22}]
+        },
+        {
+            "name": "Taber fra retorik",
+            "id": 21,
+            "role": "trainer",
+            "model": "hjarvard",
+            "dialogues": {
+                "0": [
+                    {"type": "statement","line": "Jeg har et kalejdoskopisk udvalg af bojsemon"}
+                ],
+                "100": [
+                    {"type": "statement","line": "Subsidiært var dine måske bedre..."}
+                ]},
+            "monsters": [{"id": 14, "level": 18}, {"id": 24, "level": 24}]
         }
     ]
 }
