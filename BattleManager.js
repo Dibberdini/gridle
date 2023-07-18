@@ -15,12 +15,14 @@ class BattleManager {
             ["Scramble", 200, 500]
         ]
         this.selector = 0;
+        this.lastSelector = 0;
         this.fight = false;
         this.playerTurn = true;
         this.participatingMonsters = [];
         this.selectingItem = false;
         this.fleeAttempts = 0;
         this.enemyTrainer = null;
+        this.switching = false;
     }
 
     encounter(monsterList, zoneStrength) {
@@ -136,6 +138,9 @@ class BattleManager {
             fill(0);
             text(`TYPE: ${selectedMove.type}`, 380, 470);
             text(`PP: ${selectedMove.pp}/${selectedMove.maxPP}`, 380, 500);
+            if (this.switching) {
+                this.drawSelector(this.fightSelections[this.lastSelector][1] - 12, this.fightSelections[this.lastSelector][2] - 28);
+            }
         } else if (this.selectingItem) {
             menu.drawItemMenu();
             menu.drawCursor();
@@ -170,7 +175,7 @@ class BattleManager {
     }
 
     async inputA() {
-        if (this.fight && this.playerTurn) {
+        if (this.fight && this.playerTurn && !this.switching) {
             let move = this.activeMonster.moveSet[this.selector];
             if (move.pp > 0) {
                 this.activeMonster.loadedMove = move;
@@ -199,7 +204,7 @@ class BattleManager {
             } else {
                 await dialogue.load([{ type: "timed", line: "You can't use that here!", time: 1000 }]);
             }
-        } else if (this.playerTurn) {
+        } else if (this.playerTurn && !this.switching) {
             if (this.selector == 0) {
                 this.fight = true;
             } else if (this.selector == 1) {
@@ -215,27 +220,36 @@ class BattleManager {
             } else if (this.selector == 3) {
                 this.flee();
             }
+        } else if (this.switching) {
+            let temp = this.activeMonster.moveSet[this.selector];
+            this.activeMonster.moveSet[this.selector] = this.activeMonster.moveSet[this.lastSelector];
+            this.activeMonster.moveSet[this.lastSelector] = temp;
+            this.switching = false;
+            this.selector = this.lastSelector;
         }
-    }
-
-    hasNoMoves(monster) {
-        for (let i = 0; i < monster.moveSet.length; i++) {
-            if (monster.moveSet[i].pp > 0) {
-                return false;
-            }
-        }
-        return true;
     }
 
     inputB() {
         if (this.fight) {
-            this.fight = false;
-            this.selector = 0;
+            if (this.switching) {
+                this.switching = false;
+                this.selector = this.lastSelector;
+            } else {
+                this.fight = false;
+                this.selector = 0;
+            }
         } else if (this.selectingItem) {
             this.selectingItem = false;
             menu.menuState = MENU_STATES.MAIN_MENU;
             menu.index = 0;
             menu.offset = 0;
+        }
+    }
+
+    inputSelect() {
+        if (this.fight && this.switching == false) {
+            this.switching = true;
+            this.lastSelector = this.selector;
         }
     }
 
@@ -245,6 +259,15 @@ class BattleManager {
         fill(255);
         triangle(x, y, x + 10, y + 10, x, y + 20);
         pop();
+    }
+
+    hasNoMoves(monster) {
+        for (let i = 0; i < monster.moveSet.length; i++) {
+            if (monster.moveSet[i].pp > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     async changeMonster(newMonster, freeChange) {

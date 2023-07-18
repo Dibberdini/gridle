@@ -315,7 +315,6 @@ function keyReleased() {
 function keyPressed() {
   if (keyCode == KEYS.SELECT) {
     toggleAudioVolume();
-    return;
   }
   switch (state) {
     case STATE.WORLD:
@@ -379,6 +378,8 @@ function battleInput() {
     battle.inputA();
   } else if (keyCode == KEYS.B_KEY) {
     battle.inputB();
+  } else if (keyCode == KEYS.SELECT) {
+    battle.inputSelect();
   }
 }
 
