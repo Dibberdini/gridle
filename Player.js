@@ -19,7 +19,7 @@ class Player extends Creature {
         switch (this.direction) {
             case DIRECTION.NORTH:
                 if (this.moving) {
-                    if(walkNumber == 3) {
+                    if (walkNumber == 3) {
                         model = this.model[8]
                     } else {
                         model = this.model[6 + walkNumber];
@@ -30,7 +30,7 @@ class Player extends Creature {
                 break;
             case DIRECTION.EAST:
                 if (this.moving) {
-                    if(walkNumber == 3) {
+                    if (walkNumber == 3) {
                         model = this.model[5]
                     } else {
                         model = this.model[3 + walkNumber];
@@ -41,7 +41,7 @@ class Player extends Creature {
                 break;
             case DIRECTION.SOUTH:
                 if (this.moving) {
-                    if(walkNumber == 3) {
+                    if (walkNumber == 3) {
                         model = this.model[2]
                     } else {
                         model = this.model[0 + walkNumber];
@@ -53,7 +53,7 @@ class Player extends Creature {
             case DIRECTION.WEST:
                 flipped = true;
                 if (this.moving) {
-                    if(walkNumber == 3) {
+                    if (walkNumber == 3) {
                         model = this.model[5]
                     } else {
                         model = this.model[3 + walkNumber];
@@ -88,7 +88,7 @@ class Player extends Creature {
                     }
                     battle.encounter(monsterList, zone.zone_strength);
                     this.step = [0, 0];
-                    if(this.stopping) {
+                    if (this.stopping) {
                         this.moving = false;
                     }
                 }

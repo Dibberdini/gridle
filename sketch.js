@@ -1,8 +1,16 @@
 function preload() {
-  defaultZone = loadJSON("./data/maps/area_0.json");
+  globalMapList = {};
+  MAPS.forEach(map => {
+    loadJSON(`./data/maps/${map}`, data => {
+      let mapName = data.name.split('.')[0];
+      globalMapList[`${mapName}`] = data;
+    })
+  });
+
+  defaultZone = "area_0";
   savedZone = null;
   if (getItem("save")) {
-    savedZone = loadJSON(`./data/maps/${getItem("save").zone}`);
+    savedZone = getItem("save").zone.split('.')[0];
   }
   globalMonsterList = loadJSON("./data/monsters.json");
   globalMoveList = loadJSON("./data/moves.json");
@@ -448,28 +456,26 @@ function warp(warpInfo) {
   saveWorld();
   entities = [player];
   loadingMap = true;
-  loadJSON("./data/maps/" + warpInfo.map, (newZone) => {
-    player.tile.clear = true;
-    zone = newZone;
-    grid.loadZone(newZone);
-    player.x = warpInfo.pos[0];
-    player.y = warpInfo.pos[1];
-    player.tile = grid.tiles[player.x][player.y];
-    player.tile.clear = false;
-    player.tile.occupant = player;
-    if (warpInfo.move) {
-      player.setDirection(warpInfo.move);
-      player.move(warpInfo.move);
+  player.tile.clear = true;
+  zone = globalMapList[`${warpInfo.map.split('.')[0]}`];
+  grid.loadZone(zone);
+  player.x = warpInfo.pos[0];
+  player.y = warpInfo.pos[1];
+  player.tile = grid.tiles[player.x][player.y];
+  player.tile.clear = false;
+  player.tile.occupant = player;
+  if (warpInfo.move) {
+    player.setDirection(warpInfo.move);
+    player.move(warpInfo.move);
+  }
+  if (wasIndoors != isIndoors()) {
+    if (isIndoors()) {
+      playSound(sounds.indoors);
+    } else {
+      playSound(sounds.overworld);
     }
-    if (wasIndoors != isIndoors()) {
-      if (isIndoors()) {
-        playSound(sounds.indoors);
-      } else {
-        playSound(sounds.overworld);
-      }
-    }
-    loadingMap = false;
-  })
+  }
+  loadingMap = false;
 }
 
 function resuscitate() {
@@ -538,7 +544,7 @@ function downloadSave() {
 }
 
 async function newWorld() {
-  zone = defaultZone;
+  zone = globalMapList[`${defaultZone}`];
   grid.loadZone(zone);
   player = new Player(0, 0, DIRECTION.SOUTH, "player", grid.tiles);
   entities.push(player);
@@ -576,7 +582,7 @@ async function newWorld() {
 
 function loadSave() {
   worldData = getItem("save");
-  zone = savedZone;
+  zone = globalMapList[`${savedZone}`];
   grid.loadZone(zone);
 
   player = new Player(worldData.player.x, worldData.player.y, worldData.player.direction, "player", grid.tiles);

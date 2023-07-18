@@ -2,13 +2,13 @@ class Grid {
     constructor() {
     }
 
-    loadZone(zone) {
-        this.tiles = create2dArray(zone.w, zone.h);;
+    loadZone(newZone) {
+        this.tiles = create2dArray(newZone.w, newZone.h);;
 
-        for (let i = 0; i < zone.w; i++) {
-            for (let j = 0; j < zone.h; j++) {
+        for (let i = 0; i < newZone.w; i++) {
+            for (let j = 0; j < newZone.h; j++) {
                 let tile = new Tile(i, j)
-                let layout = zone.layout[i][j];
+                let layout = newZone.layout[i][j];
 
                 //Set Tile Type
                 if (layout[0] == "g") {
@@ -23,7 +23,7 @@ class Grid {
                 if (layout[1]) {
                     tile.setModel(layout[1]);
                 }
-                if(layout[2]) {
+                if (layout[2]) {
                     tile.setBlockerModel(layout[2])
                 }
 
@@ -32,11 +32,11 @@ class Grid {
         }
 
         //Add all characters
-        zone.characters.forEach(character => {
+        newZone.characters.forEach(character => {
             entities.push(new Character(character.x, character.y, character.direction, character.id, character.pathing, this.tiles))
         });
         //Add all items
-        zone.items.forEach(item => {
+        newZone.items.forEach(item => {
             if (worldData.pickedItems[`${item.id}`]) {
                 //This item has already been picked up.
             } else {
@@ -44,7 +44,7 @@ class Grid {
             }
         });
         //Add all entities
-        zone.entities.forEach(entity => {
+        newZone.entities.forEach(entity => {
             let newEntity = new Entity(entity.x, entity.y, entity.model, this.tiles);
             newEntity.type = entity.type;
             entities.push(newEntity);

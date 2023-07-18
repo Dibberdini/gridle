@@ -114,6 +114,10 @@ const SOUND_FILES = {
     encounter: "pokebattle.mp3"
 }
 
+const MAPS = [
+    "area_0.json", "area_1.json", "area_2.json", "area_2_1.json", "area_2_2.json", "area_3.json", "area_4.json", "area_4_1.json",
+]
+
 const SPRITES = {
     models: [
         'birger_0.png', 'birger_1.png', 'birger_2.png', 'birger_3.png',
